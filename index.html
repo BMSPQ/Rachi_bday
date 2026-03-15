@@ -2,10 +2,32 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
   <title>Happy Birthday Rachita 🌸</title>
   <link rel="stylesheet" href="style.css"/>
   <style>
+
+    /* ── MOBILE BG FIX ── */
+    /* iOS Safari ignores position:fixed on background, use JS scroll workaround */
+    @media (max-width:600px) {
+      .w-bg {
+        position:fixed !important;
+        inset:0 !important;
+        width:100vw !important;
+        height:100vh !important;
+        background-size:cover !important;
+        background-position:center !important;
+        transform:scale(1.08) !important;
+      }
+      .welcome-page {
+        min-height:100svh;
+        overflow-y:auto;
+      }
+      .w-content {
+        padding-top:70px !important;
+        padding-bottom:60px !important;
+      }
+    }
 
     /* ── PAGE FRAMES ── */
     .w-frame{position:fixed;inset:0;pointer-events:none;z-index:5}
