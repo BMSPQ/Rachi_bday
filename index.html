@@ -1,48 +1,327 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>Happy Birthday Rachita 🌸</title>
   <link rel="stylesheet" href="style.css"/>
   <style>
+
+    /* ── PAGE FRAMES ── */
     .w-frame{position:fixed;inset:0;pointer-events:none;z-index:5}
     .w-frame::before,.w-frame::after{content:'';position:absolute;width:60px;height:60px}
     .w-frame::before{top:24px;left:24px;border-top:1px solid rgba(212,184,150,0.2);border-left:1px solid rgba(212,184,150,0.2)}
     .w-frame::after{bottom:24px;right:24px;border-bottom:1px solid rgba(212,184,150,0.2);border-right:1px solid rgba(212,184,150,0.2)}
     .w-frame-2::before{top:24px;right:24px;border-top:1px solid rgba(212,184,150,0.2);border-right:1px solid rgba(212,184,150,0.2)}
     .w-frame-2::after{bottom:24px;left:24px;border-bottom:1px solid rgba(212,184,150,0.2);border-left:1px solid rgba(212,184,150,0.2)}
+
+    /* ── FLOATING HEARTS ── */
     .float-heart{position:fixed;pointer-events:none;z-index:3;animation:fhFloat linear infinite;opacity:0;bottom:-40px}
-    @keyframes fhFloat{0%{opacity:0;transform:translateY(0) rotate(0deg)}8%{opacity:0.6}92%{opacity:0.3}100%{opacity:0;transform:translateY(-110vh) rotate(25deg)}}
+    @keyframes fhFloat{
+      0%  {opacity:0;transform:translateY(0) rotate(0deg) scale(0.9)}
+      8%  {opacity:0.65}
+      92% {opacity:0.3}
+      100%{opacity:0;transform:translateY(-110vh) rotate(25deg) scale(1.05)}
+    }
+
+    /* ── SCAN LINE ── */
     .scan-line{position:fixed;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(94,207,198,0.2),transparent);animation:scan 8s linear infinite;pointer-events:none;z-index:6}
     @keyframes scan{0%{top:-1px}100%{top:100vh}}
-    .w-footer{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);font-size:0.65rem;letter-spacing:0.4em;color:rgba(212,184,150,0.2);font-family:'Tenor Sans',sans-serif;text-transform:uppercase;z-index:10;white-space:nowrap}
+
+    /* ── FOOTER ── */
+    .w-footer{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);font-size:0.62rem;letter-spacing:0.38em;color:rgba(212,184,150,0.18);font-family:'Tenor Sans',sans-serif;text-transform:uppercase;z-index:10;white-space:nowrap;pointer-events:none}
+
+    /* ════════════════════════════════════════
+       JOURNEY BUTTON — locked until allowed
+    ════════════════════════════════════════ */
+    #journeyBtnWrap{
+      opacity:0;
+      max-height:0;
+      overflow:hidden;
+      pointer-events:none;
+      /* no transition here — we add it dynamically when unlocking */
+    }
+    /* Class added when allowed (birthday or dev unlock) */
+    #journeyBtnWrap.revealed{
+      opacity:1;
+      max-height:400px;
+      pointer-events:all;
+    }
+    /* Smooth animated version — added with JS before adding .revealed */
+    #journeyBtnWrap.animate-in{
+      transition: opacity 1.8s ease 0.4s, max-height 1.6s ease;
+    }
+
+    /* Glowing button after birthday unlock */
+    #journeyBtnWrap.birthday-glow .btn{
+      animation: bdayBtnGlow 2.5s ease infinite;
+      border-color: rgba(232,165,152,0.5) !important;
+    }
+    @keyframes bdayBtnGlow{
+      0%,100%{box-shadow:0 0 24px rgba(232,165,152,0.2),0 0 0 1px rgba(232,165,152,0.08)}
+      50%    {box-shadow:0 0 60px rgba(232,165,152,0.5),0 0 0 2px rgba(232,165,152,0.18)}
+    }
+
+    /* ════════════════════════════════════════
+       BIRTHDAY REVEAL OVERLAY
+       Full-screen celebration that plays at
+       midnight on March 30 or when countdown
+       hits zero
+    ════════════════════════════════════════ */
+    #bdayReveal{
+      display:none;
+      position:fixed;inset:0;z-index:9800;
+      pointer-events:none;
+    }
+    /* Burst ring */
+    .bday-ring{
+      position:absolute;top:50%;left:50%;
+      transform:translate(-50%,-50%);
+      border-radius:50%;
+      border:2px solid rgba(232,165,152,0.3);
+      animation:ringBurst 1.4s ease-out forwards;
+    }
+    @keyframes ringBurst{
+      0%  {width:0;height:0;opacity:0.9}
+      100%{width:160vmax;height:160vmax;opacity:0}
+    }
+    .bday-ring:nth-child(2){animation-delay:0.25s;border-color:rgba(212,184,150,0.25)}
+    .bday-ring:nth-child(3){animation-delay:0.5s; border-color:rgba(94,207,198,0.2)}
+
+    /* "Happy Birthday Rachita!" text that flashes */
+    #bdayRevealText{
+      position:absolute;top:50%;left:50%;
+      transform:translate(-50%,-50%);
+      text-align:center;
+      opacity:0;
+      animation:textPop 2.2s var(--ease-spring,cubic-bezier(0.34,1.56,0.64,1)) forwards 0.35s;
+      white-space:nowrap;
+    }
+    @keyframes textPop{
+      0%  {opacity:0;transform:translate(-50%,-50%) scale(0.4)}
+      60% {opacity:1;transform:translate(-50%,-50%) scale(1.05)}
+      100%{opacity:0;transform:translate(-50%,-50%) scale(1)}
+    }
+    #bdayRevealText span{
+      display:block;
+      font-family:'Bodoni Moda',serif;font-weight:900;
+      font-size:clamp(2rem,8vw,5.5rem);
+      background:linear-gradient(135deg,#f2ccc4,#eddcb8,#5ecfc6,#f2ccc4);
+      -webkit-background-clip:text;background-clip:text;color:transparent;
+      background-size:300% 300%;
+      animation:nameShimmer 3s ease infinite;
+      text-shadow:none;
+    }
+    @keyframes nameShimmer{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+    #bdayRevealText em{
+      display:block;
+      font-family:'Crimson Pro',serif;font-style:italic;
+      font-size:clamp(1rem,3vw,1.8rem);
+      color:rgba(232,165,152,0.7);margin-top:6px;
+    }
+
+    /* ════════════════════════════════════════
+       DEV TRIGGER — top-right corner
+       18% opacity — visible to dev, looks like
+       a subtle decorative detail to Rachita
+    ════════════════════════════════════════ */
+    #devTrigger{
+      position:fixed;
+      top:18px; right:18px;
+      width:38px; height:38px;
+      z-index:9000;
+      cursor:pointer;
+      opacity:0.20;
+      transition:opacity 0.4s ease, transform 0.3s ease;
+      display:flex; align-items:center; justify-content:center;
+      background:rgba(212,184,150,0.08);
+      border:1px solid rgba(212,184,150,0.25);
+      border-radius:4px;
+    }
+    #devTrigger:hover{
+      opacity:0.75;
+      transform:scale(1.08);
+      background:rgba(212,184,150,0.15);
+      border-color:rgba(212,184,150,0.55);
+    }
+    #devTrigger svg{ width:20px; height:20px; display:block; }
+
+    /* ════════════════════════════════════════
+       PASSWORD MODAL
+    ════════════════════════════════════════ */
+    #pwModal{
+      display:none;position:fixed;inset:0;
+      background:rgba(5,5,8,0.94);
+      backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+      z-index:9999;align-items:center;justify-content:center;
+    }
+    #pwModal.open{display:flex}
+
+    .pw-card{
+      background:rgba(10,9,18,0.96);
+      border:1px solid rgba(212,184,150,0.13);
+      padding:50px 46px 42px;
+      max-width:400px;width:88%;
+      position:relative;text-align:center;
+    }
+    .pw-card::before{content:'';position:absolute;top:0;left:18%;right:18%;height:1px;background:linear-gradient(90deg,transparent,rgba(212,184,150,0.25),transparent)}
+    .pw-tl,.pw-br{position:absolute;width:28px;height:28px}
+    .pw-tl{top:-1px;left:-1px;border-top:1px solid rgba(232,165,152,0.22);border-left:1px solid rgba(232,165,152,0.22)}
+    .pw-br{bottom:-1px;right:-1px;border-bottom:1px solid rgba(232,165,152,0.22);border-right:1px solid rgba(232,165,152,0.22)}
+
+    .pw-icon{font-size:2.2rem;display:block;margin-bottom:16px;animation:iconFloat 4s ease infinite}
+    @keyframes iconFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+    .pw-title{font-family:'Bodoni Moda',serif;font-style:italic;font-size:1.5rem;color:var(--text-1);margin-bottom:6px}
+    .pw-sub{font-family:'Crimson Pro',serif;font-style:italic;font-size:0.82rem;color:var(--text-3);margin-bottom:26px}
+
+    .pw-input-row{position:relative;margin-bottom:10px}
+    #pwInput{
+      width:100%;padding:13px 46px 13px 16px;
+      background:rgba(255,255,255,0.03);
+      border:1px solid rgba(212,184,150,0.14);border-radius:2px;
+      color:var(--text-1);font-family:'Tenor Sans',sans-serif;font-size:0.85rem;letter-spacing:0.1em;
+      outline:none;transition:border-color 0.3s,box-shadow 0.3s;caret-color:var(--rose,#e8a598);
+    }
+    #pwInput::placeholder{color:var(--text-3,#5a5060);letter-spacing:0.05em}
+    #pwInput:focus{border-color:rgba(232,165,152,0.3);box-shadow:0 0 20px rgba(232,165,152,0.05)}
+    #pwInput.err{border-color:rgba(220,60,60,0.45);animation:shake 0.5s ease}
+    @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-7px)}40%{transform:translateX(7px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+    #eyeBtn{position:absolute;right:13px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--text-3,#5a5060);font-size:0.78rem;line-height:1;transition:color 0.3s;padding:2px}
+    #eyeBtn:hover{color:var(--rose,#e8a598)}
+
+    #pwErr{font-family:'Crimson Pro',serif;font-style:italic;font-size:0.78rem;color:rgba(220,80,80,0.8);min-height:16px;margin-bottom:14px;opacity:0;transition:opacity 0.3s}
+    #pwErr.show{opacity:1}
+
+    #pwSubmit{
+      width:100%;padding:13px;background:transparent;
+      border:1px solid rgba(212,184,150,0.2);color:var(--gold-bright,#eddcb8);
+      font-family:'Tenor Sans',sans-serif;font-size:0.74rem;letter-spacing:0.22em;text-transform:uppercase;
+      cursor:pointer;border-radius:2px;position:relative;overflow:hidden;
+      transition:all 0.4s;margin-bottom:14px;
+    }
+    #pwSubmit::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(232,165,152,0.08),rgba(212,184,150,0.06));opacity:0;transition:opacity 0.4s}
+    #pwSubmit:hover::before{opacity:1}
+    #pwSubmit:hover{border-color:var(--gold-bright,#eddcb8);color:#fff;box-shadow:0 0 28px rgba(212,184,150,0.08)}
+    #pwSubmit.ok{border-color:var(--teal,#5ecfc6)!important;color:var(--teal,#5ecfc6)!important;animation:okPop 0.5s ease}
+    @keyframes okPop{0%{transform:scale(1)}50%{transform:scale(1.03)}100%{transform:scale(1)}}
+
+    #pwClose{position:absolute;top:13px;right:16px;background:none;border:none;cursor:pointer;color:var(--text-3,#5a5060);font-size:0.68rem;font-family:'Tenor Sans',sans-serif;letter-spacing:0.15em;text-transform:uppercase;transition:color 0.3s}
+    #pwClose:hover{color:var(--rose,#e8a598)}
+
+    /* ════════════════════════════════════════
+       DEV PANEL — slides from right edge
+    ════════════════════════════════════════ */
+    #devPanel{
+      display:none;
+      position:fixed;top:50%;right:0;
+      transform:translateY(-50%) translateX(100%);
+      z-index:8000;transition:transform 0.6s cubic-bezier(0.16,1,0.3,1);
+    }
+    #devPanel.open{transform:translateY(-50%) translateX(0)}
+
+    #devTab{
+      position:absolute;left:-32px;top:50%;transform:translateY(-50%);
+      width:32px;height:80px;
+      background:rgba(10,9,18,0.92);
+      border:1px solid rgba(212,184,150,0.18);border-right:none;
+      cursor:pointer;display:flex;align-items:center;justify-content:center;
+      writing-mode:vertical-rl;
+      font-family:'Tenor Sans',sans-serif;font-size:0.56rem;letter-spacing:0.18em;text-transform:uppercase;
+      color:rgba(212,184,150,0.45);transition:color 0.3s,background 0.3s;
+    }
+    #devTab:hover{color:var(--gold-bright,#eddcb8);background:rgba(16,14,26,0.96)}
+
+    .dp-inner{
+      width:240px;background:rgba(10,9,18,0.97);
+      border:1px solid rgba(212,184,150,0.14);border-right:none;
+      max-height:90vh;overflow-y:auto;
+      scrollbar-width:thin;scrollbar-color:rgba(212,184,150,0.1) transparent;
+    }
+    .dp-inner::-webkit-scrollbar{width:3px}
+    .dp-inner::-webkit-scrollbar-thumb{background:rgba(212,184,150,0.1);border-radius:2px}
+
+    .dp-head{
+      padding:16px 18px 12px;border-bottom:1px solid rgba(212,184,150,0.07);
+      position:sticky;top:0;background:rgba(10,9,18,0.98);z-index:1;
+    }
+    .dp-head-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:2px}
+    .dp-title{font-family:'Tenor Sans',sans-serif;font-size:0.6rem;letter-spacing:0.25em;text-transform:uppercase;color:rgba(212,184,150,0.5)}
+    #dpClose{background:none;border:none;cursor:pointer;color:var(--text-3,#5a5060);font-size:0.68rem;font-family:'Tenor Sans',sans-serif;letter-spacing:0.1em;transition:color 0.3s;padding:0}
+    #dpClose:hover{color:var(--rose,#e8a598)}
+    .dp-sub{font-family:'Crimson Pro',serif;font-style:italic;font-size:0.7rem;color:var(--text-3,#5a5060)}
+
+    .dp-sec{padding:10px 18px 6px;font-family:'Tenor Sans',sans-serif;font-size:0.54rem;letter-spacing:0.28em;text-transform:uppercase;color:rgba(90,80,96,0.8);border-bottom:1px solid rgba(212,184,150,0.04)}
+
+    .dp-lnk{
+      display:flex;align-items:center;gap:10px;padding:9px 18px;
+      cursor:pointer;transition:background 0.22s;
+      border-bottom:1px solid rgba(212,184,150,0.03);
+    }
+    .dp-lnk:hover{background:rgba(255,255,255,0.03)}
+    .dp-n{font-family:'Tenor Sans',sans-serif;font-size:0.7rem;letter-spacing:0.06em;color:rgba(160,152,136,0.7);flex:1;transition:color 0.22s}
+    .dp-lnk:hover .dp-n{color:var(--gold-bright,#eddcb8)}
+    .dp-num{font-family:'Bodoni Moda',serif;font-size:0.6rem;color:var(--text-3,#5a5060);width:18px;flex-shrink:0;text-align:right}
+    .dp-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;opacity:0.45}
+
+    .dp-lnk.gal .dp-dot{background:var(--teal,#5ecfc6)}
+    .dp-lnk.gal:hover .dp-n{color:var(--teal,#5ecfc6)}
+    .dp-lnk.spc .dp-dot{background:var(--lavender,#b8a8e8)}
+    .dp-lnk.spc:hover .dp-n{color:var(--lavender,#b8a8e8)}
+    .dp-lnk.end .dp-dot{background:var(--rose,#e8a598)}
+    .dp-lnk.end:hover .dp-n{color:var(--rose,#e8a598)}
+
+    .dp-lock{padding:14px 18px;border-top:1px solid rgba(212,184,150,0.07)}
+    #dpLockBtn{
+      width:100%;padding:9px;background:transparent;
+      border:1px solid rgba(220,60,60,0.16);color:rgba(220,80,80,0.45);
+      font-family:'Tenor Sans',sans-serif;font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;
+      cursor:pointer;border-radius:2px;transition:all 0.3s;
+    }
+    #dpLockBtn:hover{border-color:rgba(220,60,60,0.38);color:rgba(220,80,80,0.75);background:rgba(220,60,60,0.04)}
+
+    /* Dev back button on inner pages (unused here, just in case) */
+    @media(max-width:480px){.dp-inner{width:200px}}
+
   </style>
 </head>
 <body>
+
+  <!-- Backgrounds -->
   <div class="w-bg"></div>
   <div class="w-vignette"></div>
-  <div class="aurora"><div class="a-orb a1"></div><div class="a-orb a2"></div><div class="a-orb a3"></div></div>
+  <div class="aurora">
+    <div class="a-orb a1"></div>
+    <div class="a-orb a2"></div>
+    <div class="a-orb a3"></div>
+  </div>
   <canvas class="particles-canvas" id="particleCanvas"></canvas>
   <div class="star-field"></div>
   <div class="ring-wrap"><div class="ring"></div><div class="ring"></div><div class="ring"></div></div>
-  <div class="w-frame"></div><div class="w-frame w-frame-2"></div>
+  <div class="w-frame"></div>
+  <div class="w-frame w-frame-2"></div>
   <div class="scan-line"></div>
   <div id="heartsWrap"></div>
 
-  <div class="page-wrap welcome-page">
+  <!-- ══════════════════════════════════════
+       MAIN CONTENT
+  ══════════════════════════════════════ -->
+  <div class="page-wrap welcome-page" id="mainContent">
     <div class="w-content">
       <p class="w-overline"><span>A very special day</span></p>
       <p class="w-date">The universe aligned on this day…</p>
+
       <span class="w-name name-r" id="glitchName">Rachita</span>
 
-      <!-- BIRTHDAY COUNTDOWN -->
+      <!-- Countdown area — always visible -->
       <div id="countdownArea"></div>
 
       <p class="w-tagline">
         Someone rare. Someone luminous.<br>
         Someone who makes every ordinary moment feel like magic.
       </p>
-      <div class="w-btn-wrap">
+
+      <!-- Journey button — hidden until March 30 or dev unlocks -->
+      <div id="journeyBtnWrap">
         <button class="btn" data-nav="memory.html">
           <span>Begin the Journey</span><span class="arr">→</span>
         </button>
@@ -71,42 +350,165 @@
 
   <p class="w-footer">✦ &nbsp; 30 March &nbsp; · &nbsp; With love &nbsp; ✦</p>
 
+  <!-- ══════════════════════════════════════
+       DEV TRIGGER — tiny icon, bottom-left
+       Nearly invisible to Rachita
+  ══════════════════════════════════════ -->
+  <!-- DEV TRIGGER: top-right corner — small key icon -->
+  <div id="devTrigger" title="Developer Access">
+    <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" fill="none">
+      <!-- Key shape -->
+      <circle cx="7" cy="8" r="4" stroke="rgba(212,184,150,0.9)" stroke-width="1.2"/>
+      <circle cx="7" cy="8" r="1.8" fill="rgba(212,184,150,0.9)"/>
+      <rect x="10.5" y="7.2" width="6.5" height="1.6" rx="0.8" fill="rgba(212,184,150,0.9)"/>
+      <rect x="14.5" y="8.8" width="1.5" height="2.2" rx="0.7" fill="rgba(212,184,150,0.9)"/>
+      <rect x="12"   y="8.8" width="1.5" height="1.8" rx="0.7" fill="rgba(212,184,150,0.9)"/>
+    </svg>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       BIRTHDAY REVEAL OVERLAY
+       Plays automatically at midnight March 30
+  ══════════════════════════════════════ -->
+  <div id="bdayReveal">
+    <div class="bday-ring"></div>
+    <div class="bday-ring"></div>
+    <div class="bday-ring"></div>
+    <div id="bdayRevealText">
+      <span>Happy Birthday</span>
+      <em>Rachita 🌸</em>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       PASSWORD MODAL (dev only)
+  ══════════════════════════════════════ -->
+  <div id="pwModal" role="dialog" aria-modal="true">
+    <div class="pw-card">
+      <div class="pw-tl"></div>
+      <div class="pw-br"></div>
+      <button id="pwClose">✕ close</button>
+
+      <span class="pw-icon">🔐</span>
+      <h2 class="pw-title">Developer Preview</h2>
+      <p class="pw-sub">Enter the access key to preview the birthday journey</p>
+
+      <div class="pw-input-row">
+        <input
+          type="password"
+          id="pwInput"
+          placeholder="Access key…"
+          autocomplete="off"
+          spellcheck="false"
+          autocorrect="off"
+          autocapitalize="off"
+        />
+        <button id="eyeBtn" type="button">👁</button>
+      </div>
+
+      <p id="pwErr">Wrong key — please try again</p>
+      <button id="pwSubmit">Preview Unlock &nbsp;→</button>
+      <p style="font-family:'Crimson Pro',serif;font-style:italic;font-size:0.68rem;color:var(--text-3,#5a5060)">
+        For developer use only · will auto-unlock on 30 March
+      </p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       DEV PANEL — page navigator
+  ══════════════════════════════════════ -->
+  <div id="devPanel">
+    <div id="devTab">Dev</div>
+    <div class="dp-inner">
+      <div class="dp-head">
+        <div class="dp-head-row">
+          <span class="dp-title">⚙ Dev Navigator</span>
+          <button id="dpClose">✕</button>
+        </div>
+        <span class="dp-sub">Jump to any page</span>
+      </div>
+
+      <div class="dp-sec">Start</div>
+      <div class="dp-lnk" onclick="devGo('index.html')">
+        <span class="dp-num">01</span><span class="dp-n">Welcome · Countdown</span>
+        <div class="dp-dot" style="background:var(--rose,#e8a598)"></div>
+      </div>
+      <div class="dp-lnk" onclick="devGo('memory.html')">
+        <span class="dp-num">02</span><span class="dp-n">Birthday Wish</span>
+        <div class="dp-dot" style="background:var(--rose,#e8a598)"></div>
+      </div>
+
+      <div class="dp-sec">Gallery · 8 Chapters</div>
+      <div class="dp-lnk gal" onclick="devGo('gallery1.html')"><span class="dp-num">03</span><span class="dp-n">Beautiful Everyday · 1–5</span><div class="dp-dot"></div></div>
+      <div class="dp-lnk gal" onclick="devGo('gallery2.html')"><span class="dp-num">04</span><span class="dp-n">Joyful Side · 6–10</span><div class="dp-dot"></div></div>
+      <div class="dp-lnk gal" onclick="devGo('gallery3.html')"><span class="dp-num">05</span><span class="dp-n">Bold Spirit · 11–15</span><div class="dp-dot"></div></div>
+      <div class="dp-lnk gal" onclick="devGo('gallery4.html')"><span class="dp-num">06</span><span class="dp-n">Radiant Glow · 16–20</span><div class="dp-dot"></div></div>
+      <div class="dp-lnk gal" onclick="devGo('gallery5.html')"><span class="dp-num">07</span><span class="dp-n">Free Spirit · 21–25</span><div class="dp-dot"></div></div>
+      <div class="dp-lnk gal" onclick="devGo('gallery6.html')"><span class="dp-num">08</span><span class="dp-n">Quiet Magic · 26–30</span><div class="dp-dot"></div></div>
+      <div class="dp-lnk gal" onclick="devGo('gallery7.html')"><span class="dp-num">09</span><span class="dp-n">Iconic Moments · 31–35</span><div class="dp-dot"></div></div>
+      <div class="dp-lnk gal" onclick="devGo('gallery8.html')"><span class="dp-num">10</span><span class="dp-n">Grand Finale · 36–42</span><div class="dp-dot"></div></div>
+
+      <div class="dp-sec">Special Pages</div>
+      <div class="dp-lnk spc" onclick="devGo('friendship.html')"><span class="dp-num">11</span><span class="dp-n">Friendship</span><div class="dp-dot"></div></div>
+      <div class="dp-lnk spc" onclick="devGo('childhood.html')"><span class="dp-num">12</span><span class="dp-n">Childhood</span><div class="dp-dot"></div></div>
+      <div class="dp-lnk spc" onclick="devGo('together.html')"><span class="dp-num">13</span><span class="dp-n">Together</span><div class="dp-dot"></div></div>
+      <div class="dp-lnk spc" onclick="devGo('quotes.html')"><span class="dp-num">14</span><span class="dp-n">Quotes</span><div class="dp-dot"></div></div>
+      <div class="dp-lnk spc" onclick="devGo('message.html')"><span class="dp-num">15</span><span class="dp-n">Message</span><div class="dp-dot"></div></div>
+
+      <div class="dp-sec">Finale</div>
+      <div class="dp-lnk end" onclick="devGo('surprise.html')"><span class="dp-num">16</span><span class="dp-n">🎉 Surprise · Grand Finale</span><div class="dp-dot"></div></div>
+
+      <div class="dp-lock">
+        <button id="dpLockBtn">🔒 &nbsp;Close Preview / Re-lock</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SCRIPTS
+  ══════════════════════════════════════ -->
   <script src="script.js"></script>
   <script>
-    // ── HEARTS ──
-    (function(){
-      const wrap=document.getElementById('heartsWrap');
-      const sym=['❤️','🌸','💕','✨','💖','🌷','💗','🫧','🌺','💫'];
-      for(let i=0;i<22;i++){
-        const h=document.createElement('div');h.className='float-heart';h.textContent=sym[Math.floor(Math.random()*sym.length)];
-        h.style.cssText=`left:${Math.random()*100}vw;font-size:${0.9+Math.random()*1.5}rem;animation-duration:${9+Math.random()*13}s;animation-delay:${Math.random()*12}s`;
-        wrap.appendChild(h);
-      }
-    })();
+  (function(){
 
-    // ── BIRTHDAY COUNTDOWN ──
-    (function(){
-      const area = document.getElementById('countdownArea');
-      const now  = new Date();
-      // Birthday: 30 March — current year or next if already passed
-      let bday = new Date(now.getFullYear(), 2, 30); // month is 0-indexed
-      if(now > bday) bday = new Date(now.getFullYear() + 1, 2, 30);
+    // ── CONSTANTS ──────────────────────────────────
+    const PASS       = 'TejaswiniKruttibash';
+    const BDAY       = new Date('March 30, 2026 00:00:00').getTime();
+    const S_KEY      = 'rb_dev_preview';
+    const S_VAL      = 'dev_ok_2026';
 
-      const diffMs  = bday - now;
-      const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    // ── DOM ────────────────────────────────────────
+    const journeyWrap = document.getElementById('journeyBtnWrap');
+    const devTrigger  = document.getElementById('devTrigger');
+    const modal       = document.getElementById('pwModal');
+    const input       = document.getElementById('pwInput');
+    const errMsg      = document.getElementById('pwErr');
+    const submitBtn   = document.getElementById('pwSubmit');
+    const eyeBtn      = document.getElementById('eyeBtn');
+    const devPanel    = document.getElementById('devPanel');
+    const devTab      = document.getElementById('devTab');
+    const countdownArea = document.getElementById('countdownArea');
 
-      // Is it TODAY? (March 30)
-      const isBirthday = now.getMonth() === 2 && now.getDate() === 30;
+    // ── STEP 1: Is it already birthday time? ───────
+    function isBirthday(){ return Date.now() >= BDAY; }
 
-      if(isBirthday){
-        area.innerHTML = `<p class="birthday-today">🎂 Today is her Birthday! 🎂</p>`;
-        return;
-      }
+    // ── STEP 2: On load decide what to show ────────
+    if(isBirthday()){
+      // It's March 30 or later — unlock silently, no fanfare
+      revealJourney('birthday', false);
+    } else if(sessionStorage.getItem(S_KEY) === S_VAL){
+      // Dev had unlocked this session — restore dev panel
+      revealJourney('dev', false);
+    }
+    // else: stay locked, show countdown only
 
-      // Build live countdown
-      area.innerHTML = `
+    // ── COUNTDOWN TIMER ────────────────────────────
+    function pad(n){ return String(n).padStart(2,'0'); }
+
+    function buildCountdown(){
+      countdownArea.innerHTML = `
         <span class="cd-date-label">✦ Birthday countdown · 30 March ✦</span>
-        <div class="countdown-wrap" id="cdWrap">
+        <div class="countdown-wrap">
           <div class="cd-box"><span class="cd-num" id="cdD">00</span><span class="cd-label">Days</span></div>
           <div class="cd-sep">:</div>
           <div class="cd-box"><span class="cd-num" id="cdH">00</span><span class="cd-label">Hours</span></div>
@@ -114,31 +516,242 @@
           <div class="cd-box"><span class="cd-num" id="cdM">00</span><span class="cd-label">Mins</span></div>
           <div class="cd-sep">:</div>
           <div class="cd-box"><span class="cd-num" id="cdS">00</span><span class="cd-label">Secs</span></div>
-        </div>
-      `;
+        </div>`;
+    }
 
-      function pad(n){ return String(n).padStart(2,'0'); }
+    var countInterval = null;
+
+    function startCountdown(){
+      buildCountdown();
       function tick(){
-        const n   = new Date();
-        let bd    = new Date(n.getFullYear(), 2, 30);
-        if(n > bd) bd = new Date(n.getFullYear()+1, 2, 30);
-        const ms  = bd - n;
-        if(ms <= 0){
-          area.innerHTML = `<p class="birthday-today">🎂 Today is her Birthday! 🎂</p>`;
+        var diff = BDAY - Date.now();
+        if(diff <= 0){
+          // 🎉 BIRTHDAY MOMENT — auto-unlock with full animation
+          clearInterval(countInterval);
+          onBirthdayArrived();
           return;
         }
-        const s = Math.floor(ms/1000);
-        const m = Math.floor(s/60);
-        const h = Math.floor(m/60);
-        const d = Math.floor(h/24);
-        document.getElementById('cdD').textContent = pad(d);
-        document.getElementById('cdH').textContent = pad(h%24);
-        document.getElementById('cdM').textContent = pad(m%60);
-        document.getElementById('cdS').textContent = pad(s%60);
+        var s=Math.floor(diff/1000), m=Math.floor(s/60), h=Math.floor(m/60), d=Math.floor(h/24);
+        var dEl=document.getElementById('cdD');
+        var hEl=document.getElementById('cdH');
+        var mEl=document.getElementById('cdM');
+        var sEl=document.getElementById('cdS');
+        if(dEl) dEl.textContent=pad(d);
+        if(hEl) hEl.textContent=pad(h%24);
+        if(mEl) mEl.textContent=pad(m%60);
+        if(sEl) sEl.textContent=pad(s%60);
       }
       tick();
-      setInterval(tick, 1000);
-    })();
+      countInterval = setInterval(tick, 1000);
+    }
+
+    // Start countdown only if birthday hasn't arrived yet
+    if(!isBirthday()){
+      startCountdown();
+    } else {
+      // Already birthday — show "It's her birthday!" message
+      countdownArea.innerHTML = `<p class="birthday-today">🎂 Today is her Birthday! 🎂</p>`;
+    }
+
+    // ── BIRTHDAY ARRIVAL ───────────────────────────
+    // Called when countdown hits zero in real time
+    function onBirthdayArrived(){
+      // 1. Show birthday message in countdown area
+      countdownArea.innerHTML = `<p class="birthday-today">🎂 Happy Birthday, Rachita! 🎂</p>`;
+
+      // 2. Play the grand reveal overlay
+      playBdayReveal();
+
+      // 3. After the reveal animation, show the journey button
+      setTimeout(function(){
+        revealJourney('birthday', true);
+      }, 1600);
+    }
+
+    // ── GRAND REVEAL OVERLAY ───────────────────────
+    function playBdayReveal(){
+      var el = document.getElementById('bdayReveal');
+      el.style.display = 'block';
+      // Trigger confetti + balloons from script.js globals
+      if(typeof confetti === 'function') confetti();
+      if(typeof balloons === 'function') balloons();
+      setTimeout(function(){
+        if(typeof confetti === 'function') confetti();
+      }, 600);
+      // Hide overlay after animation completes
+      setTimeout(function(){
+        el.style.display = 'none';
+      }, 2600);
+    }
+
+    // ── REVEAL JOURNEY BUTTON ──────────────────────
+    // mode: 'birthday' = with glow + animation
+    //       'dev'      = silently (for dev preview)
+    // withAnim: boolean
+    function revealJourney(mode, withAnim){
+      // Add transition class first so the CSS transition fires
+      journeyWrap.classList.add('animate-in');
+      // Small tick to let browser register transition class
+      setTimeout(function(){
+        journeyWrap.classList.add('revealed');
+      }, 20);
+
+      if(mode === 'birthday'){
+        journeyWrap.classList.add('birthday-glow');
+      }
+
+      if(mode === 'dev'){
+        // Show dev panel
+        devPanel.style.display = 'block';
+        setTimeout(function(){ devPanel.classList.add('open'); }, 60);
+        devTrigger.style.display = 'none';
+      }
+
+      if(withAnim && mode === 'birthday'){
+        // Extra ring burst on the page itself
+        spawnExtraRings();
+      }
+
+      if(withAnim && mode === 'dev'){
+        showToast('✦  Preview Unlocked  ✦', 'teal');
+      }
+    }
+
+    // ── EXTRA RING BURST on birthday ───────────────
+    function spawnExtraRings(){
+      for(var i=0; i<3; i++){
+        (function(delay){
+          setTimeout(function(){
+            var r = document.createElement('div');
+            r.style.cssText = `
+              position:fixed;top:50%;left:50%;
+              border-radius:50%;border:1px solid rgba(232,165,152,0.3);
+              pointer-events:none;z-index:9700;
+              transform:translate(-50%,-50%);
+              animation:ringBurst 1.4s ease-out forwards;
+            `;
+            document.body.appendChild(r);
+            setTimeout(function(){ r.remove(); }, 1500);
+          }, delay);
+        })(i * 300);
+      }
+    }
+
+    // ── DEV TRIGGER ───────────────────────────────
+    devTrigger.addEventListener('click', function(){
+      modal.classList.add('open');
+      input.value = '';
+      errMsg.classList.remove('show');
+      submitBtn.textContent = 'Preview Unlock →';
+      submitBtn.classList.remove('ok');
+      setTimeout(function(){ input.focus(); }, 80);
+    });
+
+    // ── MODAL CLOSE ───────────────────────────────
+    function closeModal(){
+      modal.classList.remove('open');
+      errMsg.classList.remove('show');
+    }
+    document.getElementById('pwClose').addEventListener('click', closeModal);
+    modal.addEventListener('click', function(e){ if(e.target===modal) closeModal(); });
+    document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeModal(); });
+
+    // ── EYE TOGGLE ────────────────────────────────
+    eyeBtn.addEventListener('click', function(){
+      input.type = input.type==='password' ? 'text' : 'password';
+      this.textContent = input.type==='password' ? '👁' : '🙈';
+      input.focus();
+    });
+
+    // ── PASSWORD SUBMIT ───────────────────────────
+    function tryUnlock(){
+      if(input.value === PASS){
+        submitBtn.textContent = '✓ Unlocked!';
+        submitBtn.classList.add('ok');
+        setTimeout(function(){
+          closeModal();
+          sessionStorage.setItem(S_KEY, S_VAL);
+          revealJourney('dev', true);
+        }, 650);
+      } else {
+        input.classList.add('err');
+        errMsg.classList.add('show');
+        input.value = '';
+        setTimeout(function(){ input.classList.remove('err'); }, 600);
+        input.focus();
+      }
+    }
+    submitBtn.addEventListener('click', tryUnlock);
+    input.addEventListener('keydown', function(e){
+      if(e.key==='Enter') tryUnlock();
+      errMsg.classList.remove('show');
+      input.classList.remove('err');
+    });
+
+    // ── DEV PANEL CONTROLS ────────────────────────
+    devTab.addEventListener('click', function(){
+      devPanel.classList.toggle('open');
+    });
+    document.getElementById('dpClose').addEventListener('click', function(){
+      devPanel.classList.remove('open');
+    });
+
+    // Lock / re-lock
+    document.getElementById('dpLockBtn').addEventListener('click', function(){
+      sessionStorage.removeItem(S_KEY);
+      // Hide dev panel + journey button
+      devPanel.classList.remove('open');
+      setTimeout(function(){ devPanel.style.display='none'; }, 650);
+      journeyWrap.classList.remove('revealed','animate-in','birthday-glow');
+      devTrigger.style.display = 'block';
+      showToast('🔒  Preview closed', 'red');
+    });
+
+    // ── TOAST ─────────────────────────────────────
+    function showToast(msg, col){
+      var colors = {
+        teal: {border:'rgba(94,207,198,0.3)',  text:'var(--teal,#5ecfc6)'},
+        red:  {border:'rgba(220,80,80,0.3)',   text:'rgba(220,80,80,0.8)'},
+        rose: {border:'rgba(232,165,152,0.3)', text:'var(--rose,#e8a598)'},
+      };
+      var c = colors[col] || colors.teal;
+      var t = document.createElement('div');
+      t.style.cssText = `position:fixed;bottom:64px;left:50%;
+        transform:translateX(-50%) translateY(8px);
+        background:rgba(10,9,18,0.94);border:1px solid ${c.border};
+        padding:9px 24px;font-family:'Tenor Sans',sans-serif;font-size:0.66rem;
+        letter-spacing:0.2em;text-transform:uppercase;color:${c.text};
+        z-index:9997;pointer-events:none;white-space:nowrap;
+        opacity:0;transition:opacity 0.4s ease,transform 0.4s ease;`;
+      t.textContent = msg;
+      document.body.appendChild(t);
+      requestAnimationFrame(function(){
+        t.style.opacity='1'; t.style.transform='translateX(-50%) translateY(0)';
+        setTimeout(function(){
+          t.style.opacity='0'; t.style.transform='translateX(-50%) translateY(-6px)';
+          setTimeout(function(){ t.remove(); }, 450);
+        }, 2200);
+      });
+    }
+
+  })(); // end IIFE
+
+  // ── devGo: navigate while keeping session ─────
+  function devGo(page){ window.location.href = page; }
+
+  // ── HEARTS ────────────────────────────────────
+  (function(){
+    var wrap = document.getElementById('heartsWrap');
+    var sym  = ['❤️','🌸','💕','✨','💖','🌷','💗','🫧','🌺','💫'];
+    for(var i=0;i<22;i++){
+      var h = document.createElement('div');
+      h.className = 'float-heart';
+      h.textContent = sym[Math.floor(Math.random()*sym.length)];
+      h.style.cssText = 'left:'+Math.random()*100+'vw;font-size:'+(0.9+Math.random()*1.5)+'rem;animation-duration:'+(9+Math.random()*13)+'s;animation-delay:'+(Math.random()*12)+'s';
+      wrap.appendChild(h);
+    }
+  })();
+
   </script>
 </body>
 </html>
