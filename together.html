@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Together · Rachita</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    .a1{background:radial-gradient(ellipse,rgba(184,168,232,0.12),transparent 70%)!important}
+    .a2{background:radial-gradient(ellipse,rgba(94,207,198,0.07),transparent 70%)!important}
+    /* Scan line lavender */
+    .scan-lav{position:fixed;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(184,168,232,0.18),transparent);animation:scan 11s linear infinite;pointer-events:none;z-index:6}
+    @keyframes scan{0%{top:-1px}100%{top:100vh}}
+  </style>
+</head>
+<body>
+  <div class="aurora"><div class="a-orb a1"></div><div class="a-orb a2"></div><div class="a-orb a-lav"></div></div>
+  <canvas class="particles-canvas" id="particleCanvas"></canvas>
+  <div class="star-field"></div>
+  <div class="scan-lav"></div>
+  <p class="page-num">14 · 16</p>
+
+  <div class="page-wrap together-page">
+    <div class="together-inner">
+      <div class="together-header">
+        <div class="s-label" style="justify-content:center;color:var(--lavender)">
+          <span style="width:28px;height:1px;background:linear-gradient(90deg,transparent,var(--lav-dim));display:block"></span>
+          Me & You
+          <span style="width:28px;height:1px;background:linear-gradient(90deg,var(--lav-dim),transparent);display:block"></span>
+        </div>
+        <h1>The Frames We <em>Treasure</em></h1>
+        <p>Three moments, one beautiful friendship</p>
+      </div>
+
+      <!-- Quote -->
+      <div class="together-quote">
+        <blockquote>In all the world there is no heart for me like yours. In all the world there is no love for you like mine.</blockquote>
+        <cite>— Maya Angelou · for us</cite>
+      </div>
+
+      <!-- Trio of together photos -->
+      <div class="together-trio">
+        <div class="trio-item">
+          <div class="trio-inner">
+            <span class="trio-badge">Us ✦</span>
+            <img src="images/photo43.jpg" alt="Together 1" style="height:360px"/>
+          </div>
+          <p class="trio-label">Always laughing 🌸</p>
+        </div>
+        <div class="trio-item">
+          <div class="trio-inner">
+            <span class="trio-badge">Us ✦</span>
+            <img src="images/photo44.jpg" alt="Together 2" style="height:460px"/>
+          </div>
+          <p class="trio-label">Side by side 💕</p>
+        </div>
+        <div class="trio-item">
+          <div class="trio-inner">
+            <span class="trio-badge">Us ✦</span>
+            <img src="images/photo45.jpg" alt="Together 3" style="height:360px"/>
+          </div>
+          <p class="trio-label">Forever friends ✨</p>
+        </div>
+      </div>
+
+      <div style="text-align:center;margin-top:48px">
+        <button class="btn" style="border-color:var(--border-l);color:var(--lavender)" data-nav="quotes.html">
+          <span>Words For You</span><span class="arr">→</span>
+        </button>
+      </div>
+    </div>
+
+    <nav class="p-nav">
+      <div class="p-dot done"   title="Welcome"></div>
+      <div class="p-dot done"   title="Wish"></div>
+      <div class="p-dot done"   title="Gallery 1"></div>
+      <div class="p-dot done"   title="Gallery 2"></div>
+      <div class="p-dot done"   title="Gallery 3"></div>
+      <div class="p-dot done"   title="Gallery 4"></div>
+      <div class="p-dot done"   title="Gallery 5"></div>
+      <div class="p-dot done"   title="Gallery 6"></div>
+      <div class="p-dot done"   title="Gallery 7"></div>
+      <div class="p-dot done"   title="Gallery 8"></div>
+      <div class="p-dot done"   title="Friendship"></div>
+      <div class="p-dot done"   title="Childhood"></div>
+      <div class="p-dot active" title="Together"></div>
+      <div class="p-dot"        title="Quotes"></div>
+      <div class="p-dot"        title="Message"></div>
+      <div class="p-dot"        title="Surprise"></div>
+    </nav>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

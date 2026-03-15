@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Childhood · Rachita</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    /* Film grain on childhood page stronger */
+    .childhood-page::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");pointer-events:none;z-index:9991;opacity:0.55}
+    /* Amber glow aurora override */
+    .a1{background:radial-gradient(ellipse,rgba(232,201,122,0.1),transparent 70%)!important}
+    .a2{background:radial-gradient(ellipse,rgba(232,165,152,0.07),transparent 70%)!important}
+  </style>
+</head>
+<body>
+  <div class="aurora"><div class="a-orb a1"></div><div class="a-orb a2"></div><div class="a-orb a-amber"></div></div>
+  <canvas class="particles-canvas" id="particleCanvas"></canvas>
+  <div class="star-field"></div>
+  <p class="page-num">13 · 16</p>
+
+  <div class="page-wrap childhood-page">
+    <div class="childhood-inner">
+      <div class="childhood-header">
+        <div class="s-label" style="justify-content:center;color:var(--amber)">
+          <span style="width:28px;height:1px;background:linear-gradient(90deg,transparent,var(--amber-dim));display:block"></span>
+          A little girl, a big heart
+          <span style="width:28px;height:1px;background:linear-gradient(90deg,var(--amber-dim),transparent);display:block"></span>
+        </div>
+        <h1>Where It All <em>Began</em></h1>
+        <p>Before the world knew how incredible you'd become</p>
+      </div>
+
+      <!-- Feature: childhood photo + story text -->
+      <div class="childhood-feature">
+        <div class="cf-frame">
+          <div class="cf-frame-inner">
+            <span class="cf-badge">✦ Childhood</span>
+            <img src="images/photo46.jpg" alt="Rachita childhood"/>
+          </div>
+        </div>
+        <div class="cf-text">
+          <div class="cf-year">Early Years</div>
+          <h2>Little <em>Rachita</em>,<br>already a star</h2>
+          <p>
+            Every great story has a beginning. Yours started with those bright eyes, that curious smile, and a spirit so rare the world could already tell you were extraordinary.
+          </p>
+          <p>
+            That little girl grew into someone who lights up every room she enters — and today, the world celebrates the day she arrived.
+          </p>
+          <button class="btn" style="border-color:var(--border-a);color:var(--amber)" data-nav="together.html">
+            <span>Our Story</span><span class="arr">→</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Polaroid strip using photos 47, 48 and a few others -->
+      <div style="text-align:center;margin-bottom:28px">
+        <div class="s-label" style="justify-content:center;color:var(--amber)">
+          <span style="width:28px;height:1px;background:linear-gradient(90deg,transparent,var(--amber-dim));display:block"></span>
+          More precious frames
+          <span style="width:28px;height:1px;background:linear-gradient(90deg,var(--amber-dim),transparent);display:block"></span>
+        </div>
+      </div>
+      <div class="polaroid-strip">
+        <div class="polaroid" style="--r:-3deg">
+          <img src="images/photo47.jpg" alt="Childhood 2"/>
+          <span class="polaroid-caption">Tiny star 🌟</span>
+        </div>
+        <div class="polaroid" style="--r:2.5deg">
+          <img src="images/photo48.jpg" alt="Childhood 3"/>
+          <span class="polaroid-caption">Pure joy 💛</span>
+        </div>
+      </div>
+    </div>
+
+    <nav class="p-nav">
+      <div class="p-dot done"   title="Welcome"></div>
+      <div class="p-dot done"   title="Wish"></div>
+      <div class="p-dot done"   title="Gallery 1"></div>
+      <div class="p-dot done"   title="Gallery 2"></div>
+      <div class="p-dot done"   title="Gallery 3"></div>
+      <div class="p-dot done"   title="Gallery 4"></div>
+      <div class="p-dot done"   title="Gallery 5"></div>
+      <div class="p-dot done"   title="Gallery 6"></div>
+      <div class="p-dot done"   title="Gallery 7"></div>
+      <div class="p-dot done"   title="Gallery 8"></div>
+      <div class="p-dot done"   title="Friendship"></div>
+      <div class="p-dot active" title="Childhood"></div>
+      <div class="p-dot"        title="Together"></div>
+      <div class="p-dot"        title="Quotes"></div>
+      <div class="p-dot"        title="Message"></div>
+      <div class="p-dot"        title="Surprise"></div>
+    </nav>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

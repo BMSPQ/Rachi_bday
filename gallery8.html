@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Gallery 8 · Her Grand Finale · Rachita</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    .top-bar{position:fixed;top:0;left:0;right:0;height:2px;z-index:200;
+      background:linear-gradient(90deg,var(--gold),var(--rose),var(--teal),var(--lavender),var(--gold));
+      background-size:300%;animation:barAnim 5s linear infinite}
+    @keyframes barAnim{0%{background-position:0%}100%{background-position:300%}}
+    .g-footer{text-align:center;padding:10px 0 32px}
+    .next-lbl{font-size:0.6rem;letter-spacing:0.28em;text-transform:uppercase;color:var(--text-3);display:block;margin-bottom:10px}
+  </style>
+</head>
+<body>
+  <div class="top-bar"></div>
+  <div class="aurora"><div class="a-orb a1"></div><div class="a-orb a2"></div><div class="a-orb a3"></div></div>
+  <canvas class="particles-canvas" id="particleCanvas"></canvas>
+  <div class="star-field"></div>
+  <p class="page-num">10 · 16</p>
+
+  <div class="page-wrap gallery-page">
+
+    <div class="g-header">
+      <div class="s-label" style="justify-content:center;color:var(--gold)">
+        <span style="width:24px;height:1px;background:linear-gradient(90deg,transparent,var(--gold));display:block"></span>
+        Chapter 8 &nbsp;·&nbsp; 7 Frames
+        <span style="width:24px;height:1px;background:linear-gradient(90deg,var(--gold),transparent);display:block"></span>
+      </div>
+      <h1 style="font-family:'Bodoni Moda',serif;font-size:clamp(2rem,5vw,3.2rem);font-style:italic;margin-bottom:8px">
+        Her <em style='font-style:normal'>Grand Finale
+      </h1>
+      <p>The final 7 frames of 42 — ending on the highest note possible</p>
+      <div class="photo-counter">
+        <span style="width:6px;height:6px;border-radius:50%;background:var(--gold);display:inline-block"></span>
+        Gallery 8 of 8 &nbsp;·&nbsp; Photos 36–42
+        <span style="width:6px;height:6px;border-radius:50%;background:var(--gold);display:inline-block"></span>
+      </div>
+    </div>
+
+    <!-- Chapter navigation dots (8 chapters) -->
+    <div class="gcn-wrap" style="--act-col:var(--gold)">
+      <div class="gcn dn" onclick="goTo('gallery1.html')" title="Chapter 1"></div>
+      <div class="gcn dn" onclick="goTo('gallery2.html')" title="Chapter 2"></div>
+      <div class="gcn dn" onclick="goTo('gallery3.html')" title="Chapter 3"></div>
+      <div class="gcn dn" onclick="goTo('gallery4.html')" title="Chapter 4"></div>
+      <div class="gcn dn" onclick="goTo('gallery5.html')" title="Chapter 5"></div>
+      <div class="gcn dn" onclick="goTo('gallery6.html')" title="Chapter 6"></div>
+      <div class="gcn dn" onclick="goTo('gallery7.html')" title="Chapter 7"></div>
+      <div class="gcn act" title="Chapter 8 (current)"></div>
+    </div>
+
+    <p class="g-chapter-hint">Hover any photo to read its story · Click to enlarge</p>
+
+    <div class="gl-h">
+      <div class="g-item">
+        <img src="images/photo36.jpg" alt="Rachita"/>
+        <div class="g-desc">
+          <span class="g-desc-title">Full of life</span>
+          <span class="g-desc-text">Every photo is evidence — she doesn't just live, she absolutely thrives.</span>
+        </div>
+      </div>
+      <div class="g-item">
+        <img src="images/photo37.jpg" alt="Rachita"/>
+        <div class="g-desc">
+          <span class="g-desc-title">Electric presence</span>
+          <span class="g-desc-text">You feel her energy before she even says a word. This photo proves it perfectly.</span>
+        </div>
+      </div>
+      <div class="g-item">
+        <img src="images/photo38.jpg" alt="Rachita"/>
+        <div class="g-desc">
+          <span class="g-desc-title">Powerfully gentle</span>
+          <span class="g-desc-text">She's both the storm and the calm after it. A rare, rare combination.</span>
+        </div>
+      </div>
+      <div class="g-item">
+        <img src="images/photo39.jpg" alt="Rachita"/>
+        <div class="g-desc">
+          <span class="g-desc-title">Striking</span>
+          <span class="g-desc-text">The kind of photo that stops you mid-scroll and keeps you staring.</span>
+        </div>
+      </div>
+      <div class="g-item">
+        <img src="images/photo40.jpg" alt="Rachita"/>
+        <div class="g-desc">
+          <span class="g-desc-title">That intense gaze</span>
+          <span class="g-desc-text">She was focused on something — probably greatness. She usually is.</span>
+        </div>
+      </div>
+      <div class="g-item">
+        <img src="images/photo41.jpg" alt="Rachita"/>
+        <div class="g-desc">
+          <span class="g-desc-title">Phenomenal</span>
+          <span class="g-desc-text">The word fits perfectly and still somehow undersells what we see here.</span>
+        </div>
+      </div>
+      <div class="g-item">
+        <img src="images/photo42.jpg" alt="Rachita"/>
+        <div class="g-desc">
+          <span class="g-desc-title">The final chapter</span>
+          <span class="g-desc-text">42 frames and every single one of them is proof of how extraordinary she is.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="g-footer">
+      <span class="next-lbl">Journey continues →</span>
+      <button class="btn" style="border-color:rgba(212,184,150,0.25);color:var(--gold)" data-nav="friendship.html">
+        <span>Continue the Journey</span><span class="arr">→</span>
+      </button>
+    </div>
+
+    <nav class="p-nav">
+      <div class="p-dot done"   title="Welcome"></div>
+      <div class="p-dot done"   title="Wish"></div>
+      <div class="p-dot done"   title="Gallery 1"></div>
+      <div class="p-dot done"   title="Gallery 2"></div>
+      <div class="p-dot done"   title="Gallery 3"></div>
+      <div class="p-dot done"   title="Gallery 4"></div>
+      <div class="p-dot done"   title="Gallery 5"></div>
+      <div class="p-dot done"   title="Gallery 6"></div>
+      <div class="p-dot done"   title="Gallery 7"></div>
+      <div class="p-dot active" title="Gallery 8"></div>
+      <div class="p-dot"        title="Friendship"></div>
+      <div class="p-dot"        title="Childhood"></div>
+      <div class="p-dot"        title="Together"></div>
+      <div class="p-dot"        title="Quotes"></div>
+      <div class="p-dot"        title="Message"></div>
+      <div class="p-dot"        title="Surprise"></div>
+    </nav>
+  </div>
+
+  <div class="lightbox" id="lightbox">
+    <div class="lb-inner">
+      <button id="lbClose">✕ &nbsp; Close</button>
+      <button class="lb-arrow" id="lbPrev">‹</button>
+      <img src="" alt="" id="lbImg"/>
+      <button class="lb-arrow" id="lbNext">›</button>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

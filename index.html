@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Happy Birthday Rachita 🌸</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    .w-frame{position:fixed;inset:0;pointer-events:none;z-index:5}
+    .w-frame::before,.w-frame::after{content:'';position:absolute;width:60px;height:60px}
+    .w-frame::before{top:24px;left:24px;border-top:1px solid rgba(212,184,150,0.2);border-left:1px solid rgba(212,184,150,0.2)}
+    .w-frame::after{bottom:24px;right:24px;border-bottom:1px solid rgba(212,184,150,0.2);border-right:1px solid rgba(212,184,150,0.2)}
+    .w-frame-2::before{top:24px;right:24px;border-top:1px solid rgba(212,184,150,0.2);border-right:1px solid rgba(212,184,150,0.2)}
+    .w-frame-2::after{bottom:24px;left:24px;border-bottom:1px solid rgba(212,184,150,0.2);border-left:1px solid rgba(212,184,150,0.2)}
+    .float-heart{position:fixed;pointer-events:none;z-index:3;animation:fhFloat linear infinite;opacity:0;bottom:-40px}
+    @keyframes fhFloat{0%{opacity:0;transform:translateY(0) rotate(0deg)}8%{opacity:0.6}92%{opacity:0.3}100%{opacity:0;transform:translateY(-110vh) rotate(25deg)}}
+    .scan-line{position:fixed;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(94,207,198,0.2),transparent);animation:scan 8s linear infinite;pointer-events:none;z-index:6}
+    @keyframes scan{0%{top:-1px}100%{top:100vh}}
+    .w-footer{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);font-size:0.65rem;letter-spacing:0.4em;color:rgba(212,184,150,0.2);font-family:'Tenor Sans',sans-serif;text-transform:uppercase;z-index:10;white-space:nowrap}
+  </style>
+</head>
+<body>
+  <div class="w-bg"></div>
+  <div class="w-vignette"></div>
+  <div class="aurora"><div class="a-orb a1"></div><div class="a-orb a2"></div><div class="a-orb a3"></div></div>
+  <canvas class="particles-canvas" id="particleCanvas"></canvas>
+  <div class="star-field"></div>
+  <div class="ring-wrap"><div class="ring"></div><div class="ring"></div><div class="ring"></div></div>
+  <div class="w-frame"></div><div class="w-frame w-frame-2"></div>
+  <div class="scan-line"></div>
+  <div id="heartsWrap"></div>
+
+  <div class="page-wrap welcome-page">
+    <div class="w-content">
+      <p class="w-overline"><span>A very special day</span></p>
+      <p class="w-date">The universe aligned on this day…</p>
+      <span class="w-name name-r" id="glitchName">Rachita</span>
+
+      <!-- BIRTHDAY COUNTDOWN -->
+      <div id="countdownArea"></div>
+
+      <p class="w-tagline">
+        Someone rare. Someone luminous.<br>
+        Someone who makes every ordinary moment feel like magic.
+      </p>
+      <div class="w-btn-wrap">
+        <button class="btn" data-nav="memory.html">
+          <span>Begin the Journey</span><span class="arr">→</span>
+        </button>
+      </div>
+    </div>
+
+    <nav class="p-nav">
+      <div class="p-dot active" title="Welcome"></div>
+      <div class="p-dot" title="Wish"></div>
+      <div class="p-dot" title="Gallery 1"></div>
+      <div class="p-dot" title="Gallery 2"></div>
+      <div class="p-dot" title="Gallery 3"></div>
+      <div class="p-dot" title="Gallery 4"></div>
+      <div class="p-dot" title="Gallery 5"></div>
+      <div class="p-dot" title="Gallery 6"></div>
+      <div class="p-dot" title="Gallery 7"></div>
+      <div class="p-dot" title="Gallery 8"></div>
+      <div class="p-dot" title="Friendship"></div>
+      <div class="p-dot" title="Childhood"></div>
+      <div class="p-dot" title="Together"></div>
+      <div class="p-dot" title="Quotes"></div>
+      <div class="p-dot" title="Message"></div>
+      <div class="p-dot" title="Surprise"></div>
+    </nav>
+  </div>
+
+  <p class="w-footer">✦ &nbsp; 30 March &nbsp; · &nbsp; With love &nbsp; ✦</p>
+
+  <script src="script.js"></script>
+  <script>
+    // ── HEARTS ──
+    (function(){
+      const wrap=document.getElementById('heartsWrap');
+      const sym=['❤️','🌸','💕','✨','💖','🌷','💗','🫧','🌺','💫'];
+      for(let i=0;i<22;i++){
+        const h=document.createElement('div');h.className='float-heart';h.textContent=sym[Math.floor(Math.random()*sym.length)];
+        h.style.cssText=`left:${Math.random()*100}vw;font-size:${0.9+Math.random()*1.5}rem;animation-duration:${9+Math.random()*13}s;animation-delay:${Math.random()*12}s`;
+        wrap.appendChild(h);
+      }
+    })();
+
+    // ── BIRTHDAY COUNTDOWN ──
+    (function(){
+      const area = document.getElementById('countdownArea');
+      const now  = new Date();
+      // Birthday: 30 March — current year or next if already passed
+      let bday = new Date(now.getFullYear(), 2, 30); // month is 0-indexed
+      if(now > bday) bday = new Date(now.getFullYear() + 1, 2, 30);
+
+      const diffMs  = bday - now;
+      const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+      // Is it TODAY? (March 30)
+      const isBirthday = now.getMonth() === 2 && now.getDate() === 30;
+
+      if(isBirthday){
+        area.innerHTML = `<p class="birthday-today">🎂 Today is her Birthday! 🎂</p>`;
+        return;
+      }
+
+      // Build live countdown
+      area.innerHTML = `
+        <span class="cd-date-label">✦ Birthday countdown · 30 March ✦</span>
+        <div class="countdown-wrap" id="cdWrap">
+          <div class="cd-box"><span class="cd-num" id="cdD">00</span><span class="cd-label">Days</span></div>
+          <div class="cd-sep">:</div>
+          <div class="cd-box"><span class="cd-num" id="cdH">00</span><span class="cd-label">Hours</span></div>
+          <div class="cd-sep">:</div>
+          <div class="cd-box"><span class="cd-num" id="cdM">00</span><span class="cd-label">Mins</span></div>
+          <div class="cd-sep">:</div>
+          <div class="cd-box"><span class="cd-num" id="cdS">00</span><span class="cd-label">Secs</span></div>
+        </div>
+      `;
+
+      function pad(n){ return String(n).padStart(2,'0'); }
+      function tick(){
+        const n   = new Date();
+        let bd    = new Date(n.getFullYear(), 2, 30);
+        if(n > bd) bd = new Date(n.getFullYear()+1, 2, 30);
+        const ms  = bd - n;
+        if(ms <= 0){
+          area.innerHTML = `<p class="birthday-today">🎂 Today is her Birthday! 🎂</p>`;
+          return;
+        }
+        const s = Math.floor(ms/1000);
+        const m = Math.floor(s/60);
+        const h = Math.floor(m/60);
+        const d = Math.floor(h/24);
+        document.getElementById('cdD').textContent = pad(d);
+        document.getElementById('cdH').textContent = pad(h%24);
+        document.getElementById('cdM').textContent = pad(m%60);
+        document.getElementById('cdS').textContent = pad(s%60);
+      }
+      tick();
+      setInterval(tick, 1000);
+    })();
+  </script>
+</body>
+</html>
