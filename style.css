@@ -121,7 +121,7 @@ body::after {
 /* ── STAR FIELD ─────────────────────────────────────────── */
 .star-field { position:fixed;inset:0;pointer-events:none;z-index:1; }
 .star       { position:absolute;background:white;border-radius:50%;animation:twinkle linear infinite; }
-@keyframes twinkle { 0%,100%{opacity:0.06} 50%{opacity:0.7} }
+@keyframes twinkle { 0%,100%{opacity:0.04} 50%{opacity:0.42} }
 
 /* ── NAME GRADIENT ──────────────────────────────────────── */
 .name-r {
