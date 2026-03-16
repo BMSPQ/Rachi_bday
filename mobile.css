@@ -1,0 +1,604 @@
+/*
+  ═══════════════════════════════════════════════════════
+  mobile.css  —  Rachita Birthday Website
+  Mobile-only styles. Every rule inside max-width:768px.
+  Zero effect on desktop. Link AFTER style.css.
+  ═══════════════════════════════════════════════════════
+*/
+
+/* ═══════════════════════════════════════════
+   GLOBAL — every page on mobile
+   ═══════════════════════════════════════════ */
+@media (max-width: 768px) {
+
+  html, body {
+    overflow-x: hidden !important;
+    max-width: 100vw !important;
+  }
+
+  .page-wrap {
+    overflow-x: hidden !important;
+  }
+
+  /* page number top-center — hides on mobile */
+  .page-num { display: none !important; }
+
+  /* progress nav dots — too small for mobile */
+  .p-nav { display: none !important; }
+
+  /* dev back button — smaller */
+  #devBackBtn {
+    padding: 6px 12px !important;
+    font-size: 0.55rem !important;
+    bottom: 12px !important;
+    left: 12px !important;
+    letter-spacing: 0.13em !important;
+  }
+
+  /* all buttons — good tap target */
+  .btn {
+    padding: 13px 26px !important;
+    font-size: 0.7rem !important;
+    letter-spacing: 0.16em !important;
+  }
+}
+
+
+/* ═══════════════════════════════════════════
+   1. WELCOME / INDEX  (index.html)
+   ═══════════════════════════════════════════ */
+@media (max-width: 768px) {
+
+  .welcome-page {
+    padding: 0 !important;
+    min-height: 100vh !important;
+    min-height: 100dvh !important;
+  }
+
+  .w-content {
+    padding: 68px 18px 34px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+
+  .w-overline {
+    font-size: 0.56rem !important;
+    letter-spacing: 0.25em !important;
+    margin-bottom: 11px !important;
+  }
+
+  .w-date { font-size: 0.9rem !important; margin-bottom: 9px !important; }
+
+  .w-name {
+    font-size: clamp(3rem, 19vw, 5rem) !important;
+    line-height: 0.92 !important;
+    margin-bottom: 14px !important;
+  }
+
+  .cd-date-label {
+    font-size: 0.54rem !important;
+    letter-spacing: 0.18em !important;
+    margin-bottom: 5px !important;
+  }
+
+  /* countdown — all 4 boxes in one row */
+  .countdown-wrap {
+    gap: 6px !important;
+    margin: 6px 0 20px !important;
+    flex-wrap: nowrap !important;
+    width: 100% !important;
+    justify-content: center !important;
+  }
+
+  .cd-box {
+    min-width: 0 !important;
+    flex: 1 !important;
+    max-width: 67px !important;
+    padding: 8px 4px 6px !important;
+  }
+
+  .cd-num {
+    font-size: clamp(1.3rem, 7vw, 1.9rem) !important;
+    margin-bottom: 2px !important;
+  }
+
+  .cd-label { font-size: 0.44rem !important; letter-spacing: 0.11em !important; }
+
+  .cd-sep {
+    font-size: 1rem !important;
+    padding-bottom: 9px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .w-tagline {
+    font-size: 0.88rem !important;
+    line-height: 1.65 !important;
+    margin-bottom: 22px !important;
+    padding: 0 4px !important;
+    max-width: 100% !important;
+  }
+
+  /* decorative rings — hide */
+  .ring-wrap { display: none !important; }
+
+  #devTrigger {
+    top: 12px !important;
+    right: 12px !important;
+    width: 28px !important;
+    height: 28px !important;
+    opacity: 0.12 !important;
+  }
+
+  .w-footer { font-size: 0.5rem !important; letter-spacing: 0.26em !important; }
+}
+
+
+/* ═══════════════════════════════════════════
+   2. WISH / MEMORY PAGE  (memory.html)
+   Classes: .memory-page .m-card .tw-text
+   ═══════════════════════════════════════════ */
+@media (max-width: 768px) {
+
+  .memory-page {
+    padding: 36px 14px !important;
+    align-items: center !important;
+    min-height: 100vh !important;
+    min-height: 100dvh !important;
+  }
+
+  .m-card {
+    width: 92% !important;
+    padding: 30px 18px 26px !important;
+    text-align: center !important;
+  }
+
+  .m-card h1 {
+    font-size: clamp(1.7rem, 6.5vw, 2.2rem) !important;
+    margin-bottom: 20px !important;
+    line-height: 1.3 !important;
+  }
+
+  .tw-wrap { min-height: 70px !important; }
+
+  .tw-text {
+    font-size: clamp(0.95rem, 4.2vw, 1.15rem) !important;
+    line-height: 1.85 !important;
+  }
+
+  .g-line { margin: 16px auto !important; width: 48px !important; }
+
+  .s-label {
+    font-size: 0.58rem !important;
+    letter-spacing: 0.26em !important;
+    margin-bottom: 12px !important;
+  }
+
+  .m-btn { margin-top: 20px !important; }
+}
+
+
+/* ═══════════════════════════════════════════
+   3. GALLERY PAGE  (gallery.html)
+   Classes: .g-hero .g-hero-eyebrow .g-hero-title
+            .g-hero-sub .g-count-pill .g-section-label
+            .masonry .m-item .m-overlay .m-caption .m-num
+   ═══════════════════════════════════════════ */
+@media (max-width: 768px) {
+
+  .g-hero { padding: 62px 14px 32px !important; }
+
+  .g-hero-eyebrow {
+    font-size: 0.52rem !important;
+    letter-spacing: 0.28em !important;
+    margin-bottom: 9px !important;
+  }
+
+  .g-hero-title {
+    font-size: clamp(2.8rem, 14vw, 4.2rem) !important;
+    margin-bottom: 11px !important;
+  }
+
+  .g-hero-sub {
+    font-size: 0.86rem !important;
+    margin-bottom: 18px !important;
+    padding: 0 6px !important;
+    line-height: 1.65 !important;
+  }
+
+  .g-count-pill {
+    font-size: 0.5rem !important;
+    padding: 5px 12px !important;
+    gap: 5px !important;
+  }
+
+  .g-section-label {
+    padding: 28px 12px 10px !important;
+    gap: 8px !important;
+  }
+
+  .g-section-label span {
+    font-size: 0.5rem !important;
+    letter-spacing: 0.2em !important;
+  }
+
+  /* masonry — 2 columns */
+  .masonry {
+    columns: 2 !important;
+    column-gap: 5px !important;
+    padding: 0 10px !important;
+  }
+
+  .m-item { margin-bottom: 5px !important; }
+
+  /* always show caption on mobile (no hover) */
+  .m-overlay {
+    transform: translateY(0) !important;
+    background: linear-gradient(to top, rgba(5,5,8,0.86) 0%, transparent 62%) !important;
+    padding: 6px 7px 5px !important;
+  }
+
+  .m-num { display: none !important; }
+
+  .m-caption {
+    font-size: 0.58rem !important;
+    line-height: 1.3 !important;
+  }
+
+  .g-continue { padding: 32px 14px 18px !important; }
+  .g-continue p { font-size: 0.86rem !important; margin-bottom: 14px !important; }
+}
+
+
+/* ═══════════════════════════════════════════
+   4. TOGETHER PAGE  (together.html)
+   Classes: .tog-hero .tog-title .tog-sub
+            .tog-quote-strip .tog-photos
+            .tog-photo-wrap .tog-frame
+            .tog-badge .tog-caption
+   ═══════════════════════════════════════════ */
+@media (max-width: 768px) {
+
+  .together-page { overflow: visible !important; }
+
+  .tog-hero { padding: 66px 16px 22px !important; }
+
+  .tog-eyebrow {
+    font-size: 0.54rem !important;
+    letter-spacing: 0.26em !important;
+    margin-bottom: 9px !important;
+  }
+
+  .tog-title {
+    font-size: clamp(2.8rem, 14vw, 4.2rem) !important;
+    margin-bottom: 11px !important;
+  }
+
+  .tog-sub {
+    font-size: 0.9rem !important;
+    max-width: 100% !important;
+    line-height: 1.7 !important;
+  }
+
+  /* quote strip — contained, readable */
+  .tog-quote-strip {
+    margin: 0 14px 24px !important;
+    padding: 14px 16px !important;
+  }
+
+  .tog-quote-strip blockquote {
+    font-size: clamp(0.86rem, 3.8vw, 0.98rem) !important;
+    line-height: 1.65 !important;
+    margin-bottom: 9px !important;
+  }
+
+  .tog-quote-strip cite {
+    font-size: 0.53rem !important;
+    letter-spacing: 0.17em !important;
+  }
+
+  /* ★ CORE FIX — single column, no tilt ★ */
+  .tog-photos {
+    grid-template-columns: 1fr !important;
+    align-items: stretch !important;
+    gap: 20px !important;
+    padding: 0 14px 44px !important;
+  }
+
+  /* kill every transform — the rotation causes overlap */
+  .tog-photo-wrap,
+  .tog-photo-wrap:nth-child(1),
+  .tog-photo-wrap:nth-child(2),
+  .tog-photo-wrap:nth-child(3),
+  .tog-photo-wrap.show,
+  .tog-photo-wrap.show:nth-child(1),
+  .tog-photo-wrap.show:nth-child(2),
+  .tog-photo-wrap.show:nth-child(3) {
+    transform: none !important;
+  }
+
+  .tog-frame { padding: 8px 8px 34px !important; }
+
+  .tog-badge {
+    font-size: 0.48rem !important;
+    padding: 3px 7px !important;
+    top: 9px !important;
+    right: 9px !important;
+  }
+
+  .tog-caption { font-size: 0.74rem !important; height: 34px !important; }
+
+  .tog-frame::before,
+  .tog-frame::after { width: 12px !important; height: 12px !important; }
+
+  .tog-continue { padding: 12px 16px 40px !important; }
+}
+
+
+/* ═══════════════════════════════════════════
+   5. CHILDHOOD PAGE  (childhood.html)
+   Classes: .ch-hero .ch-title .ch-sub
+            .ch-section .ch-label .ch-film
+            .ch-film-item .ch-film-inner .ch-film-cap
+            .ch-year-tag .ch-story
+            .ch-saree-section .ch-saree-feature
+            .ch-saree-frame-wrap .ch-saree-frame
+            .ch-saree-badge .ch-saree-text
+            .ch-saree-tag
+   ═══════════════════════════════════════════ */
+@media (max-width: 768px) {
+
+  .ch-hero { padding: 66px 16px 20px !important; }
+
+  .ch-eyebrow {
+    font-size: 0.54rem !important;
+    letter-spacing: 0.26em !important;
+    margin-bottom: 9px !important;
+  }
+
+  .ch-title {
+    font-size: clamp(2.1rem, 10.5vw, 3.2rem) !important;
+    margin-bottom: 9px !important;
+    line-height: 1 !important;
+  }
+
+  .ch-sub {
+    font-size: 0.88rem !important;
+    max-width: 100% !important;
+    line-height: 1.7 !important;
+  }
+
+  .ch-section { padding: 0 14px !important; }
+  .ch-saree-section { padding: 0 14px 36px !important; }
+
+  .ch-label { margin-bottom: 16px !important; gap: 8px !important; }
+  .ch-label span { font-size: 0.5rem !important; letter-spacing: 0.18em !important; }
+
+  .ch-saree-label { margin-bottom: 16px !important; }
+  .ch-saree-label span { font-size: 0.5rem !important; letter-spacing: 0.18em !important; }
+
+  /* film grid — single column */
+  .ch-film {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+    margin-bottom: 22px !important;
+  }
+
+  /* safe Y-only animation — no X bleed */
+  .ch-film-item { transform: translateY(16px) !important; }
+  .ch-film-item.show { transform: translateY(0) !important; }
+
+  .ch-film-inner { padding: 7px 7px 36px !important; }
+  .ch-film-cap { font-size: 0.72rem !important; height: 36px !important; }
+
+  .ch-year-tag {
+    font-size: 0.46rem !important;
+    padding: 2px 6px !important;
+    top: 7px !important;
+    right: 7px !important;
+  }
+
+  /* story — Y animation only */
+  .ch-story {
+    padding: 13px 14px !important;
+    margin-bottom: 22px !important;
+    transform: translateY(14px) !important;
+  }
+  .ch-story.show { transform: translateY(0) !important; }
+
+  .ch-story p {
+    font-size: 0.9rem !important;
+    line-height: 1.78 !important;
+    margin-bottom: 9px !important;
+  }
+
+  /* saree — single column */
+  .ch-saree-feature {
+    grid-template-columns: 1fr !important;
+    gap: 18px !important;
+  }
+
+  /* saree photo — Y animation, never X */
+  .ch-saree-frame-wrap {
+    transform: translateY(14px) !important;
+    opacity: 0 !important;
+  }
+  .ch-saree-frame-wrap.show {
+    transform: translateY(0) !important;
+    opacity: 1 !important;
+  }
+
+  .ch-saree-frame { padding: 9px !important; }
+
+  .ch-saree-badge {
+    font-size: 0.46rem !important;
+    padding: 2px 7px !important;
+    top: 9px !important;
+    left: 9px !important;
+  }
+
+  /* saree text — Y animation */
+  .ch-saree-text {
+    transform: translateY(14px) !important;
+    opacity: 0 !important;
+  }
+  .ch-saree-text.show {
+    transform: translateY(0) !important;
+    opacity: 1 !important;
+  }
+
+  .ch-saree-tag {
+    font-size: 0.52rem !important;
+    padding: 3px 10px !important;
+    margin-bottom: 11px !important;
+  }
+
+  .ch-saree-text h2 {
+    font-size: clamp(1.35rem, 6vw, 1.8rem) !important;
+    margin-bottom: 11px !important;
+    line-height: 1.25 !important;
+  }
+
+  .ch-saree-text p {
+    font-size: 0.88rem !important;
+    line-height: 1.82 !important;
+    margin-bottom: 13px !important;
+  }
+}
+
+
+/* ═══════════════════════════════════════════
+   6. QUOTES PAGE  (quotes.html)
+   Classes: .quotes-page .quotes-inner
+            .quotes-header .q-card .q-num
+            .quotes-footer
+   ═══════════════════════════════════════════ */
+@media (max-width: 768px) {
+
+  .quotes-page {
+    padding: 56px 0 56px !important;
+    align-items: flex-start !important;
+  }
+
+  .quotes-inner {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+  }
+
+  .quotes-header {
+    padding: 0 16px !important;
+    margin-bottom: 28px !important;
+    text-align: center !important;
+  }
+
+  .quotes-header h1 {
+    font-size: clamp(1.7rem, 7.5vw, 2.4rem) !important;
+    margin-bottom: 5px !important;
+  }
+
+  .quotes-header p { font-size: 0.86rem !important; }
+
+  /* cards — full width, Y-slide (not X so no overflow) */
+  .q-card {
+    padding: 18px 18px 18px 22px !important;
+    margin-bottom: 0 !important;
+    border-left: 2px solid rgba(232,165,152,0.3) !important;
+    border-right: none !important;
+    text-align: left !important;
+    transform: translateY(16px) !important;
+  }
+
+  .q-card.visible { transform: translateY(0) !important; }
+
+  /* even cards — match odd on mobile (left-aligned) */
+  .q-card:nth-child(even) {
+    border-left: 2px solid rgba(212,184,150,0.3) !important;
+    border-right: none !important;
+    text-align: left !important;
+    transform: translateY(16px) !important;
+  }
+
+  .q-card:nth-child(even).visible { transform: translateY(0) !important; }
+
+  /* restore left bar for even */
+  .q-card:nth-child(even)::before {
+    display: block !important;
+    background: linear-gradient(180deg, transparent, var(--gold), transparent) !important;
+  }
+
+  /* hide right bar */
+  .q-card:nth-child(even)::after { display: none !important; }
+
+  .q-card p {
+    font-size: clamp(0.93rem, 4vw, 1.08rem) !important;
+    line-height: 1.73 !important;
+    margin-bottom: 9px !important;
+  }
+
+  .q-card cite { font-size: 0.57rem !important; letter-spacing: 0.15em !important; }
+
+  .q-num {
+    font-size: 2rem !important;
+    top: 7px !important;
+    right: 9px !important;
+    opacity: 0.05 !important;
+  }
+
+  .q-card:nth-child(even) .q-num { right: 9px !important; left: auto !important; }
+
+  .quotes-footer {
+    padding: 0 16px !important;
+    margin-top: 28px !important;
+    text-align: center !important;
+  }
+}
+
+
+/* ═══════════════════════════════════════════
+   7. MESSAGE PAGE  (message.html)
+   Classes: .message-page .msg-card .msg-icon
+            .msg-card h2 .msg-card p .msg-sig
+            .star-row .s-label .g-line .msg-blob
+   ═══════════════════════════════════════════ */
+@media (max-width: 768px) {
+
+  .message-page {
+    padding: 36px 14px 56px !important;
+    align-items: center !important;
+    min-height: 100vh !important;
+    min-height: 100dvh !important;
+  }
+
+  .msg-card {
+    width: 94% !important;
+    padding: 30px 18px 26px !important;
+    text-align: center !important;
+  }
+
+  .msg-icon { font-size: 2rem !important; margin-bottom: 14px !important; }
+
+  .msg-card h2 {
+    font-size: clamp(1.25rem, 5.2vw, 1.75rem) !important;
+    line-height: 1.35 !important;
+    margin-bottom: 16px !important;
+  }
+
+  .msg-card p {
+    font-size: clamp(0.88rem, 3.6vw, 0.98rem) !important;
+    line-height: 1.85 !important;
+    margin-bottom: 16px !important;
+  }
+
+  .msg-sig { font-size: 0.88rem !important; margin-bottom: 20px !important; }
+
+  .star-row { font-size: 0.6rem !important; letter-spacing: 0.38em !important; margin-bottom: 14px !important; }
+
+  .s-label { font-size: 0.57rem !important; letter-spacing: 0.24em !important; margin-bottom: 11px !important; }
+
+  .g-line { margin: 14px auto !important; width: 44px !important; }
+
+  .msg-blob { filter: blur(68px) !important; }
+}
