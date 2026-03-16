@@ -15,7 +15,7 @@
   <canvas class="particles-canvas" id="particleCanvas"></canvas>
   <div class="star-field"></div>
   <div id="petalsWrap"></div>
-  <p class="page-num">03 · 16</p>
+  <p class="page-num">02 · 08</p>
 
   <div class="page-wrap memory-page">
     <div class="m-card glass">
@@ -25,25 +25,17 @@
       <div class="tw-wrap"><p class="tw-text" id="twText"></p></div>
       <div class="g-line"></div>
       <div class="m-btn" id="mBtn">
-        <button class="btn" data-nav="gallery1.html">
+        <button class="btn" data-nav="gallery.html">
           <span>See Our Memories</span><span class="arr">→</span>
         </button>
       </div>
     </div>
-    <nav class="p-nav">
+        <nav class="p-nav">
       <div class="p-dot done"   title="Welcome"></div>
       <div class="p-dot active" title="Wish"></div>
-      <div class="p-dot"        title="Gallery 1"></div>
-      <div class="p-dot"        title="Gallery 2"></div>
-      <div class="p-dot"        title="Gallery 3"></div>
-      <div class="p-dot"        title="Gallery 4"></div>
-      <div class="p-dot"        title="Gallery 5"></div>
-      <div class="p-dot"        title="Gallery 6"></div>
-      <div class="p-dot"        title="Gallery 7"></div>
-      <div class="p-dot"        title="Gallery 8"></div>
-      <div class="p-dot"        title="Friendship"></div>
-      <div class="p-dot"        title="Childhood"></div>
+      <div class="p-dot"        title="Gallery"></div>
       <div class="p-dot"        title="Together"></div>
+      <div class="p-dot"        title="Childhood"></div>
       <div class="p-dot"        title="Quotes"></div>
       <div class="p-dot"        title="Message"></div>
       <div class="p-dot"        title="Surprise"></div>
@@ -60,6 +52,15 @@
         wrap.appendChild(el);
       }
     })();
+  </script>
+  <!-- DEV BACK BUTTON -->
+  <div id="devBackBtn" style="display:none;position:fixed;bottom:20px;left:20px;z-index:8500;background:rgba(10,9,18,0.92);border:1px solid rgba(212,184,150,0.18);padding:8px 16px 8px 12px;font-family:'Tenor Sans',sans-serif;font-size:0.62rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(212,184,150,0.5);cursor:pointer;align-items:center;gap:8px"
+    onmouseenter="this.style.color='#eddcb8'" onmouseleave="this.style.color='rgba(212,184,150,0.5)'"
+    onclick="window.location.href='index.html'">← Dev Panel</div>
+  <script>
+    if(sessionStorage.getItem('rb_dev_preview')==='dev_ok_2026'){
+      var db=document.getElementById('devBackBtn');if(db)db.style.display='flex';
+    }
   </script>
 </body>
 </html>
