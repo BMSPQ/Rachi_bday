@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Her Gallery · Rachita</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="mobile.css"/>
+  <style>
+
+    /* ── TOP ANIMATED BAR ── */
+    .top-bar{position:fixed;top:0;left:0;right:0;height:2px;z-index:200;
+      background:linear-gradient(90deg,var(--rose-deep),var(--magenta),var(--teal),var(--amber),var(--lavender),var(--rose-deep));
+      background-size:400%;animation:barAnim 6s linear infinite}
+    @keyframes barAnim{0%{background-position:0%}100%{background-position:400%}}
+
+    /* ── SCROLL PROGRESS ── */
+    #scrollProg{position:fixed;top:2px;left:0;height:2px;background:rgba(255,255,255,0.18);z-index:201;width:0%;transition:width 0.15s linear}
+
+    /* ── GALLERY PAGE ── */
+    .gallery-page{background:var(--bg-void);min-height:100vh;padding:0 0 100px}
+
+    /* ── HERO ── */
+    .g-hero{position:relative;text-align:center;padding:110px 24px 70px;overflow:hidden}
+    .g-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center top,rgba(232,165,152,0.08),transparent 60%);pointer-events:none}
+    .g-hero-eyebrow{font-size:0.62rem;letter-spacing:0.45em;text-transform:uppercase;color:var(--teal);display:block;margin-bottom:14px;opacity:0;animation:sUp 1s var(--ease-expo) forwards 0.3s}
+    .g-hero-title{font-family:'Bodoni Moda',serif;font-weight:900;font-style:italic;font-size:clamp(3rem,11vw,7.5rem);line-height:0.88;background:linear-gradient(135deg,var(--rose-bright),var(--gold-bright),var(--rose),var(--teal));-webkit-background-clip:text;background-clip:text;color:transparent;background-size:300% 300%;animation:nameShimmer 5s ease infinite,sUp 1.2s var(--ease-expo) forwards 0.5s;opacity:0;margin-bottom:16px}
+    .g-hero-sub{font-family:'Crimson Pro',serif;font-style:italic;font-size:clamp(0.95rem,2.5vw,1.35rem);color:var(--text-2);max-width:500px;margin:0 auto 36px;line-height:1.8;opacity:0;animation:sUp 1s var(--ease-expo) forwards 0.8s}
+    .g-count-pill{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--border-r);padding:8px 22px;font-size:0.62rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--rose);opacity:0;animation:sUp 1s var(--ease-expo) forwards 1s}
+
+    /* ── SECTION LABEL ── */
+    .g-section-label{display:flex;align-items:center;gap:16px;padding:52px 40px 24px;max-width:1200px;margin:0 auto}
+    .g-section-label span{font-size:0.62rem;letter-spacing:0.35em;text-transform:uppercase;white-space:nowrap}
+    .g-section-label::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(212,184,150,0.18),transparent)}
+
+    /* ── MASONRY GRID ── */
+    .masonry{columns:4;column-gap:8px;max-width:1200px;margin:0 auto;padding:0 20px}
+    @media(max-width:1000px){.masonry{columns:3}}
+    @media(max-width:650px){.masonry{columns:2;column-gap:5px;padding:0 10px}}
+    @media(max-width:380px){.masonry{columns:2;column-gap:4px;padding:0 8px}}
+
+    /* ── MASONRY ITEM ── */
+    .m-item{
+      break-inside:avoid;
+      position:relative;
+      overflow:hidden;
+      margin-bottom:8px;
+      cursor:pointer;
+      border:1px solid transparent;
+      /* START VISIBLE — no opacity:0 to avoid IntersectionObserver issues */
+      transition:border-color 0.4s ease, box-shadow 0.4s ease, transform 0.3s ease;
+    }
+    @media(max-width:650px){.m-item{margin-bottom:5px}}
+    .m-item:hover{
+      border-color:rgba(232,165,152,0.28);
+      box-shadow:0 8px 40px rgba(232,165,152,0.14);
+      transform:scale(1.01);
+      z-index:2;
+    }
+    .m-item img{
+      width:100%;
+      display:block;
+      filter:brightness(0.86) saturate(0.9);
+      transition:transform 0.6s var(--ease-expo), filter 0.4s ease;
+    }
+    .m-item:hover img{
+      transform:scale(1.06);
+      filter:brightness(0.72) saturate(1.15);
+    }
+
+    /* ── HOVER CAPTION ── */
+    .m-overlay{
+      position:absolute;
+      bottom:0;left:0;right:0;
+      background:linear-gradient(to top,rgba(5,5,8,0.95) 0%,rgba(5,5,8,0.65) 50%,transparent 100%);
+      padding:clamp(10px,3vw,20px) clamp(8px,2vw,14px) clamp(8px,2vw,12px);
+      transform:translateY(100%);
+      transition:transform 0.4s var(--ease-expo);
+    }
+    .m-item:hover .m-overlay{transform:translateY(0)}
+    .m-num{display:block;font-size:0.5rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--rose);margin-bottom:3px}
+    .m-caption{font-family:'Crimson Pro',serif;font-style:italic;font-size:clamp(0.7rem,1.8vw,0.88rem);color:rgba(240,236,232,0.88);line-height:1.4}
+    /* Always show caption on mobile */
+    @media(max-width:650px){
+      .m-overlay{transform:translateY(0);background:linear-gradient(to top,rgba(5,5,8,0.9) 0%,transparent 65%)}
+      .m-num{display:none}
+      .m-caption{font-size:0.65rem}
+    }
+
+    /* ── CONTINUE ── */
+    .g-continue{text-align:center;padding:60px 20px 20px}
+    .g-continue p{font-family:'Crimson Pro',serif;font-style:italic;font-size:1rem;color:var(--text-3);margin-bottom:20px}
+
+    /* ── LIGHTBOX ── */
+    #lightbox{display:none;position:fixed;inset:0;background:rgba(3,3,6,0.97);z-index:2000;align-items:center;justify-content:center;backdrop-filter:blur(18px)}
+    #lightbox.open{display:flex}
+    #lbImgWrap{position:relative;max-width:calc(100vw - 120px);max-height:calc(100vh - 80px);display:flex;align-items:center;justify-content:center}
+    #lbImg{max-width:100%;max-height:calc(100vh - 100px);object-fit:contain;display:block;border:1px solid rgba(212,184,150,0.1);animation:lbIn 0.28s var(--ease-expo)}
+    @keyframes lbIn{from{opacity:0;transform:scale(0.94)}to{opacity:1;transform:scale(1)}}
+    #lbClose{position:fixed;top:18px;right:18px;background:rgba(10,9,18,0.9);border:1px solid rgba(212,184,150,0.2);color:var(--text-2);cursor:pointer;padding:10px 18px;font-family:'Tenor Sans',sans-serif;font-size:0.66rem;letter-spacing:0.15em;text-transform:uppercase;transition:all 0.3s;z-index:2001}
+    #lbClose:hover{color:var(--rose);border-color:var(--rose)}
+    .lb-arrow{position:fixed;top:50%;transform:translateY(-50%);background:rgba(10,9,18,0.85);border:1px solid rgba(212,184,150,0.15);color:var(--text-2);width:46px;height:80px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1.3rem;z-index:2001;transition:all 0.3s;border-radius:2px}
+    #lbPrev{left:10px}#lbNext{right:10px}
+    .lb-arrow:hover{border-color:var(--rose);color:var(--rose)}
+    #lbCap{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);font-family:'Crimson Pro',serif;font-style:italic;font-size:0.9rem;color:rgba(240,236,232,0.55);z-index:2001;text-align:center;max-width:600px;padding:0 20px}
+    #lbCounter{position:fixed;top:20px;left:20px;font-family:'Tenor Sans',sans-serif;font-size:0.6rem;letter-spacing:0.2em;color:rgba(212,184,150,0.4);z-index:2001}
+    @media(max-width:600px){
+      #lbImgWrap{max-width:100vw;max-height:85vh}
+      #lbImg{max-height:72vh}
+      .lb-arrow{width:36px;height:56px;font-size:1rem}
+      #lbPrev{left:4px}#lbNext{right:4px}
+    }
+
+  </style>
+</head>
+<body>
+  <div class="top-bar"></div>
+  <div id="scrollProg"></div>
+  <div class="aurora"><div class="a-orb a1"></div><div class="a-orb a2"></div><div class="a-orb a3"></div></div>
+  <canvas class="particles-canvas" id="particleCanvas"></canvas>
+  <div class="star-field"></div>
+
+  <div class="page-wrap gallery-page">
+
+    <!-- HERO -->
+    <div class="g-hero">
+      <span class="g-hero-eyebrow">✦ 41 Frames · Her Story in Photos</span>
+      <h1 class="g-hero-title">Rachita</h1>
+      <p class="g-hero-sub">Every photo a love letter. Every frame, proof of something extraordinary.</p>
+      <div class="g-count-pill">
+        <span style="width:5px;height:5px;border-radius:50%;background:var(--rose);display:inline-block"></span>
+        41 photographs &nbsp;·&nbsp; One remarkable girl
+        <span style="width:5px;height:5px;border-radius:50%;background:var(--teal);display:inline-block"></span>
+      </div>
+    </div>
+
+
+    <!-- SECTION: Her Beautiful Everyday -->
+    <div class="g-section-label" style="color:var(--rose)">
+      <span style="color:var(--rose)">✦ &nbsp; Her Beautiful Everyday</span>
+    </div>
+    <div class="masonry">
+      <div class="m-item" onclick="openLb(0)">
+        <img src="images/photo1.jpg" alt="Rachita" loading="lazy"/>
+        <div class="m-overlay">
+          <span class="m-num">#01</span>
+          <span class="m-caption">She lights every room she walks into</span>
+        </div>
+      </div>
+      <div class="m-item" onclick="openLb(1)">
+        <img src="images/photo2.jpg" alt="Rachita" loading="lazy"/>
+        <div class="m-overlay">
+          <span class="m-num">#02</span>
+          <span class="m-caption">That quiet confidence — effortless, always</span>
+        </div>
+      </div>
+      <div class="m-item" onclick="openLb(2)">
+        <img src="images/photo3.jpg" alt="Rachita" loading="lazy"/>
+        <div class="m-overlay">
+          <span class="m-num">#03</span>
+          <span class="m-caption">Radiant on her worst days, luminous on her best</span>
+        </div>
+      </div>
+      <div class="m-item" onclick="openLb(3)">
+        <img src="images/photo4.jpg" alt="Rachita" loading="lazy"/>
+        <div class="m-overlay">
+          <span class="m-num">#04</span>
+          <span class="m-caption">Eyes full of stories and a universe of warmth</span>
+        </div>
+      </div>
+      <div class="m-item" onclick="openLb(4)">
+        <img src="images/photo5.jpg" alt="Rachita" loading="lazy"/>
+        <div class="m-overlay">
+          <span class="m-num">#05</span>
+          <span class="m-caption">No filter needed — just authentically, beautifully her</span>
+        </div>
+      </div>
+      <div class="m-item" onclick="openLb(5)">
+        <img src="images/photo6.jpg" alt="Rachita" loading="lazy"/>
+        <div class="m-overlay">
+          <span class="m-num">#06</span>
+          <span class="m-caption">A moment in gold — she looks like a painting</span>
+        </div>
+      </div>
+      <div class="m-item" onclick="openLb(6)">
+        <img src="images/photo7.jpg" alt="Rachita" loading="lazy"/>
+        <div class="m-overlay">
+          <span class="m-num">#07</span>
+          <span class="m-caption">Soft and luminous, the kind of photo you return to</span>
+        </div>
+      </div>
+      <div class="m-item" onclick="openLb(7)">
+        <img src="images/photo8.jpg" alt="Rachita" loading="lazy"/>
+        <div class="m-overlay">
+          <span class="m-num">#08</span>
+          <span class="m-caption">Unguarded and somehow even more beautiful for it</span>
+        </div>
+      </div>
+      <div class="m-item" onclick="openLb(8)">
+        <img src="images/photo9.jpg" alt="Rachita" loading="lazy"/>
+        <div class="m-overlay">
+          <span class="m-num">#09</span>
+          <span class="m-caption">She makes ordinary light look like pure magic</span>
+        </div>
+      </div>
+      <div class="m-item" onclick="openLb(9)">
+        <img src="images/photo10.jpg" alt="Rachita" loading="lazy"/>
+        <div class="m-overlay">
+          <span class="m-num">#10</span>
+          <span class="m-caption">When she smiles like this, the whole world feels lighter</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION: Her Bold Spirit -->
+    <div class="g-section-label" style="color:var(--teal)">
+      <span style="color:var(--teal)">✦ &nbsp; Her Bold Spirit</span>
+    </div>
+    <div class="masonry">
+      <div class="m-item" onclick="openLb(10)">
+        <img src="images/photo11.jpg" alt="Rachita" loading="lazy"/>
+        <div class="m-overlay">
+          <span class="m-num">#11</span>
+          <span class="m-caption">Dreaming out loud — planning something wonderful</span>
+        </div>
+      </div>
+      <div class="m-item" onclick="openLb(11)">
+        <img src="images/photo12.jpg" alt="Rachita" loading="lazy"/>
+        <div class="m-overlay">
+          <span class="m-num">#12</span>
+          <span class="m-caption">Simply breathtaking — no caption ever feels enough</span>
+        </div>
+      </div>
+      <div class="m-item" onclick="openLb(12)">
+        <img src="images/photo13.jpg" alt="Rachita" loading="lazy"/>
+        <div class="m-overlay">
+          <span class="m-num">#13</span>
+          <span class="m-caption">That laugh — full body, unfiltered, the best sound</span>
+        </div>
+      </div>
+      <div class="m-item" onclick="openLb(13)">
+        <img src="images/photo14.jpg" alt="Rachita" loading="lazy"/>
+        <div class="m-overlay">
+          <span class="m-num">#14</span>
+          <span class="m-caption">Completely carefree — just existing in the moment</span>
+        </div>
+      </div>
+      <div class="m-item" onclick="openLb(14)">
+        <img src="images/photo15.jpg" alt="Rachita" loading="lazy"/>
+        <div class="m-overlay">
+          <span class="m-num">#15</span>
+          <span class="m-caption">She carries permanent sunshine wherever she goes</span>
+        </div>
+      </div>
+      <div class="m-item" onclick="openLb(15)">
+        <img src="images/photo16.jpg" alt="Rachita" loading="lazy"/>
+        <div class="m-overlay">
+          <span class="m-num">#16</span>
+          <span class="m-caption">One smile like this and you know — she's truly special</span>
+        </div>
+      </div>
+      <div class="m-item" onclick="openLb(16)">
+        <img src="images/photo17.jpg" alt="Rachita" loading="lazy"/>
+        <div class="m-overlay">
+          <span class="m-num">#17</span>
+          <span class="m-caption">Wild and free — nothing held back, nothing performed</span>
+        </div>
+      </div>
+      <div class="m-item" onclick="openLb(17)">
+        <img src="images/photo18.jpg" alt="Rachita" loading="lazy"/>
+        <div class="m-overlay">
+          <span class="m-num">#18</span>
+          <span class="m-caption">Mid-sentence magic — she was probably being hilarious</span>
+        </div>
+      </div>
+      <div class="m-item" onclick="openLb(18)">
+        <img src="images/photo19.jpg" alt="Rachita" loading="lazy"/>
+        <div class="m-overlay">
+          <span class="m-num">#19</span>
+          <span class="m-caption">That particular shine in her eyes when she's truly happy</span>
+        </div>
+      </div>
+      <div class="m-item" onclick="openLb(19)">
+        <img src="images/photo20.jpg" alt="Rachita" loading="lazy"/>
+        <div class="m-overlay">
+          <span class="m-num">#20</span>
+          <span class="m-caption">Warm, electric, unforgettable — her energy is contagious</span>
+        </div>
+      </div>
+      <div class="m-item" onclick="openLb(20)">
+        <img src="images/photo21.jpg" alt="Rachita" loading="lazy"/>
+        <div class="m-overlay">
+          <span class="m-num">#21</span>
+          <span class="m-caption">A moment of pure joy — unstaged and undeniable</span>
+        </div>
+      </div>
+      <div class="m-item" onclick="openLb(21)">
+        <img src="images/photo22.jpg" alt="Rachita" loading="lazy"/>
+        <div class="m-overlay">
+          <span class="m-num">#22</span>
+          <span class="m-caption">Golden hour found her and refused to let go</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION: Her Quiet Magic -->
+    <div class="g-section-label" style="color:var(--lavender)">
+      <span style="color:var(--lavender)">✦ &nbsp; Her Quiet Magic</span>
+    </div>
+    <div class="masonry">
+      <div class="m-item" onclick="openLb(25)">
+        <img src="images/photo25.jpg" alt="Rachita" loading="lazy"/>
+        <div class="m-overlay">
+          <span class="m-num">#25</span>
+          <span class="m-caption">If you haven't heard her laugh, you haven't truly lived</span>
+        </div>
+      </div>
+      <div class="m-item" onclick="openLb(26)">
+        <img src="images/photo26.jpg" alt="Rachita" loading="lazy"/>
+        <div class="m-overlay">
+          <span class="m-num">#26</span>
+          <span class="m-caption">She walks in and the moment becomes more beautiful</span>
+        </div>
+      </div>
+      <div class="m-item" onclick="openLb(27)">
+        <img src="images/photo27.jpg" alt="Rachita" loading="lazy"/>
+        <div class="m-overlay">
+          <span class="m-num">#27</span>
+          <span class="m-caption">This smile — worth remembering for the rest of our lives</span>
+        </div>
+      </div>
+      <div class="m-item" onclick="openLb(28)">
+        <img src="images/photo28.jpg" alt="Rachita" loading="lazy"/>
+        <div class="m-overlay">
+          <span class="m-num">#28</span>
+          <span class="m-caption">She belongs in every room she enters — absolutely</span>
+        </div>
+      </div>
+      <div class="m-item" onclick="openLb(29)">
+        <img src="images/photo29.jpg" alt="Rachita" loading="lazy"/>
+        <div class="m-overlay">
+          <span class="m-num">#29</span>
+          <span class="m-caption">Brave and brilliant — the world is better for her confidence</span>
+        </div>
+      </div>
+      <div class="m-item" onclick="openLb(30)">
+        <img src="images/photo30.jpg" alt="Rachita" loading="lazy"/>
+        <div class="m-overlay">
+          <span class="m-num">#30</span>
+          <span class="m-caption">She moves through life like she already knows she'll win</span>
+        </div>
+      </div>
+      <div class="m-item" onclick="openLb(31)">
+        <img src="images/photo31.jpg" alt="Rachita" loading="lazy"/>
+        <div class="m-overlay">
+          <span class="m-num">#31</span>
+          <span class="m-caption">When she enters a moment, everything else fades away</span>
+        </div>
+      </div>
+      <div class="m-item" onclick="openLb(32)">
+        <img src="images/photo32.jpg" alt="Rachita" loading="lazy"/>
+        <div class="m-overlay">
+          <span class="m-num">#32</span>
+          <span class="m-caption">Magnetic — you can't look away and you don't want to</span>
+        </div>
+      </div>
+      <div class="m-item" onclick="openLb(33)">
+        <img src="images/photo33.jpg" alt="Rachita" loading="lazy"/>
+        <div class="m-overlay">
+          <span class="m-num">#33</span>
+          <span class="m-caption">That expression alone could start a revolution</span>
+        </div>
+      </div>
+      <div class="m-item" onclick="openLb(34)">
+        <img src="images/photo34.jpg" alt="Rachita" loading="lazy"/>
+        <div class="m-overlay">
+          <span class="m-num">#34</span>
+          <span class="m-caption">Some people are made for photos — she was made for legend</span>
+        </div>
+      </div>
+      <div class="m-item" onclick="openLb(35)">
+        <img src="images/photo35.jpg" alt="Rachita" loading="lazy"/>
+        <div class="m-overlay">
+          <span class="m-num">#35</span>
+          <span class="m-caption">Bold but never brash — only she holds that balance</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION: Her Grand Finale -->
+    <div class="g-section-label" style="color:var(--gold)">
+      <span style="color:var(--gold)">✦ &nbsp; Her Grand Finale</span>
+    </div>
+    <div class="masonry">
+      <div class="m-item" onclick="openLb(37)">
+        <img src="images/photo37.jpg" alt="Rachita" loading="lazy"/>
+        <div class="m-overlay">
+          <span class="m-num">#37</span>
+          <span class="m-caption">You feel her energy before she even says a word</span>
+        </div>
+      </div>
+      <div class="m-item" onclick="openLb(38)">
+        <img src="images/photo38.jpg" alt="Rachita" loading="lazy"/>
+        <div class="m-overlay">
+          <span class="m-num">#38</span>
+          <span class="m-caption">Both the storm and the calm after it — a rare combination</span>
+        </div>
+      </div>
+      <div class="m-item" onclick="openLb(39)">
+        <img src="images/photo39.jpg" alt="Rachita" loading="lazy"/>
+        <div class="m-overlay">
+          <span class="m-num">#39</span>
+          <span class="m-caption">The kind of photo that stops you mid-scroll</span>
+        </div>
+      </div>
+      <div class="m-item" onclick="openLb(40)">
+        <img src="images/photo40.jpg" alt="Rachita" loading="lazy"/>
+        <div class="m-overlay">
+          <span class="m-num">#40</span>
+          <span class="m-caption">She was focused on something — probably greatness</span>
+        </div>
+      </div>
+      <div class="m-item" onclick="openLb(41)">
+        <img src="images/photo41.jpg" alt="Rachita" loading="lazy"/>
+        <div class="m-overlay">
+          <span class="m-num">#41</span>
+          <span class="m-caption">Phenomenal — the word fits and still undersells it</span>
+        </div>
+      </div>
+      <div class="m-item" onclick="openLb(43)">
+        <img src="images/photo43.jpg" alt="Rachita" loading="lazy"/>
+        <div class="m-overlay">
+          <span class="m-num">#43</span>
+          <span class="m-caption">She doesn't just live — she absolutely thrives</span>
+        </div>
+      </div>
+      <div class="m-item" onclick="openLb(44)">
+        <img src="images/photo44.jpg" alt="Rachita" loading="lazy"/>
+        <div class="m-overlay">
+          <span class="m-num">#44</span>
+          <span class="m-caption">Every frame is proof of how extraordinary she is</span>
+        </div>
+      </div>
+      <div class="m-item" onclick="openLb(47)">
+        <img src="images/photo47.jpg" alt="Rachita" loading="lazy"/>
+        <div class="m-overlay">
+          <span class="m-num">#47</span>
+          <span class="m-caption">One last glimpse before the final surprise awaits ✦</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTINUE -->
+    <div class="g-continue">
+      <p>41 frames of someone truly extraordinary ✦</p>
+      <button class="btn" data-nav="together.html">
+        <span>Our Friendship</span><span class="arr">→</span>
+      </button>
+    </div>
+
+    <nav class="p-nav">
+      <div class="p-dot done"   title="Welcome"></div>
+      <div class="p-dot done"   title="Wish"></div>
+      <div class="p-dot active" title="Gallery"></div>
+      <div class="p-dot"        title="Together"></div>
+      <div class="p-dot"        title="Childhood"></div>
+      <div class="p-dot"        title="Quotes"></div>
+      <div class="p-dot"        title="Message"></div>
+      <div class="p-dot"        title="Surprise"></div>
+    </nav>
+  </div>
+
+  <!-- LIGHTBOX -->
+  <div id="lightbox">
+    <button id="lbClose">✕ &nbsp; Close</button>
+    <button class="lb-arrow" id="lbPrev">‹</button>
+    <div id="lbImgWrap"><img src="" alt="" id="lbImg"/></div>
+    <button class="lb-arrow" id="lbNext">›</button>
+    <div id="lbCap"></div>
+    <div id="lbCounter"></div>
+  </div>
+
+  <!-- DEV BACK BUTTON -->
+  <div id="devBackBtn" style="display:none;position:fixed;bottom:20px;left:20px;z-index:8500;background:rgba(10,9,18,0.92);border:1px solid rgba(212,184,150,0.18);padding:8px 16px 8px 12px;font-family:'Tenor Sans',sans-serif;font-size:0.62rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(212,184,150,0.5);cursor:pointer;align-items:center;gap:8px" onmouseenter="this.style.color='#eddcb8'" onmouseleave="this.style.color='rgba(212,184,150,0.5)'" onclick="window.location.href='index.html'">← Dev Panel</div>
+
+  <script src="script.js"></script>
+  <script>
+  // Dev back button
+  if(sessionStorage.getItem('rb_dev_preview')==='dev_ok_2026'){
+    var db=document.getElementById('devBackBtn');if(db)db.style.display='flex';
+  }
+
+  // Scroll progress
+  window.addEventListener('scroll',function(){
+    var d=document.documentElement;
+    var p=(d.scrollTop/(d.scrollHeight-d.clientHeight))*100;
+    document.getElementById('scrollProg').style.width=p+'%';
+  });
+
+  // Lightbox data
+  var PHOTOS = [{src:"images/photo1.jpg",cap:"She lights every room she walks into"},{src:"images/photo2.jpg",cap:"That quiet confidence — effortless, always"},{src:"images/photo3.jpg",cap:"Radiant on her worst days, luminous on her best"},{src:"images/photo4.jpg",cap:"Eyes full of stories and a universe of warmth"},{src:"images/photo5.jpg",cap:"No filter needed — just authentically, beautifully her"},{src:"images/photo6.jpg",cap:"A moment in gold — she looks like a painting"},{src:"images/photo7.jpg",cap:"Soft and luminous, the kind of photo you return to"},{src:"images/photo8.jpg",cap:"Unguarded and somehow even more beautiful for it"},{src:"images/photo9.jpg",cap:"She makes ordinary light look like pure magic"},{src:"images/photo10.jpg",cap:"When she smiles like this, the whole world feels lighter"},{src:"images/photo11.jpg",cap:"Dreaming out loud — planning something wonderful"},{src:"images/photo12.jpg",cap:"Simply breathtaking — no caption ever feels enough"},{src:"images/photo13.jpg",cap:"That laugh — full body, unfiltered, the best sound"},{src:"images/photo14.jpg",cap:"Completely carefree — just existing in the moment"},{src:"images/photo15.jpg",cap:"She carries permanent sunshine wherever she goes"},{src:"images/photo16.jpg",cap:"One smile like this and you know — she's truly special"},{src:"images/photo17.jpg",cap:"Wild and free — nothing held back, nothing performed"},{src:"images/photo18.jpg",cap:"Mid-sentence magic — she was probably being hilarious"},{src:"images/photo19.jpg",cap:"That particular shine in her eyes when she's truly happy"},{src:"images/photo20.jpg",cap:"Warm, electric, unforgettable — her energy is contagious"},{src:"images/photo21.jpg",cap:"A moment of pure joy — unstaged and undeniable"},{src:"images/photo22.jpg",cap:"Golden hour found her and refused to let go"},{src:"images/photo25.jpg",cap:"If you haven't heard her laugh, you haven't truly lived"},{src:"images/photo26.jpg",cap:"She walks in and the moment becomes more beautiful"},{src:"images/photo27.jpg",cap:"This smile — worth remembering for the rest of our lives"},{src:"images/photo28.jpg",cap:"She belongs in every room she enters — absolutely"},{src:"images/photo29.jpg",cap:"Brave and brilliant — the world is better for her confidence"},{src:"images/photo30.jpg",cap:"She moves through life like she already knows she'll win"},{src:"images/photo31.jpg",cap:"When she enters a moment, everything else fades away"},{src:"images/photo32.jpg",cap:"Magnetic — you can't look away and you don't want to"},{src:"images/photo33.jpg",cap:"That expression alone could start a revolution"},{src:"images/photo34.jpg",cap:"Some people are made for photos — she was made for legend"},{src:"images/photo35.jpg",cap:"Bold but never brash — only she holds that balance"},{src:"images/photo37.jpg",cap:"You feel her energy before she even says a word"},{src:"images/photo38.jpg",cap:"Both the storm and the calm after it — a rare combination"},{src:"images/photo39.jpg",cap:"The kind of photo that stops you mid-scroll"},{src:"images/photo40.jpg",cap:"She was focused on something — probably greatness"},{src:"images/photo41.jpg",cap:"Phenomenal — the word fits and still undersells it"},{src:"images/photo43.jpg",cap:"She doesn't just live — she absolutely thrives"},{src:"images/photo44.jpg",cap:"Every frame is proof of how extraordinary she is"},{src:"images/photo47.jpg",cap:"One last glimpse before the final surprise awaits ✦"}];
+  var lbIdx = 0;
+  var lb = document.getElementById('lightbox');
+  var lbImg = document.getElementById('lbImg');
+  var lbCap = document.getElementById('lbCap');
+  var lbCtr = document.getElementById('lbCounter');
+
+  function openLb(idx){
+    lbIdx = Math.max(0, Math.min(idx, PHOTOS.length-1));
+    showLb();
+    lb.classList.add('open');
+    document.body.style.overflow='hidden';
+  }
+
+  function showLb(){
+    var p = PHOTOS[lbIdx];
+    lbImg.src = p.src;
+    lbCap.textContent = p.cap;
+    lbCtr.textContent = (lbIdx+1) + ' · ' + PHOTOS.length;
+  }
+
+  function closeLb(){
+    lb.classList.remove('open');
+    document.body.style.overflow='';
+    lbImg.src='';
+  }
+
+  document.getElementById('lbClose').addEventListener('click', closeLb);
+  lb.addEventListener('click', function(e){ if(e.target===lb) closeLb(); });
+  document.getElementById('lbPrev').addEventListener('click', function(e){
+    e.stopPropagation();
+    lbIdx=(lbIdx-1+PHOTOS.length)%PHOTOS.length; showLb();
+  });
+  document.getElementById('lbNext').addEventListener('click', function(e){
+    e.stopPropagation();
+    lbIdx=(lbIdx+1)%PHOTOS.length; showLb();
+  });
+  document.addEventListener('keydown',function(e){
+    if(!lb.classList.contains('open')) return;
+    if(e.key==='ArrowLeft'){ lbIdx=(lbIdx-1+PHOTOS.length)%PHOTOS.length; showLb(); }
+    if(e.key==='ArrowRight'){ lbIdx=(lbIdx+1)%PHOTOS.length; showLb(); }
+    if(e.key==='Escape') closeLb();
+  });
+
+  // Animate items in on scroll — simple and reliable
+  var items = document.querySelectorAll('.m-item');
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        entry.target.style.opacity='1';
+        entry.target.style.transform='scale(1)';
+        io.unobserve(entry.target);
+      }
+    });
+  }, {threshold: 0.05, rootMargin:'0px 0px 60px 0px'});
+
+  items.forEach(function(item, i){
+    item.style.opacity='0';
+    item.style.transform='translateY(18px) scale(0.97)';
+    item.style.transition='opacity 0.6s ease '+(i*0.03)+'s, transform 0.6s ease '+(i*0.03)+'s, border-color 0.4s, box-shadow 0.4s, transform 0.3s';
+    io.observe(item);
+  });
+
+  // Map each item to its lightbox index
+  items.forEach(function(item, i){
+    item.setAttribute('data-lb-idx', i);
+    // Override onclick to use correct index
+    item.onclick = function(){ openLb(i); };
+  });
+  </script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>A Birthday Wish · Rachita</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="mobile.css"/>
+  <style>
+    .petal{position:fixed;pointer-events:none;z-index:1;animation:petalFall linear infinite;opacity:0}
+    @keyframes petalFall{0%{opacity:0;transform:translateY(-40px) rotate(0deg)}8%{opacity:0.5}90%{opacity:0.25}100%{opacity:0;transform:translateY(110vh) rotate(200deg) translateX(30px)}}
+    .m-card::after{content:'';position:absolute;bottom:0;left:20%;right:20%;height:1px;background:linear-gradient(90deg,transparent,rgba(94,207,198,0.12),transparent)}
+  </style>
+</head>
+<body>
+  <div class="aurora"><div class="a-orb a1"></div><div class="a-orb a2"></div></div>
+  <canvas class="particles-canvas" id="particleCanvas"></canvas>
+  <div class="star-field"></div>
+  <div id="petalsWrap"></div>
+  <p class="page-num">02 · 08</p>
+
+  <div class="page-wrap memory-page">
+    <div class="m-card glass">
+      <div class="s-label" style="justify-content:center">Birthday Message</div>
+      <h1>For You,<br><em class="name-r">Rachita</em> 🌸</h1>
+      <div class="g-line"></div>
+      <div class="tw-wrap"><p class="tw-text" id="twText"></p></div>
+      <div class="g-line"></div>
+      <div class="m-btn" id="mBtn">
+        <button class="btn" data-nav="gallery.html">
+          <span>See Our Memories</span><span class="arr">→</span>
+        </button>
+      </div>
+    </div>
+        <nav class="p-nav">
+      <div class="p-dot done"   title="Welcome"></div>
+      <div class="p-dot active" title="Wish"></div>
+      <div class="p-dot"        title="Gallery"></div>
+      <div class="p-dot"        title="Together"></div>
+      <div class="p-dot"        title="Childhood"></div>
+      <div class="p-dot"        title="Quotes"></div>
+      <div class="p-dot"        title="Message"></div>
+      <div class="p-dot"        title="Surprise"></div>
+    </nav>
+  </div>
+  <script src="script.js"></script>
+  <script>
+    (function(){
+      const wrap=document.getElementById('petalsWrap');
+      const p=['🌸','🌺','🌷','🪷','✿'];
+      for(let i=0;i<16;i++){
+        const el=document.createElement('div');el.className='petal';el.textContent=p[Math.floor(Math.random()*p.length)];
+        el.style.cssText=`left:${Math.random()*100}vw;font-size:${0.9+Math.random()*1}rem;animation-duration:${11+Math.random()*14}s;animation-delay:${Math.random()*14}s`;
+        wrap.appendChild(el);
+      }
+    })();
+  </script>
+  <!-- DEV BACK BUTTON -->
+  <div id="devBackBtn" style="display:none;position:fixed;bottom:20px;left:20px;z-index:8500;background:rgba(10,9,18,0.92);border:1px solid rgba(212,184,150,0.18);padding:8px 16px 8px 12px;font-family:'Tenor Sans',sans-serif;font-size:0.62rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(212,184,150,0.5);cursor:pointer;align-items:center;gap:8px"
+    onmouseenter="this.style.color='#eddcb8'" onmouseleave="this.style.color='rgba(212,184,150,0.5)'"
+    onclick="window.location.href='index.html'">← Dev Panel</div>
+  <script>
+    if(sessionStorage.getItem('rb_dev_preview')==='dev_ok_2026'){
+      var db=document.getElementById('devBackBtn');if(db)db.style.display='flex';
+    }
+  </script>
+</body>
+</html>
