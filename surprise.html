@@ -736,7 +736,7 @@
   var xAudio=null,xPlaying=false;
   function xToggleMusic(){
     var btn=document.getElementById('xMusicBtn');
-    if(!xAudio){xAudio=new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');xAudio.loop=true;xAudio.volume=0.3;}
+    if(!xAudio){xAudio=new Audio('Music/Rachita.mp3');xAudio.loop=true;xAudio.volume=0.3;}
     if(!xPlaying){
       xAudio.play().then(function(){xPlaying=true;if(btn)btn.innerHTML='⏸ &nbsp; Pause Music';}).catch(function(){if(btn)btn.textContent='🎵 Place audio file here';});
     }else{xAudio.pause();xPlaying=false;if(btn)btn.innerHTML='🎵 &nbsp; Play Birthday Music';}
