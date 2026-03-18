@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=5.0"/>
+  <title>A Message · Rachita</title>
+  <link rel="stylesheet" href="base.css"/>
+  <style>
+    .message-page{min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:50px 16px 80px;background:var(--bg-deep);position:relative;overflow:hidden}
+    .mb1{position:fixed;width:600px;height:500px;background:radial-gradient(ellipse,rgba(191,95,160,.1),transparent 70%);top:-200px;right:-150px;border-radius:50%;filter:blur(100px);pointer-events:none;z-index:0}
+    .mb2{position:fixed;width:500px;height:500px;background:radial-gradient(ellipse,rgba(94,207,198,.07),transparent 70%);bottom:-200px;left:-100px;border-radius:50%;filter:blur(100px);pointer-events:none;z-index:0}
+    .dot-grid{position:fixed;inset:0;pointer-events:none;z-index:0;background-image:radial-gradient(circle,rgba(212,184,150,.07) 1px,transparent 1px);background-size:34px 34px}
+    .msg-card{max-width:620px;width:100%;padding:clamp(32px,6vw,70px) clamp(20px,5vw,60px);text-align:center;z-index:10;position:relative;opacity:0;transform:translateY(44px) scale(.96);animation:cardIn 1.2s var(--ease-expo) forwards .4s}
+    @keyframes cardIn{to{opacity:1;transform:translateY(0) scale(1)}}
+    .msg-icon{font-size:2.4rem;margin-bottom:20px;display:block;animation:iconP 4s ease infinite}
+    @keyframes iconP{0%,100%{transform:scale(1) rotate(-4deg)}50%{transform:scale(1.1) rotate(4deg)}}
+    .msg-card h2{font-family:'Bodoni Moda',serif;font-size:clamp(1.3rem,5vw,2.2rem);font-style:italic;color:var(--text-1);margin-bottom:22px;line-height:1.35}
+    .msg-card p{font-family:'Crimson Pro',serif;font-size:clamp(.95rem,3.8vw,1.22rem);font-weight:300;font-style:italic;color:var(--text-2);line-height:2;margin-bottom:24px}
+    .star-row{color:var(--gold-dim);font-size:.7rem;letter-spacing:.5em;margin-bottom:18px}
+    .msg-sig{font-family:'Bodoni Moda',serif;font-style:italic;font-size:.95rem;color:var(--rose);opacity:.85;margin-bottom:28px}
+  </style>
+</head>
+<body>
+  <div class="dot-grid"></div>
+  <div class="mb1"></div><div class="mb2"></div>
+  <div class="aurora"><div class="a-orb a1"></div><div class="a-orb a2"></div></div>
+  <canvas class="particles-canvas" id="particleCanvas"></canvas>
+  <div class="star-field"></div>
+  <p class="page-num">07 · 08</p>
+  <div class="page-wrap message-page" id="pageWrap">
+    <div class="msg-card glass">
+      <span class="msg-icon">🌹</span>
+      <div class="s-label" style="justify-content:center">From my heart to yours</div>
+      <h2><span class="name-r">Rachita</span>,<br>You Deserve Every Happiness</h2>
+      <div class="g-line"></div>
+      <p>You deserve all the happiness in the world — the kind that fills your chest, the kind that surprises you on ordinary Tuesday mornings, and the kind that stays with you long after the day is done.</p>
+      <p>May this birthday mark the beginning of your most beautiful chapter yet. The world is better and brighter because you are in it.</p>
+      <p class="star-row">✦ &nbsp; ✦ &nbsp; ✦</p>
+      <p class="msg-sig">— with all my love, always and forever 💕</p>
+      <button class="btn" onclick="goTo('surprise.html')"><span>The Final Surprise</span><span class="arr">🎉</span></button>
+    </div>
+    <nav class="p-nav">
+      <div class="p-dot done"></div><div class="p-dot done"></div><div class="p-dot done"></div><div class="p-dot done"></div>
+      <div class="p-dot done"></div><div class="p-dot done"></div><div class="p-dot active"></div><div class="p-dot"></div>
+    </nav>
+  </div>
+  <div id="devBackBtn" onclick="location.href='index.html'">← Dev Panel</div>
+  <script>
+    function goTo(u){var p=document.getElementById("pageWrap");if(p){p.classList.add("fade-out");setTimeout(function(){location.href=u;},650);}else{location.href=u;}}
+    if(sessionStorage.getItem("rb_dev_preview")==="dev_ok_2026"){var db=document.getElementById("devBackBtn");if(db)db.style.display="flex";}
+    (function(){var sf=document.querySelector(".star-field");if(!sf)return;for(var i=0;i<130;i++){var s=document.createElement("div");s.className="star";var z=0.8+Math.random()*1.8;s.style.cssText="width:"+z+"px;height:"+z+"px;top:"+Math.random()*100+"%;left:"+Math.random()*100+"%;animation-duration:"+(2+Math.random()*5)+"s;animation-delay:"+Math.random()*6+"s";sf.appendChild(s);}})();
+    (function(){var c=document.getElementById("particleCanvas");if(!c)return;var ctx=c.getContext("2d"),W,H,pts=[];function resize(){W=c.width=innerWidth;H=c.height=innerHeight;}resize();addEventListener("resize",resize);var cols=["rgba(232,165,152,","rgba(212,184,150,","rgba(191,95,160,"];for(var i=0;i<45;i++){pts.push({x:Math.random()*1000,y:Math.random()*1000,vx:(Math.random()-.5)*.3,vy:-.15-Math.random()*.2,r:.8+Math.random()*1.5,op:.08+Math.random()*.2,color:cols[Math.floor(Math.random()*cols.length)]});}(function draw(){ctx.clearRect(0,0,W,H);pts.forEach(function(p){p.x+=p.vx;p.y+=p.vy;if(p.y<-10){p.y=H+10;p.x=Math.random()*W;}if(p.x<-10)p.x=W+10;if(p.x>W+10)p.x=-10;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=p.color+p.op+")";ctx.fill();});requestAnimationFrame(draw);})();})();
+    if(window.matchMedia("(hover:hover) and (pointer:fine)").matches){(function(){var d=document.createElement("div");d.className="cursor-dot";var r=document.createElement("div");r.className="cursor-ring";document.body.append(d,r);var mx=-100,my=-100,rx=-100,ry=-100;document.addEventListener("mousemove",function(e){mx=e.clientX;my=e.clientY;});(function loop(){rx+=(mx-rx)*.14;ry+=(my-ry)*.14;d.style.left=mx+"px";d.style.top=my+"px";r.style.left=rx+"px";r.style.top=ry+"px";requestAnimationFrame(loop);})();})();}
+  </script>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=5.0"/>
+  <title>Us · Rachita</title>
+  <link rel="stylesheet" href="base.css"/>
+  <style>
+    .together-page{min-height:100vh;background:var(--bg-deep);overflow-x:hidden;position:relative}
+    .a1{background:radial-gradient(ellipse,rgba(184,168,232,0.16),transparent 70%)!important}
+    .a2{background:radial-gradient(ellipse,rgba(94,207,198,0.09),transparent 70%)!important}
+
+    .tog-hero{text-align:center;padding:88px 20px 28px;position:relative;z-index:5}
+    .tog-eye{display:block;font-size:0.6rem;letter-spacing:0.4em;text-transform:uppercase;color:var(--lavender);margin-bottom:14px;opacity:0;animation:sUp .9s var(--ease-expo) forwards .2s}
+    .tog-ttl{display:block;font-family:'Bodoni Moda',serif;font-weight:900;font-size:clamp(5rem,22vw,9rem);line-height:.85;background:linear-gradient(135deg,var(--lavender),var(--rose-bright),var(--teal));-webkit-background-clip:text;background-clip:text;color:transparent;background-size:200% 200%;animation:lavS 6s ease infinite,sUp 1s var(--ease-expo) forwards .4s;opacity:0;margin-bottom:18px}
+    @keyframes lavS{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+    .tog-sub{display:block;font-family:'Crimson Pro',serif;font-style:italic;font-size:clamp(.9rem,4vw,1.15rem);color:var(--text-2);line-height:1.8;max-width:340px;margin:0 auto;opacity:0;animation:sUp .9s var(--ease-expo) forwards .6s}
+
+    .tog-qband{margin:26px 20px 30px;padding:20px 22px;border-top:1px solid rgba(184,168,232,.2);border-bottom:1px solid rgba(184,168,232,.2);text-align:center;position:relative;z-index:5;opacity:0;animation:sUp .9s var(--ease-expo) forwards .8s}
+    .tog-qband blockquote{font-family:'Bodoni Moda',serif;font-style:italic;font-size:clamp(.9rem,4vw,1.25rem);color:var(--text-1);line-height:1.8;margin-bottom:10px}
+    .tog-qband cite{font-size:.54rem;letter-spacing:.2em;text-transform:uppercase;color:var(--lavender)}
+
+    /* PHOTOS — mobile: flex column; desktop: 3-col grid */
+    .tog-photos{padding:0 20px;position:relative;z-index:5;display:flex;flex-direction:column;gap:14px}
+
+    .rev{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease-expo),transform .8s var(--ease-expo)}
+    .rev.show{opacity:1;transform:translateY(0)}
+
+    /* Big photo */
+    .tog-p1{width:100%}
+    .fbig{background:#0c0a18;border:1px solid rgba(184,168,232,.22);padding:10px 10px 46px;position:relative}
+    .fbig img{width:100%;height:290px;object-fit:cover;object-position:center top;filter:brightness(.84) saturate(.95);display:block;transition:transform .5s var(--ease-expo)}
+    .tog-p1:hover .fbig img{transform:scale(1.03)}
+
+    /* Small pair */
+    .tog-pair{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .tog-ps{width:100%}
+    .fsm{background:#0c0a18;border:1px solid rgba(184,168,232,.18);padding:8px 8px 38px;position:relative}
+    .fsm img{width:100%;height:178px;object-fit:cover;object-position:center top;filter:brightness(.82) saturate(.93);display:block;transition:transform .5s var(--ease-expo)}
+    .tog-ps:hover .fsm img{transform:scale(1.04)}
+
+    /* Corner accents */
+    .fbig::before,.fsm::before{content:'';position:absolute;top:-1px;left:-1px;width:14px;height:14px;border-top:2px solid var(--lavender);border-left:2px solid var(--lavender)}
+    .fbig::after,.fsm::after{content:'';position:absolute;bottom:-1px;right:-1px;width:14px;height:14px;border-bottom:2px solid var(--rose);border-right:2px solid var(--rose)}
+
+    /* Badge & caption */
+    .phbadge{position:absolute;top:10px;right:10px;background:rgba(184,168,232,.14);border:1px solid rgba(184,168,232,.3);padding:3px 9px;font-size:.42rem;letter-spacing:.14em;text-transform:uppercase;color:var(--lavender)}
+    .phcap{position:absolute;bottom:0;left:0;right:0;display:flex;align-items:center;justify-content:center;font-family:'Crimson Pro',serif;font-style:italic;color:rgba(184,168,232,.75)}
+    .fbig .phcap{height:46px;font-size:.82rem}
+    .fsm  .phcap{height:38px;font-size:.72rem}
+
+    /* Note */
+    .tog-note{margin:20px 20px 28px;padding:20px;border-left:2px solid rgba(184,168,232,.35);background:rgba(184,168,232,.04);position:relative;z-index:5}
+    .note-lbl{display:block;font-size:.52rem;letter-spacing:.26em;text-transform:uppercase;color:var(--lavender);margin-bottom:12px}
+    .tog-note p{font-family:'Crimson Pro',serif;font-style:italic;font-size:clamp(.9rem,4vw,1.05rem);color:var(--text-2);line-height:1.9;margin-bottom:8px}
+    .tog-note p:last-child{margin-bottom:0}
+
+    .tog-cta{text-align:center;padding:10px 20px 70px;position:relative;z-index:5}
+
+    /* ── DESKTOP ── */
+    @media(min-width:769px){
+      .tog-hero{padding:110px 24px 60px}
+      .tog-ttl{font-size:clamp(5rem,9vw,9rem)}
+      .tog-sub{font-size:1.2rem;max-width:480px}
+      .tog-qband{max-width:700px;margin:0 auto 60px;padding:28px 40px}
+      .tog-qband blockquote{font-size:1.4rem}
+      .tog-photos{display:grid!important;flex-direction:unset!important;grid-template-columns:1fr 1.35fr 1fr;align-items:end;gap:16px;max-width:1100px;margin:0 auto;padding:0 24px 60px}
+      .tog-p1{grid-column:2;grid-row:1;order:2}
+      .tog-p1.rev{transform:translateY(30px) scale(.96)}
+      .tog-p1.rev.show{transform:translateY(0) scale(1);transition-delay:.15s}
+      .fbig img{height:460px}
+      .fbig{padding:12px 12px 48px}
+      .fbig::before,.fbig::after{width:22px;height:22px}
+      .fbig .phcap{height:48px;font-size:.82rem}
+      .fbig .phbadge{font-size:.56rem;padding:4px 12px;top:16px;right:14px}
+      .tog-pair{display:contents}
+      .tog-ps:nth-child(1){grid-column:1;grid-row:1;order:1}
+      .tog-ps:nth-child(1).rev{transform:translateX(-50px) rotate(-2deg)}
+      .tog-ps:nth-child(1).rev.show{transform:rotate(-1.5deg)}
+      .tog-ps:nth-child(2){grid-column:3;grid-row:1;order:3}
+      .tog-ps:nth-child(2).rev{transform:translateX(50px) rotate(2deg)}
+      .tog-ps:nth-child(2).rev.show{transform:rotate(1.5deg);transition-delay:.3s}
+      .fsm img{height:360px}
+      .fsm{padding:12px 12px 46px}
+      .fsm::before,.fsm::after{width:22px;height:22px}
+      .fsm .phcap{height:46px;font-size:.82rem}
+      .fsm .phbadge{font-size:.56rem;padding:4px 12px;top:14px;right:12px}
+      .tog-note{max-width:700px;margin:0 auto 40px;border-left:none;border-top:1px solid rgba(184,168,232,.18);border-bottom:1px solid rgba(184,168,232,.18);background:transparent;text-align:center;padding:26px 40px}
+      .tog-note p{font-size:1.08rem}
+      .tog-cta{padding:12px 24px 80px}
+    }
+  </style>
+</head>
+<body>
+  <div class="aurora"><div class="a-orb a1"></div><div class="a-orb a2"></div><div class="a-orb a-lav"></div></div>
+  <canvas class="particles-canvas" id="particleCanvas"></canvas>
+  <div class="star-field"></div>
+  <p class="page-num">04 · 08</p>
+  <div class="page-wrap together-page" id="pageWrap">
+    <div class="tog-hero">
+      <span class="tog-eye">✦ &nbsp; Me &amp; You</span>
+      <span class="tog-ttl">Us</span>
+      <span class="tog-sub">Three frames. One beautiful friendship that changed everything.</span>
+    </div>
+    <div class="tog-qband">
+      <blockquote>"In all the world there is no heart for me like yours. In all the world, there is no love for you like mine."</blockquote>
+      <cite>— Maya Angelou · for us</cite>
+    </div>
+    <div class="tog-photos">
+      <div class="tog-p1 rev" id="p1">
+        <div class="fbig"><span class="phbadge">Us ✦</span><img src="images/photo36.jpg" alt="Side by side"/><div class="phcap">Side by side 💕</div></div>
+      </div>
+      <div class="tog-pair">
+        <div class="tog-ps rev" id="p2">
+          <div class="fsm"><span class="phbadge">Us ✦</span><img src="images/photo23.jpg" alt="Always laughing"/><div class="phcap">Always laughing 🌸</div></div>
+        </div>
+        <div class="tog-ps rev" id="p3">
+          <div class="fsm"><span class="phbadge">Us ✦</span><img src="images/photo24.jpg" alt="Forever friends"/><div class="phcap">Forever friends ✨</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="tog-note rev" id="pNote">
+      <span class="note-lbl">✦ &nbsp; A friendship like no other</span>
+      <p>Some people enter your life quietly and change everything — the way you laugh, how you see the world, who you become.</p>
+      <p>She is one of those people. And today the universe celebrates the day she arrived. 🌸</p>
+    </div>
+    <div class="tog-cta">
+      <button class="btn" onclick="goTo('childhood.html')" style="border-color:var(--border-l);color:var(--lavender)"><span>Her Childhood</span><span class="arr">→</span></button>
+    </div>
+    <nav class="p-nav">
+      <div class="p-dot done"></div><div class="p-dot done"></div><div class="p-dot done"></div>
+      <div class="p-dot active"></div><div class="p-dot"></div><div class="p-dot"></div>
+      <div class="p-dot"></div><div class="p-dot"></div>
+    </nav>
+  </div>
+  <div id="devBackBtn" onclick="location.href='index.html'">← Dev Panel</div>
+  <script>
+    function goTo(u){var p=document.getElementById("pageWrap");if(p){p.classList.add("fade-out");setTimeout(function(){location.href=u;},650);}else{location.href=u;}}
+    if(sessionStorage.getItem("rb_dev_preview")==="dev_ok_2026"){var db=document.getElementById("devBackBtn");if(db)db.style.display="flex";}
+    (function(){var sf=document.querySelector(".star-field");if(!sf)return;for(var i=0;i<130;i++){var s=document.createElement("div");s.className="star";var z=0.8+Math.random()*1.8;s.style.cssText="width:"+z+"px;height:"+z+"px;top:"+Math.random()*100+"%;left:"+Math.random()*100+"%;animation-duration:"+(2+Math.random()*5)+"s;animation-delay:"+Math.random()*6+"s";sf.appendChild(s);}})();
+    (function(){var c=document.getElementById("particleCanvas");if(!c)return;var ctx=c.getContext("2d"),W,H,pts=[];function resize(){W=c.width=innerWidth;H=c.height=innerHeight;}resize();addEventListener("resize",resize);var cols=["rgba(184,168,232,","rgba(94,207,198,","rgba(232,165,152,"];for(var i=0;i<50;i++){pts.push({x:Math.random()*1000,y:Math.random()*1000,vx:(Math.random()-.5)*.3,vy:-.15-Math.random()*.2,r:.8+Math.random()*1.5,op:.08+Math.random()*.2,color:cols[Math.floor(Math.random()*cols.length)]});}(function draw(){ctx.clearRect(0,0,W,H);pts.forEach(function(p){p.x+=p.vx;p.y+=p.vy;if(p.y<-10){p.y=H+10;p.x=Math.random()*W;}if(p.x<-10)p.x=W+10;if(p.x>W+10)p.x=-10;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=p.color+p.op+")";ctx.fill();});requestAnimationFrame(draw);})();})();
+    if(window.matchMedia("(hover:hover) and (pointer:fine)").matches){(function(){var d=document.createElement("div");d.className="cursor-dot";var r=document.createElement("div");r.className="cursor-ring";document.body.append(d,r);var mx=-100,my=-100,rx=-100,ry=-100;document.addEventListener("mousemove",function(e){mx=e.clientX;my=e.clientY;});(function loop(){rx+=(mx-rx)*.14;ry+=(my-ry)*.14;d.style.left=mx+"px";d.style.top=my+"px";r.style.left=rx+"px";r.style.top=ry+"px";requestAnimationFrame(loop);})();})();}
+    var io=new IntersectionObserver(function(en){en.forEach(function(e){if(e.isIntersecting){e.target.classList.add("show");io.unobserve(e.target);}});},{threshold:.06});
+    ["p1","p2","p3","pNote"].forEach(function(id){var el=document.getElementById(id);if(el)io.observe(el);});
+  </script>
+</body>
+</html>

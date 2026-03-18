@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=5.0"/>
+  <title>A Birthday Wish · Rachita</title>
+  <link rel="stylesheet" href="base.css"/>
+  <style>
+    .memory-page{min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:60px 16px;background:var(--bg-deep);position:relative;overflow:hidden}
+    .a1{background:radial-gradient(ellipse,rgba(94,207,198,.1),transparent 70%)!important}
+    .a2{background:radial-gradient(ellipse,rgba(232,165,152,.08),transparent 70%)!important}
+    /* petals */
+    .petal{position:fixed;pointer-events:none;z-index:1;animation:petalFall linear infinite;opacity:0}
+    @keyframes petalFall{0%{opacity:0;transform:translateY(-40px) rotate(0deg)}8%{opacity:.5}90%{opacity:.25}100%{opacity:0;transform:translateY(110vh) rotate(200deg) translateX(30px)}}
+    /* card */
+    .m-card{max-width:660px;width:100%;padding:clamp(36px,6vw,70px) clamp(22px,5vw,60px);text-align:center;z-index:10;position:relative}
+    .m-card h1{font-family:'Bodoni Moda',serif;font-size:clamp(1.8rem,5vw,3rem);font-style:italic;line-height:1.25;margin-bottom:28px;color:var(--text-1)}
+    .tw-wrap{min-height:120px;display:flex;align-items:center;justify-content:center;padding:0 4px}
+    .tw-text{font-family:'Crimson Pro',serif;font-size:clamp(1rem,4vw,1.32rem);font-weight:300;font-style:italic;line-height:2;color:var(--text-2)}
+    .tw-cursor{display:inline-block;width:1.5px;height:1.05em;background:var(--rose);vertical-align:text-bottom;margin-left:2px;animation:blink .8s infinite}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+    .m-btn{opacity:0;transform:translateY(16px);transition:opacity .8s,transform .8s var(--ease-expo);margin-top:28px}
+    .m-btn.show{opacity:1;transform:translateY(0)}
+    @media(max-width:600px){.m-card{padding:28px 18px}.m-card h1{font-size:clamp(1.6rem,7vw,2.2rem);margin-bottom:20px}.g-line{margin:14px auto;width:48px}.tw-wrap{min-height:80px}}
+  </style>
+</head>
+<body>
+  <div class="aurora"><div class="a-orb a1"></div><div class="a-orb a2"></div></div>
+  <canvas class="particles-canvas" id="particleCanvas"></canvas>
+  <div class="star-field"></div>
+  <div id="petalsWrap"></div>
+  <p class="page-num">02 · 08</p>
+  <div class="page-wrap memory-page" id="pageWrap">
+    <div class="m-card glass">
+      <div class="s-label" style="justify-content:center">Birthday Message</div>
+      <h1>For You,<br><em class="name-r">Rachita</em> 🌸</h1>
+      <div class="g-line"></div>
+      <div class="tw-wrap"><p class="tw-text" id="twText"></p></div>
+      <div class="g-line"></div>
+      <div class="m-btn" id="mBtn">
+        <button class="btn" onclick="goTo('gallery.html')"><span>See Our Memories</span><span class="arr">→</span></button>
+      </div>
+    </div>
+    <nav class="p-nav">
+      <div class="p-dot done"></div><div class="p-dot active"></div>
+      <div class="p-dot"></div><div class="p-dot"></div><div class="p-dot"></div>
+      <div class="p-dot"></div><div class="p-dot"></div><div class="p-dot"></div>
+    </nav>
+  </div>
+  <div id="devBackBtn" onclick="location.href='index.html'">← Dev Panel</div>
+  <script>
+    function goTo(u){var p=document.getElementById("pageWrap");if(p){p.classList.add("fade-out");setTimeout(function(){location.href=u;},650);}else{location.href=u;}}
+    if(sessionStorage.getItem("rb_dev_preview")==="dev_ok_2026"){var db=document.getElementById("devBackBtn");if(db)db.style.display="flex";}
+    (function(){var w=document.getElementById("petalsWrap");var p=["🌸","🌺","🌷","🪷","✿"];for(var i=0;i<16;i++){var el=document.createElement("div");el.className="petal";el.textContent=p[Math.floor(Math.random()*p.length)];el.style.cssText="left:"+Math.random()*100+"vw;font-size:"+(0.9+Math.random()*1)+"rem;animation-duration:"+(11+Math.random()*14)+"s;animation-delay:"+Math.random()*14+"s";w.appendChild(el);}})();
+    (function(){var sf=document.querySelector(".star-field");if(!sf)return;for(var i=0;i<130;i++){var s=document.createElement("div");s.className="star";var z=0.8+Math.random()*1.8;s.style.cssText="width:"+z+"px;height:"+z+"px;top:"+Math.random()*100+"%;left:"+Math.random()*100+"%;animation-duration:"+(2+Math.random()*5)+"s;animation-delay:"+Math.random()*6+"s";sf.appendChild(s);}})();
+    (function(){var c=document.getElementById("particleCanvas");if(!c)return;var ctx=c.getContext("2d"),W,H,pts=[];function resize(){W=c.width=innerWidth;H=c.height=innerHeight;}resize();addEventListener("resize",resize);var cols=["rgba(232,165,152,","rgba(94,207,198,"];for(var i=0;i<45;i++){pts.push({x:Math.random()*1000,y:Math.random()*1000,vx:(Math.random()-.5)*.3,vy:-.15-Math.random()*.2,r:.8+Math.random()*1.5,op:.08+Math.random()*.2,color:cols[Math.floor(Math.random()*cols.length)]});}(function draw(){ctx.clearRect(0,0,W,H);pts.forEach(function(p){p.x+=p.vx;p.y+=p.vy;if(p.y<-10){p.y=H+10;p.x=Math.random()*W;}if(p.x<-10)p.x=W+10;if(p.x>W+10)p.x=-10;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=p.color+p.op+")";ctx.fill();});requestAnimationFrame(draw);})();})();
+    if(window.matchMedia("(hover:hover) and (pointer:fine)").matches){(function(){var d=document.createElement("div");d.className="cursor-dot";var r=document.createElement("div");r.className="cursor-ring";document.body.append(d,r);var mx=-100,my=-100,rx=-100,ry=-100;document.addEventListener("mousemove",function(e){mx=e.clientX;my=e.clientY;});(function loop(){rx+=(mx-rx)*.14;ry+=(my-ry)*.14;d.style.left=mx+"px";d.style.top=my+"px";r.style.left=rx+"px";r.style.top=ry+"px";requestAnimationFrame(loop);})();})();}
+    /* Typewriter */
+    function typewrite(el,text,speed,cb){if(!el)return;var i=0;el.textContent="";var cur=document.createElement("span");cur.className="tw-cursor";el.after(cur);function step(){if(i<text.length){el.textContent+=text[i++];setTimeout(step,speed+Math.random()*22);}else{setTimeout(function(){cur.remove();},900);if(cb)cb();}}step();}
+    setTimeout(function(){typewrite(document.getElementById("twText"),"Happy Birthday to the most amazing girl I know, Rachita. You are not just my best friend — you are one of the most beautiful, extraordinary parts of my life.",40,function(){document.getElementById("mBtn").classList.add("show");});},1500);
+  </script>
+</body>
+</html>

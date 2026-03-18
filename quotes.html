@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=5.0"/>
+  <title>Words For You · Rachita</title>
+  <link rel="stylesheet" href="base.css"/>
+  <style>
+    .quotes-page{min-height:100vh;background:var(--bg-deep);display:flex;align-items:center;justify-content:center;padding:70px 0 80px;position:relative;overflow:hidden}
+    .quotes-inner{max-width:860px;width:100%;position:relative;z-index:5}
+    .quotes-header{text-align:center;margin-bottom:48px;padding:0 20px;opacity:0;animation:sUp 1s var(--ease-expo) forwards .3s}
+    .quotes-header h1{font-family:'Bodoni Moda',serif;font-size:clamp(1.8rem,6vw,3rem);font-style:italic;margin-bottom:8px}
+    .quotes-header p{font-family:'Crimson Pro',serif;font-style:italic;font-size:clamp(.88rem,3.5vw,1rem);color:var(--text-3)}
+    /* card */
+    .q-card{position:relative;padding:clamp(20px,4vw,36px) clamp(18px,4vw,44px);margin-bottom:16px;opacity:0;transform:translateX(-28px);transition:opacity .7s var(--ease-expo),transform .7s var(--ease-expo)}
+    .q-card.visible{opacity:1;transform:translateX(0)}
+    .q-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:linear-gradient(180deg,transparent,var(--rose),transparent)}
+    .q-card:nth-child(even){border-left:none!important;transform:translateX(28px);text-align:right}
+    .q-card:nth-child(even).visible{transform:translateX(0)}
+    .q-card:nth-child(even)::before{display:none}
+    .q-card:nth-child(even)::after{content:'';position:absolute;right:0;top:0;bottom:0;width:2px;background:linear-gradient(180deg,transparent,var(--gold),transparent)}
+    .q-card p{font-family:'Bodoni Moda',serif;font-style:italic;font-size:clamp(1rem,3.5vw,1.5rem);line-height:1.8;color:var(--text-1);margin-bottom:12px}
+    .q-card cite{font-size:clamp(.58rem,2vw,.65rem);letter-spacing:.2em;text-transform:uppercase;color:var(--rose)}
+    .q-card:nth-child(even) cite{color:var(--gold)}
+    .q-num{position:absolute;top:10px;right:14px;font-family:'Bodoni Moda',serif;font-size:2.8rem;color:rgba(232,165,152,.04);line-height:1}
+    .q-card:nth-child(even) .q-num{right:auto;left:14px}
+    .quotes-footer{text-align:center;margin-top:36px;padding:0 20px}
+    /* mobile: all left-aligned */
+    @media(max-width:600px){
+      .q-card,.q-card:nth-child(even){text-align:left!important;transform:translateY(16px)!important;border-left:2px solid rgba(232,165,152,.28)!important;padding:18px 18px 18px 20px}
+      .q-card.visible,.q-card:nth-child(even).visible{transform:translateY(0)!important}
+      .q-card:nth-child(even)::after{display:none}
+      .q-card:nth-child(even)::before{display:block}
+      .q-num{font-size:2rem;opacity:.04}
+    }
+  </style>
+</head>
+<body>
+  <div class="aurora"><div class="a-orb a1"></div><div class="a-orb a2"></div><div class="a-orb a3"></div></div>
+  <canvas class="particles-canvas" id="particleCanvas"></canvas>
+  <div class="star-field"></div>
+  <p class="page-num">06 · 08</p>
+  <div class="page-wrap quotes-page" id="pageWrap">
+    <div class="quotes-inner">
+      <div class="quotes-header">
+        <div class="s-label" style="justify-content:center">Words that remind us of you</div>
+        <h1>Lines Written <em class="name-r">For You</em></h1>
+        <p>Because some feelings deserve the most beautiful words</p>
+      </div>
+      <div class="q-card"><span class="q-num">01</span><p>She is clothed in strength and dignity, and she laughs without fear of the future.</p><cite>Proverbs 31:25</cite></div>
+      <div class="q-card"><span class="q-num">02</span><p>You are braver than you believe, stronger than you seem, and smarter than you think.</p><cite>A.A. Milne</cite></div>
+      <div class="q-card"><span class="q-num">03</span><p>She is rare, and knows it. The universe conspired to make someone like her exist.</p><cite>— for Rachita</cite></div>
+      <div class="q-card"><span class="q-num">04</span><p>She is a wildfire — warm enough to light a room, bright enough to guide you home.</p><cite>— for the one who always shows up</cite></div>
+      <div class="q-card"><span class="q-num">05</span><p>You have been my friend. That in itself is a tremendous thing.</p><cite>E.B. White · Charlotte's Web</cite></div>
+      <div class="q-card"><span class="q-num">06</span><p>The most beautiful thing you can wear is confidence. And Rachita wears it every single day.</p><cite>— your biggest admirer</cite></div>
+      <div class="quotes-footer">
+        <button class="btn" onclick="goTo('message.html')"><span>A Message For You</span><span class="arr">→</span></button>
+      </div>
+    </div>
+    <nav class="p-nav">
+      <div class="p-dot done"></div><div class="p-dot done"></div><div class="p-dot done"></div><div class="p-dot done"></div>
+      <div class="p-dot done"></div><div class="p-dot active"></div><div class="p-dot"></div><div class="p-dot"></div>
+    </nav>
+  </div>
+  <div id="devBackBtn" onclick="location.href='index.html'">← Dev Panel</div>
+  <script>
+    function goTo(u){var p=document.getElementById("pageWrap");if(p){p.classList.add("fade-out");setTimeout(function(){location.href=u;},650);}else{location.href=u;}}
+    if(sessionStorage.getItem("rb_dev_preview")==="dev_ok_2026"){var db=document.getElementById("devBackBtn");if(db)db.style.display="flex";}
+    (function(){var sf=document.querySelector(".star-field");if(!sf)return;for(var i=0;i<130;i++){var s=document.createElement("div");s.className="star";var z=0.8+Math.random()*1.8;s.style.cssText="width:"+z+"px;height:"+z+"px;top:"+Math.random()*100+"%;left:"+Math.random()*100+"%;animation-duration:"+(2+Math.random()*5)+"s;animation-delay:"+Math.random()*6+"s";sf.appendChild(s);}})();
+    (function(){var c=document.getElementById("particleCanvas");if(!c)return;var ctx=c.getContext("2d"),W,H,pts=[];function resize(){W=c.width=innerWidth;H=c.height=innerHeight;}resize();addEventListener("resize",resize);var cols=["rgba(232,165,152,","rgba(212,184,150,"];for(var i=0;i<45;i++){pts.push({x:Math.random()*1000,y:Math.random()*1000,vx:(Math.random()-.5)*.3,vy:-.15-Math.random()*.2,r:.8+Math.random()*1.5,op:.08+Math.random()*.2,color:cols[Math.floor(Math.random()*cols.length)]});}(function draw(){ctx.clearRect(0,0,W,H);pts.forEach(function(p){p.x+=p.vx;p.y+=p.vy;if(p.y<-10){p.y=H+10;p.x=Math.random()*W;}if(p.x<-10)p.x=W+10;if(p.x>W+10)p.x=-10;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=p.color+p.op+")";ctx.fill();});requestAnimationFrame(draw);})();})();
+    if(window.matchMedia("(hover:hover) and (pointer:fine)").matches){(function(){var d=document.createElement("div");d.className="cursor-dot";var r=document.createElement("div");r.className="cursor-ring";document.body.append(d,r);var mx=-100,my=-100,rx=-100,ry=-100;document.addEventListener("mousemove",function(e){mx=e.clientX;my=e.clientY;});(function loop(){rx+=(mx-rx)*.14;ry+=(my-ry)*.14;d.style.left=mx+"px";d.style.top=my+"px";r.style.left=rx+"px";r.style.top=ry+"px";requestAnimationFrame(loop);})();})();}
+    var io=new IntersectionObserver(function(en){en.forEach(function(e){if(e.isIntersecting){e.target.classList.add("visible");io.unobserve(e.target);}});},{threshold:.1});
+    document.querySelectorAll(".q-card").forEach(function(c){io.observe(c);});
+  </script>
+</body>
+</html>

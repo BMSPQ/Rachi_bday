@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
+  <title>Happy Birthday Rachita 🌸</title>
+  
+  <link rel="stylesheet" href="base.css"/>
+  <style>
+
+    /* ══════════════════════════════════════════
+       BACKGROUND — ONE SINGLE APPROACH
+       Works on mobile, desktop, iOS, Android
+       Using <img> with object-fit:cover
+       NO position:fixed, NO background-image
+       NO transform conflicts
+    ══════════════════════════════════════════ */
+
+    /* Full-screen background wrapper */
+    #bgWrap {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh; /* dynamic viewport height for mobile browsers */
+      z-index: 0;
+      overflow: hidden;
+      background: #050508; /* fallback color while image loads */
+    }
+
+    /* The photo itself */
+    #bgImg {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;       /* fills container, crops if needed */
+      object-position: center; /* center of photo always visible */
+      filter: blur(6px) brightness(0.30) saturate(0.7);
+      transform: scale(1.06);  /* hides blur edges */
+      transform-origin: center center;
+    }
+
+    /* Dark radial vignette over photo */
+    #bgVignette {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: radial-gradient(ellipse at center, transparent 10%, rgba(5,5,8,0.88) 100%);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* ── PAGE FRAMES ── */
+    .w-frame{position:fixed;inset:0;pointer-events:none;z-index:5}
+    .w-frame::before,.w-frame::after{content:'';position:absolute;width:50px;height:50px}
+    .w-frame::before{top:20px;left:20px;border-top:1px solid rgba(212,184,150,0.2);border-left:1px solid rgba(212,184,150,0.2)}
+    .w-frame::after{bottom:20px;right:20px;border-bottom:1px solid rgba(212,184,150,0.2);border-right:1px solid rgba(212,184,150,0.2)}
+    .w-frame-2::before{top:20px;right:20px;border-top:1px solid rgba(212,184,150,0.2);border-right:1px solid rgba(212,184,150,0.2)}
+    .w-frame-2::after{bottom:20px;left:20px;border-bottom:1px solid rgba(212,184,150,0.2);border-left:1px solid rgba(212,184,150,0.2)}
+
+    /* ── FLOATING HEARTS ── */
+    .float-heart{position:fixed;pointer-events:none;z-index:3;animation:fhFloat linear infinite;opacity:0;bottom:-40px}
+    @keyframes fhFloat{
+      0%  {opacity:0;transform:translateY(0) rotate(0deg)}
+      8%  {opacity:0.65}
+      92% {opacity:0.3}
+      100%{opacity:0;transform:translateY(-110vh) rotate(25deg)}
+    }
+
+    /* ── SCAN LINE ── */
+    .scan-line{position:fixed;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(94,207,198,0.18),transparent);animation:scan 8s linear infinite;pointer-events:none;z-index:6}
+    @keyframes scan{0%{top:-1px}100%{top:100vh}}
+
+    /* ── FOOTER ── */
+    .w-footer{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);font-size:0.6rem;letter-spacing:0.35em;color:rgba(212,184,150,0.18);font-family:'Tenor Sans',sans-serif;text-transform:uppercase;z-index:10;white-space:nowrap;pointer-events:none}
+
+    /* ── WELCOME PAGE — wraps all content ── */
+    .welcome-page{
+      position:relative;
+      z-index:10;
+      min-height:100vh;
+      min-height:100dvh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:60px 20px;
+    }
+
+    /* ── CONTENT BLOCK ── */
+    .w-content{
+      position:relative;
+      z-index:10;
+      max-width:820px;
+      width:100%;
+      padding:0 16px;
+    }
+
+    /* ── TEXT ELEMENTS ── */
+    .w-overline{
+      opacity:0;animation:sFadeD 1s var(--ease-expo,cubic-bezier(0.16,1,0.3,1)) forwards 0.9s;
+      font-size:0.65rem;letter-spacing:0.38em;text-transform:uppercase;
+      color:var(--teal,#5ecfc6);margin-bottom:20px;
+      display:flex;align-items:center;justify-content:center;gap:12px;
+    }
+    .w-overline::before,.w-overline::after{content:'◇';font-size:0.42rem;color:var(--gold-dim,#9a7850)}
+    .w-date{
+      opacity:0;animation:sFadeD 1s var(--ease-expo,cubic-bezier(0.16,1,0.3,1)) forwards 1.2s;
+      font-family:'Crimson Pro',serif;font-style:italic;
+      font-size:clamp(0.9rem,3vw,1.3rem);color:var(--text-2,#a89888);margin-bottom:14px;
+    }
+
+    /* ── RACHITA NAME ── */
+    .w-name{
+      opacity:0;animation:nameBlur 1.5s var(--ease-expo,cubic-bezier(0.16,1,0.3,1)) forwards 1.5s;
+      font-family:'Bodoni Moda',serif;font-weight:900;
+      font-size:clamp(3.8rem,20vw,12rem);
+      line-height:0.9;letter-spacing:-0.02em;
+      display:block;margin-bottom:18px;
+    }
+    @keyframes nameBlur{
+      from{opacity:0;transform:scale(0.85) translateY(22px);filter:blur(14px)}
+      to  {opacity:1;transform:scale(1)    translateY(0);   filter:blur(0)}
+    }
+
+    /* ── TAGLINE ── */
+    .w-tagline{
+      opacity:0;animation:sFadeD 1s var(--ease-expo,cubic-bezier(0.16,1,0.3,1)) forwards 2.1s;
+      font-family:'Crimson Pro',serif;font-style:italic;
+      font-size:clamp(0.88rem,3.5vw,1.4rem);
+      color:var(--text-2,#a89888);max-width:480px;margin:0 auto 36px;line-height:1.75;
+    }
+
+    /* ── JOURNEY BUTTON WRAP — hidden until unlocked ── */
+    #journeyBtnWrap{
+      opacity:0;max-height:0;overflow:hidden;pointer-events:none;
+    }
+    #journeyBtnWrap.animate-in{
+      transition:opacity 1.8s ease 0.2s, max-height 1.6s ease;
+    }
+    #journeyBtnWrap.revealed{
+      opacity:1;max-height:300px;pointer-events:all;
+    }
+    #journeyBtnWrap.birthday-glow .btn{
+      animation:bdayBtnGlow 2.5s ease infinite;
+      border-color:rgba(232,165,152,0.5)!important;
+    }
+    @keyframes bdayBtnGlow{
+      0%,100%{box-shadow:0 0 24px rgba(232,165,152,0.2)}
+      50%    {box-shadow:0 0 60px rgba(232,165,152,0.5),0 0 0 2px rgba(232,165,152,0.18)}
+    }
+
+    /* ── RING PULSES ── */
+    .ring-wrap{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:2}
+    .ring{position:absolute;border-radius:50%;border:1px solid rgba(232,165,152,0.05);top:50%;left:50%;transform:translate(-50%,-50%);animation:ringPop linear infinite}
+    .ring:nth-child(2){animation-delay:-4s;border-color:rgba(212,184,150,0.04)}
+    .ring:nth-child(3){animation-delay:-8s;border-color:rgba(94,207,198,0.03)}
+    @keyframes ringPop{0%{width:80px;height:80px;opacity:0.6}100%{width:1100px;height:1100px;opacity:0}}
+
+    /* ── BIRTHDAY COUNTDOWN ── */
+    .cd-date-label{
+      font-size:0.6rem;letter-spacing:0.28em;text-transform:uppercase;
+      color:var(--rose,#e8a598);margin-bottom:10px;display:block;
+      opacity:0;animation:sFadeD 1s ease forwards 2.7s;
+    }
+    .countdown-wrap{
+      display:flex;gap:clamp(6px,2vw,20px);justify-content:center;
+      margin:8px 0 36px;
+      opacity:0;animation:sFadeD 1s ease forwards 2.85s;
+    }
+    .cd-box{
+      display:flex;flex-direction:column;align-items:center;
+      background:rgba(255,255,255,0.04);
+      border:1px solid rgba(232,165,152,0.18);
+      padding:clamp(8px,2vw,14px) clamp(10px,3vw,18px) clamp(6px,1.5vw,10px);
+      min-width:clamp(55px,14vw,72px);
+      position:relative;
+    }
+    .cd-box::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,rgba(232,165,152,0.3),transparent)}
+    .cd-num{
+      font-family:'Bodoni Moda',serif;font-weight:700;
+      font-size:clamp(1.4rem,8vw,2.8rem);
+      background:linear-gradient(135deg,#f2ccc4,#eddcb8);
+      -webkit-background-clip:text;background-clip:text;color:transparent;
+      line-height:1;margin-bottom:4px;
+    }
+    .cd-label{font-family:'Tenor Sans',sans-serif;font-size:clamp(0.44rem,1.5vw,0.55rem);letter-spacing:0.2em;text-transform:uppercase;color:var(--text-3,#5a5060)}
+    .cd-sep{font-family:'Bodoni Moda',serif;font-size:clamp(1rem,5vw,2rem);color:rgba(232,165,152,0.3);align-self:center;padding-bottom:clamp(8px,2vw,14px);flex-shrink:0}
+    .birthday-today{font-family:'Bodoni Moda',serif;font-style:italic;font-size:clamp(1.1rem,4vw,1.8rem);background:linear-gradient(135deg,#f2ccc4,#eddcb8,#5ecfc6);-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:36px}
+
+    /* ── BIRTHDAY REVEAL OVERLAY ── */
+    #bdayReveal{display:none;position:fixed;inset:0;z-index:9800;pointer-events:none}
+    .bday-ring{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);border-radius:50%;border:2px solid rgba(232,165,152,0.3);animation:ringBurst 1.4s ease-out forwards}
+    .bday-ring:nth-child(2){animation-delay:0.25s;border-color:rgba(212,184,150,0.25)}
+    .bday-ring:nth-child(3){animation-delay:0.5s;border-color:rgba(94,207,198,0.2)}
+    @keyframes ringBurst{0%{width:0;height:0;opacity:0.9}100%{width:160vmax;height:160vmax;opacity:0}}
+    #bdayRevealText{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;opacity:0;animation:textPop 2.2s cubic-bezier(0.34,1.56,0.64,1) forwards 0.35s;white-space:nowrap}
+    @keyframes textPop{0%{opacity:0;transform:translate(-50%,-50%) scale(0.4)}60%{opacity:1;transform:translate(-50%,-50%) scale(1.05)}100%{opacity:0;transform:translate(-50%,-50%) scale(1)}}
+    #bdayRevealText span{display:block;font-family:'Bodoni Moda',serif;font-weight:900;font-size:clamp(2rem,8vw,5.5rem);background:linear-gradient(135deg,#f2ccc4,#eddcb8,#5ecfc6,#f2ccc4);-webkit-background-clip:text;background-clip:text;color:transparent;background-size:300% 300%;animation:nameShimmer 3s ease infinite}
+    @keyframes nameShimmer{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+    #bdayRevealText em{display:block;font-family:'Crimson Pro',serif;font-style:italic;font-size:clamp(1rem,3vw,1.8rem);color:rgba(232,165,152,0.7);margin-top:6px}
+
+    /* ── DEV TRIGGER — top-right corner ── */
+    #devTrigger{
+      position:fixed;top:16px;right:16px;
+      width:36px;height:36px;
+      z-index:9000;cursor:pointer;
+      opacity:0.20;transition:opacity 0.4s ease,transform 0.3s ease;
+      display:flex;align-items:center;justify-content:center;
+      background:rgba(212,184,150,0.08);
+      border:1px solid rgba(212,184,150,0.25);
+      border-radius:4px;
+    }
+    #devTrigger:hover{opacity:0.75;transform:scale(1.08);background:rgba(212,184,150,0.15);border-color:rgba(212,184,150,0.5)}
+    #devTrigger svg{width:20px;height:20px;display:block}
+
+    /* ── PASSWORD MODAL ── */
+    #pwModal{display:none;position:fixed;inset:0;background:rgba(5,5,8,0.94);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);z-index:9999;align-items:center;justify-content:center}
+    #pwModal.open{display:flex}
+    .pw-card{background:rgba(10,9,18,0.96);border:1px solid rgba(212,184,150,0.13);padding:clamp(32px,6vw,50px) clamp(24px,6vw,46px) clamp(28px,5vw,42px);max-width:400px;width:90%;position:relative;text-align:center}
+    .pw-card::before{content:'';position:absolute;top:0;left:18%;right:18%;height:1px;background:linear-gradient(90deg,transparent,rgba(212,184,150,0.25),transparent)}
+    .pw-tl,.pw-br{position:absolute;width:26px;height:26px}
+    .pw-tl{top:-1px;left:-1px;border-top:1px solid rgba(232,165,152,0.22);border-left:1px solid rgba(232,165,152,0.22)}
+    .pw-br{bottom:-1px;right:-1px;border-bottom:1px solid rgba(232,165,152,0.22);border-right:1px solid rgba(232,165,152,0.22)}
+    .pw-icon{font-size:2rem;display:block;margin-bottom:14px;animation:iconFloat 4s ease infinite}
+    @keyframes iconFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+    .pw-title{font-family:'Bodoni Moda',serif;font-style:italic;font-size:clamp(1.2rem,4vw,1.5rem);color:#f0ece8;margin-bottom:6px}
+    .pw-sub{font-family:'Crimson Pro',serif;font-style:italic;font-size:0.8rem;color:#5a5060;margin-bottom:24px}
+    .pw-input-row{position:relative;margin-bottom:10px}
+    #pwInput{width:100%;padding:12px 44px 12px 16px;background:rgba(255,255,255,0.03);border:1px solid rgba(212,184,150,0.14);border-radius:2px;color:#f0ece8;font-family:'Tenor Sans',sans-serif;font-size:0.85rem;letter-spacing:0.1em;outline:none;transition:border-color 0.3s;caret-color:#e8a598}
+    #pwInput::placeholder{color:#5a5060}
+    #pwInput:focus{border-color:rgba(232,165,152,0.3)}
+    #pwInput.err{border-color:rgba(220,60,60,0.45);animation:shake 0.5s ease}
+    @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-7px)}40%{transform:translateX(7px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+    #eyeBtn{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:#5a5060;font-size:0.8rem;transition:color 0.3s;padding:2px}
+    #eyeBtn:hover{color:#e8a598}
+    #pwErr{font-family:'Crimson Pro',serif;font-style:italic;font-size:0.78rem;color:rgba(220,80,80,0.8);min-height:16px;margin-bottom:12px;opacity:0;transition:opacity 0.3s}
+    #pwErr.show{opacity:1}
+    #pwSubmit{width:100%;padding:12px;background:transparent;border:1px solid rgba(212,184,150,0.2);color:#eddcb8;font-family:'Tenor Sans',sans-serif;font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;border-radius:2px;transition:all 0.4s;margin-bottom:12px}
+    #pwSubmit:hover{border-color:#eddcb8;color:#fff}
+    #pwSubmit.ok{border-color:#5ecfc6!important;color:#5ecfc6!important}
+    #pwClose{position:absolute;top:12px;right:14px;background:none;border:none;cursor:pointer;color:#5a5060;font-size:0.68rem;font-family:'Tenor Sans',sans-serif;letter-spacing:0.15em;text-transform:uppercase;transition:color 0.3s}
+    #pwClose:hover{color:#e8a598}
+
+    /* ── SUCCESS FLASH ── */
+    #unlockFlash{display:none;position:fixed;inset:0;z-index:9998;pointer-events:none;background:radial-gradient(ellipse at center,rgba(94,207,198,0.07),transparent 65%);animation:flashFade 1.4s ease forwards}
+    @keyframes flashFade{0%{opacity:0}20%{opacity:1}100%{opacity:0}}
+
+    /* ── DEV PANEL ── */
+    #devPanel{display:none;position:fixed;top:50%;right:0;transform:translateY(-50%) translateX(100%);z-index:8000;transition:transform 0.6s cubic-bezier(0.16,1,0.3,1)}
+    #devPanel.open{transform:translateY(-50%) translateX(0)}
+    #devTab{position:absolute;left:-32px;top:50%;transform:translateY(-50%);width:32px;height:80px;background:rgba(10,9,18,0.92);border:1px solid rgba(212,184,150,0.18);border-right:none;cursor:pointer;display:flex;align-items:center;justify-content:center;writing-mode:vertical-rl;font-family:'Tenor Sans',sans-serif;font-size:0.56rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(212,184,150,0.45);transition:color 0.3s}
+    #devTab:hover{color:#eddcb8}
+    .dp-inner{width:240px;background:rgba(10,9,18,0.97);border:1px solid rgba(212,184,150,0.14);border-right:none;max-height:90vh;overflow-y:auto;scrollbar-width:thin}
+    .dp-head{padding:16px 18px 12px;border-bottom:1px solid rgba(212,184,150,0.07);position:sticky;top:0;background:rgba(10,9,18,0.98);z-index:1}
+    .dp-head-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:2px}
+    .dp-title{font-family:'Tenor Sans',sans-serif;font-size:0.6rem;letter-spacing:0.25em;text-transform:uppercase;color:rgba(212,184,150,0.5)}
+    #dpClose{background:none;border:none;cursor:pointer;color:#5a5060;font-size:0.68rem;font-family:'Tenor Sans',sans-serif;transition:color 0.3s;padding:0}
+    #dpClose:hover{color:#e8a598}
+    .dp-sub{font-family:'Crimson Pro',serif;font-style:italic;font-size:0.7rem;color:#5a5060}
+    .dp-sec{padding:10px 18px 6px;font-family:'Tenor Sans',sans-serif;font-size:0.54rem;letter-spacing:0.28em;text-transform:uppercase;color:rgba(90,80,96,0.8);border-bottom:1px solid rgba(212,184,150,0.04)}
+    .dp-lnk{display:flex;align-items:center;gap:10px;padding:9px 18px;cursor:pointer;transition:background 0.22s;border-bottom:1px solid rgba(212,184,150,0.03)}
+    .dp-lnk:hover{background:rgba(255,255,255,0.03)}
+    .dp-n{font-family:'Tenor Sans',sans-serif;font-size:0.7rem;letter-spacing:0.06em;color:rgba(160,152,136,0.7);flex:1;transition:color 0.22s}
+    .dp-lnk:hover .dp-n{color:#eddcb8}
+    .dp-num{font-family:'Bodoni Moda',serif;font-size:0.6rem;color:#5a5060;width:18px;flex-shrink:0;text-align:right}
+    .dp-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;opacity:0.45}
+    .dp-lnk.gal .dp-dot{background:#5ecfc6}.dp-lnk.gal:hover .dp-n{color:#5ecfc6}
+    .dp-lnk.spc .dp-dot{background:#b8a8e8}.dp-lnk.spc:hover .dp-n{color:#b8a8e8}
+    .dp-lnk.end .dp-dot{background:#e8a598}.dp-lnk.end:hover .dp-n{color:#e8a598}
+    .dp-lock{padding:14px 18px;border-top:1px solid rgba(212,184,150,0.07)}
+    #dpLockBtn{width:100%;padding:9px;background:transparent;border:1px solid rgba(220,60,60,0.16);color:rgba(220,80,80,0.45);font-family:'Tenor Sans',sans-serif;font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;cursor:pointer;border-radius:2px;transition:all 0.3s}
+    #dpLockBtn:hover{border-color:rgba(220,60,60,0.38);color:rgba(220,80,80,0.75)}
+
+    /* ── KEYFRAMES ── */
+    @keyframes sFadeD{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:translateY(0)}}
+
+    /* ══════════════════════════════════
+       MOBILE: ensure photo fills screen
+    ══════════════════════════════════ */
+    @media (max-width:600px){
+      #bgWrap { height:100vh; height:100dvh; }
+      #bgImg  { object-position:center top; }
+
+      .welcome-page {
+        padding:70px 16px 50px;
+        align-items:flex-start;
+        padding-top:clamp(60px,15vw,100px);
+      }
+      .w-name { font-size:clamp(3.2rem,21vw,6rem)!important; }
+      .w-tagline { font-size:0.9rem; margin-bottom:24px; }
+      .countdown-wrap { gap:6px; margin-bottom:24px; }
+      .cd-box { min-width:0; flex:1; max-width:68px; }
+      .cd-num { font-size:clamp(1.3rem,8vw,2rem)!important; }
+      .ring-wrap { display:none; }
+      .p-nav     { display:none; }
+      .w-footer  { font-size:0.52rem; letter-spacing:0.28em; }
+
+      /* Frame corners smaller on mobile */
+      .w-frame::before,.w-frame-2::before{ width:36px!important;height:36px!important;top:14px!important; }
+      .w-frame::after,.w-frame-2::after  { width:36px!important;height:36px!important;bottom:14px!important; }
+      .w-frame::before   { left:14px!important; }
+      .w-frame::after    { right:14px!important; }
+      .w-frame-2::before { right:14px!important; }
+      .w-frame-2::after  { left:14px!important; }
+    }
+
+    @media (max-width:380px){
+      .w-name { font-size:clamp(2.8rem,19vw,5rem)!important; }
+      .cd-num { font-size:clamp(1.1rem,7vw,1.6rem)!important; }
+      .cd-sep { font-size:1rem!important; }
+      .countdown-wrap { gap:4px; }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- ════════════════════════════════════
+       BACKGROUND — single <img> approach
+       Works perfectly on all mobile browsers
+  ════════════════════════════════════ -->
+  <div id="bgWrap">
+    <img id="bgImg" src="images/photo1.jpg" alt=""/>
+  </div>
+  <div id="bgVignette"></div>
+
+  <!-- Decorative layers -->
+  <div class="aurora">
+    <div class="a-orb a1"></div>
+    <div class="a-orb a2"></div>
+    <div class="a-orb a3"></div>
+  </div>
+  <canvas class="particles-canvas" id="particleCanvas"></canvas>
+  <div class="star-field"></div>
+  <div class="ring-wrap"><div class="ring"></div><div class="ring"></div><div class="ring"></div></div>
+  <div class="w-frame"></div>
+  <div class="w-frame w-frame-2"></div>
+  <div class="scan-line"></div>
+  <div id="heartsWrap"></div>
+
+  <!-- ════════════════════════════════════
+       MAIN CONTENT
+  ════════════════════════════════════ -->
+  <div class="page-wrap welcome-page" id="mainContent">
+    <div class="w-content">
+      <p class="w-overline"><span>A very special day</span></p>
+      <p class="w-date">The universe aligned on this day…</p>
+
+      <span class="w-name name-r" id="glitchName">Rachita</span>
+
+      <!-- Live countdown — always visible to everyone -->
+      <div id="countdownArea"></div>
+
+      <p class="w-tagline">
+        Someone rare. Someone luminous.<br>
+        Someone who makes every ordinary moment feel like magic.
+      </p>
+
+      <!-- Journey button — hidden until March 30 or dev unlocks -->
+      <div id="journeyBtnWrap">
+        <button class="btn" data-nav="memory.html">
+          <span>Begin the Journey</span><span class="arr">→</span>
+        </button>
+      </div>
+    </div>
+
+    <nav class="p-nav">
+      <div class="p-dot active" title="Welcome"></div>
+      <div class="p-dot" title="Wish"></div>
+      <div class="p-dot" title="Gallery 1"></div>
+      <div class="p-dot" title="Gallery 2"></div>
+      <div class="p-dot" title="Gallery 3"></div>
+      <div class="p-dot" title="Gallery 4"></div>
+      <div class="p-dot" title="Gallery 5"></div>
+      <div class="p-dot" title="Gallery 6"></div>
+      <div class="p-dot" title="Gallery 7"></div>
+      <div class="p-dot" title="Gallery 8"></div>
+      <div class="p-dot" title="Friendship"></div>
+      <div class="p-dot" title="Childhood"></div>
+      <div class="p-dot" title="Together"></div>
+      <div class="p-dot" title="Quotes"></div>
+      <div class="p-dot" title="Message"></div>
+      <div class="p-dot" title="Surprise"></div>
+    </nav>
+  </div>
+
+  <p class="w-footer">✦ &nbsp; 30 March &nbsp; · &nbsp; With love &nbsp; ✦</p>
+
+  <!-- ════════════════════════════════════
+       DEV TRIGGER — top-right, key icon
+       20% opacity — subtle but findable
+  ════════════════════════════════════ -->
+  <div id="devTrigger" title="Developer Access">
+    <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" fill="none">
+      <circle cx="7" cy="9" r="4.2" stroke="rgba(212,184,150,0.9)" stroke-width="1.3"/>
+      <circle cx="7" cy="9" r="1.8" fill="rgba(212,184,150,0.9)"/>
+      <rect x="10.8" y="8.1" width="6.5" height="1.8" rx="0.9" fill="rgba(212,184,150,0.9)"/>
+      <rect x="14.8" y="9.9" width="1.5" height="2.4" rx="0.7" fill="rgba(212,184,150,0.9)"/>
+      <rect x="12.2" y="9.9" width="1.5" height="1.9" rx="0.7" fill="rgba(212,184,150,0.9)"/>
+    </svg>
+  </div>
+
+  <!-- Birthday reveal overlay -->
+  <div id="bdayReveal">
+    <div class="bday-ring"></div>
+    <div class="bday-ring"></div>
+    <div class="bday-ring"></div>
+    <div id="bdayRevealText">
+      <span>Happy Birthday</span>
+      <em>Rachita 🌸</em>
+    </div>
+  </div>
+
+  <!-- Success flash -->
+  <div id="unlockFlash"></div>
+
+  <!-- ════════════════════════════════════
+       PASSWORD MODAL
+  ════════════════════════════════════ -->
+  <div id="pwModal" role="dialog" aria-modal="true">
+    <div class="pw-card">
+      <div class="pw-tl"></div>
+      <div class="pw-br"></div>
+      <button id="pwClose">✕ close</button>
+      <span class="pw-icon">🔐</span>
+      <h2 class="pw-title">Developer Preview</h2>
+      <p class="pw-sub">Enter the access key to preview the journey</p>
+      <div class="pw-input-row">
+        <input type="password" id="pwInput" placeholder="Access key…"
+          autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off"/>
+        <button id="eyeBtn" type="button">👁</button>
+      </div>
+      <p id="pwErr">Wrong key — please try again</p>
+      <button id="pwSubmit">Preview Unlock →</button>
+      <p style="font-family:'Crimson Pro',serif;font-style:italic;font-size:0.68rem;color:#5a5060">
+        For developer only · auto-unlocks on 30 March
+      </p>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════
+       DEV NAVIGATOR PANEL
+  ════════════════════════════════════ -->
+  <div id="devPanel">
+    <div id="devTab">Dev</div>
+    <div class="dp-inner">
+      <div class="dp-head">
+        <div class="dp-head-row">
+          <span class="dp-title">⚙ Dev Navigator</span>
+          <button id="dpClose">✕</button>
+        </div>
+        <span class="dp-sub">Jump to any page</span>
+      </div>
+            <div class="dp-sec">Pages</div>
+      <div class="dp-lnk" onclick="devGo('index.html')"><span class="dp-num">01</span><span class="dp-n">Welcome · Countdown</span><div class="dp-dot" style="background:#e8a598"></div></div>
+      <div class="dp-lnk" onclick="devGo('memory.html')"><span class="dp-num">02</span><span class="dp-n">Birthday Wish</span><div class="dp-dot" style="background:#e8a598"></div></div>
+      <div class="dp-lnk gal" onclick="devGo('gallery.html')"><span class="dp-num">03</span><span class="dp-n">Her Gallery · 42 Photos</span><div class="dp-dot"></div></div>
+      <div class="dp-lnk spc" onclick="devGo('together.html')"><span class="dp-num">04</span><span class="dp-n">Us · Together Photos</span><div class="dp-dot"></div></div>
+      <div class="dp-lnk spc" onclick="devGo('childhood.html')"><span class="dp-num">05</span><span class="dp-n">Her Story · Childhood &amp; Saree</span><div class="dp-dot"></div></div>
+      <div class="dp-lnk spc" onclick="devGo('quotes.html')"><span class="dp-num">06</span><span class="dp-n">Quotes · Words For You</span><div class="dp-dot"></div></div>
+      <div class="dp-lnk spc" onclick="devGo('message.html')"><span class="dp-num">07</span><span class="dp-n">A Message</span><div class="dp-dot"></div></div>
+      <div class="dp-sec">Finale</div>
+      <div class="dp-lnk end" onclick="devGo('surprise.html')"><span class="dp-num">08</span><span class="dp-n">🎉 The Grand Surprise</span><div class="dp-dot"></div></div>
+      <div class="dp-lock">
+        <button id="dpLockBtn">🔒 &nbsp;Close Preview / Re-lock</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════
+       SCRIPTS
+  ════════════════════════════════════ -->
+  <script src="script.js"></script>
+  <script>
+  (function(){
+    const PASS  = 'TejaswiniKruttibash';
+    const BDAY  = new Date('March 30, 2026 00:00:00').getTime();
+    const S_KEY = 'rb_dev_preview';
+    const S_VAL = 'dev_ok_2026';
+
+    const journeyWrap   = document.getElementById('journeyBtnWrap');
+    const devTrigger    = document.getElementById('devTrigger');
+    const modal         = document.getElementById('pwModal');
+    const input         = document.getElementById('pwInput');
+    const errMsg        = document.getElementById('pwErr');
+    const submitBtn     = document.getElementById('pwSubmit');
+    const eyeBtn        = document.getElementById('eyeBtn');
+    const devPanel      = document.getElementById('devPanel');
+    const devTab        = document.getElementById('devTab');
+    const countdownArea = document.getElementById('countdownArea');
+    const unlockFlash   = document.getElementById('unlockFlash');
+
+    function isBirthday(){ return Date.now() >= BDAY; }
+
+    // On load — check state
+    if(isBirthday()){
+      revealJourney('birthday', false);
+    } else if(sessionStorage.getItem(S_KEY) === S_VAL){
+      revealJourney('dev', false);
+    }
+
+    // ── COUNTDOWN ──
+    function pad(n){ return String(n).padStart(2,'0'); }
+
+    function buildCountdown(){
+      countdownArea.innerHTML = `
+        <span class="cd-date-label">✦ Birthday countdown · 30 March ✦</span>
+        <div class="countdown-wrap">
+          <div class="cd-box"><span class="cd-num" id="cdD">00</span><span class="cd-label">Days</span></div>
+          <div class="cd-sep">:</div>
+          <div class="cd-box"><span class="cd-num" id="cdH">00</span><span class="cd-label">Hours</span></div>
+          <div class="cd-sep">:</div>
+          <div class="cd-box"><span class="cd-num" id="cdM">00</span><span class="cd-label">Mins</span></div>
+          <div class="cd-sep">:</div>
+          <div class="cd-box"><span class="cd-num" id="cdS">00</span><span class="cd-label">Secs</span></div>
+        </div>`;
+    }
+
+    var countInterval = null;
+    function startCountdown(){
+      buildCountdown();
+      function tick(){
+        var diff = BDAY - Date.now();
+        if(diff <= 0){ clearInterval(countInterval); onBirthdayArrived(); return; }
+        var s=Math.floor(diff/1000), m=Math.floor(s/60), h=Math.floor(m/60), d=Math.floor(h/24);
+        var dEl=document.getElementById('cdD'),hEl=document.getElementById('cdH'),mEl=document.getElementById('cdM'),sEl=document.getElementById('cdS');
+        if(dEl)dEl.textContent=pad(d);if(hEl)hEl.textContent=pad(h%24);if(mEl)mEl.textContent=pad(m%60);if(sEl)sEl.textContent=pad(s%60);
+      }
+      tick(); countInterval = setInterval(tick,1000);
+    }
+
+    if(!isBirthday()){
+      startCountdown();
+    } else {
+      countdownArea.innerHTML = '<p class="birthday-today">🎂 Today is her Birthday! 🎂</p>';
+    }
+
+    // ── BIRTHDAY ARRIVAL ──
+    function onBirthdayArrived(){
+      countdownArea.innerHTML = '<p class="birthday-today">🎂 Happy Birthday, Rachita! 🎂</p>';
+      // Reveal animation
+      var el = document.getElementById('bdayReveal');
+      el.style.display = 'block';
+      if(typeof confetti==='function'){ confetti(); setTimeout(confetti,600); }
+      if(typeof balloons==='function'){ balloons(); }
+      setTimeout(function(){ el.style.display='none'; }, 2600);
+      setTimeout(function(){ revealJourney('birthday',true); }, 1600);
+    }
+
+    // ── REVEAL JOURNEY ──
+    function revealJourney(mode, withAnim){
+      journeyWrap.classList.add('animate-in');
+      setTimeout(function(){ journeyWrap.classList.add('revealed'); }, 20);
+      if(mode==='birthday') journeyWrap.classList.add('birthday-glow');
+      if(mode==='dev'){
+        devPanel.style.display='block';
+        setTimeout(function(){ devPanel.classList.add('open'); },60);
+        devTrigger.style.display='none';
+      }
+      if(withAnim && mode==='dev') showToast('✦  Preview Unlocked  ✦','teal');
+      if(withAnim && mode==='birthday'){
+        unlockFlash.style.display='block';
+        setTimeout(function(){ unlockFlash.style.display='none'; },1400);
+      }
+    }
+
+    // ── DEV TRIGGER ──
+    devTrigger.addEventListener('click', function(){
+      modal.classList.add('open');
+      input.value=''; errMsg.classList.remove('show');
+      submitBtn.textContent='Preview Unlock →'; submitBtn.classList.remove('ok');
+      setTimeout(function(){ input.focus(); },80);
+    });
+
+    // ── MODAL CLOSE ──
+    function closeModal(){ modal.classList.remove('open'); errMsg.classList.remove('show'); }
+    document.getElementById('pwClose').addEventListener('click', closeModal);
+    modal.addEventListener('click', function(e){ if(e.target===modal) closeModal(); });
+    document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeModal(); });
+
+    // ── EYE TOGGLE ──
+    eyeBtn.addEventListener('click', function(){
+      input.type = input.type==='password'?'text':'password';
+      this.textContent = input.type==='password'?'👁':'🙈';
+      input.focus();
+    });
+
+    // ── PASSWORD CHECK ──
+    function tryUnlock(){
+      if(input.value===PASS){
+        submitBtn.textContent='✓ Unlocked!'; submitBtn.classList.add('ok');
+        setTimeout(function(){
+          closeModal(); sessionStorage.setItem(S_KEY,S_VAL); revealJourney('dev',true);
+        },650);
+      } else {
+        input.classList.add('err'); errMsg.classList.add('show'); input.value='';
+        setTimeout(function(){ input.classList.remove('err'); },600); input.focus();
+      }
+    }
+    submitBtn.addEventListener('click', tryUnlock);
+    input.addEventListener('keydown', function(e){
+      if(e.key==='Enter') tryUnlock();
+      errMsg.classList.remove('show'); input.classList.remove('err');
+    });
+
+    // ── DEV PANEL ──
+    devTab.addEventListener('click', function(){ devPanel.classList.toggle('open'); });
+    document.getElementById('dpClose').addEventListener('click', function(){ devPanel.classList.remove('open'); });
+    document.getElementById('dpLockBtn').addEventListener('click', function(){
+      sessionStorage.removeItem(S_KEY);
+      devPanel.classList.remove('open');
+      setTimeout(function(){ devPanel.style.display='none'; },650);
+      journeyWrap.classList.remove('revealed','animate-in','birthday-glow');
+      devTrigger.style.display='block';
+      showToast('🔒  Preview closed','red');
+    });
+
+    // ── TOAST ──
+    function showToast(msg, col){
+      var c = col==='teal'?'rgba(94,207,198,0.3)':col==='red'?'rgba(220,80,80,0.3)':'rgba(232,165,152,0.3)';
+      var tc = col==='teal'?'#5ecfc6':col==='red'?'rgba(220,80,80,0.8)':'#e8a598';
+      var t = document.createElement('div');
+      t.style.cssText='position:fixed;bottom:64px;left:50%;transform:translateX(-50%) translateY(8px);background:rgba(10,9,18,0.94);border:1px solid '+c+';padding:9px 24px;font-family:"Tenor Sans",sans-serif;font-size:0.66rem;letter-spacing:0.2em;text-transform:uppercase;color:'+tc+';z-index:9997;pointer-events:none;white-space:nowrap;opacity:0;transition:opacity 0.4s ease,transform 0.4s ease';
+      t.textContent=msg; document.body.appendChild(t);
+      requestAnimationFrame(function(){
+        t.style.opacity='1'; t.style.transform='translateX(-50%) translateY(0)';
+        setTimeout(function(){ t.style.opacity='0'; t.style.transform='translateX(-50%) translateY(-6px)'; setTimeout(function(){ t.remove(); },450); },2200);
+      });
+    }
+  })();
+
+  function devGo(page){ window.location.href=page; }
+
+  // ── HEARTS ──
+  (function(){
+    var wrap=document.getElementById('heartsWrap');
+    var sym=['❤️','🌸','💕','✨','💖','🌷','💗','🫧','🌺','💫'];
+    for(var i=0;i<18;i++){
+      var h=document.createElement('div'); h.className='float-heart';
+      h.textContent=sym[Math.floor(Math.random()*sym.length)];
+      h.style.cssText='left:'+Math.random()*100+'vw;font-size:'+(0.9+Math.random()*1.3)+'rem;animation-duration:'+(9+Math.random()*13)+'s;animation-delay:'+(Math.random()*12)+'s';
+      wrap.appendChild(h);
+    }
+  })();
+  </script>
+</body>
+</html>

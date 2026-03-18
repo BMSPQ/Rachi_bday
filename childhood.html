@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=5.0"/>
+  <title>Her Story · Rachita</title>
+  <link rel="stylesheet" href="base.css"/>
+  <style>
+    .ch-page{min-height:100vh;background:var(--bg-deep);overflow-x:hidden;position:relative;padding-bottom:80px}
+    .a1{background:radial-gradient(ellipse,rgba(232,201,122,.14),transparent 70%)!important}
+    .a2{background:radial-gradient(ellipse,rgba(232,165,152,.09),transparent 70%)!important}
+    .a3{background:radial-gradient(ellipse,rgba(191,95,160,.06),transparent 70%)!important}
+
+    /* HERO */
+    .ch-hero{text-align:center;padding:88px 20px 30px;position:relative;z-index:5}
+    .ch-eye{display:block;font-size:.56rem;letter-spacing:.36em;text-transform:uppercase;color:var(--amber);margin-bottom:14px;opacity:0;animation:sUp .9s var(--ease-expo) forwards .2s}
+    .ch-ttl{display:block;font-family:'Bodoni Moda',serif;font-weight:900;font-size:clamp(2.2rem,10vw,6rem);line-height:1.05;color:var(--text-1);margin-bottom:16px;word-break:break-word;opacity:0;animation:sUp 1s var(--ease-expo) forwards .4s}
+    .ch-ttl em{font-style:normal;color:var(--amber)}
+    .ch-sub{display:block;font-family:'Crimson Pro',serif;font-style:italic;font-size:clamp(.88rem,3.8vw,1.05rem);color:var(--text-2);line-height:1.8;max-width:340px;margin:0 auto;opacity:0;animation:sUp .9s var(--ease-expo) forwards .6s}
+
+    /* SECTION LABEL */
+    .sec-lbl{display:flex;align-items:center;gap:12px;padding:0 20px;margin-bottom:18px;position:relative;z-index:5}
+    .sec-lbl span{font-size:.52rem;letter-spacing:.28em;text-transform:uppercase;white-space:nowrap}
+    .sec-lbl::after{content:'';flex:1;height:1px}
+    .sec-amber span{color:var(--amber)}.sec-amber::after{background:linear-gradient(90deg,rgba(232,201,122,.35),transparent)}
+    .sec-rose  span{color:var(--rose) }.sec-rose::after {background:linear-gradient(90deg,rgba(232,165,152,.35),transparent)}
+
+    /* Reveal */
+    .rev{opacity:0;transform:translateY(24px);transition:opacity .8s var(--ease-expo),transform .8s var(--ease-expo)}
+    .rev.show{opacity:1;transform:translateY(0)}
+
+    /* STORY CARD */
+    .ch-story{margin:0 20px 20px;padding:20px;border-left:2px solid rgba(232,201,122,.38);background:rgba(232,201,122,.04);position:relative;z-index:5}
+    .ch-story p{font-family:'Crimson Pro',serif;font-style:italic;font-size:clamp(.9rem,3.8vw,1.05rem);color:var(--text-2);line-height:1.92;margin-bottom:8px}
+    .ch-story p:last-child{margin-bottom:0}
+
+    /* CHILDHOOD PHOTOS — stacked on mobile */
+    .ch-photos{padding:0 20px;display:flex;flex-direction:column;gap:14px;position:relative;z-index:5}
+    .ch-photo{width:100%}
+    .ch-frame{width:100%;background:#08060f;border:1px solid rgba(232,201,122,.22);padding:8px 8px 42px;position:relative}
+    .ch-frame img{width:100%;height:260px;object-fit:cover;object-position:center top;filter:sepia(.38) brightness(.76) contrast(1.08) saturate(.8);display:block;transition:transform .5s var(--ease-expo)}
+    .ch-photo:hover .ch-frame img{transform:scale(1.03)}
+    .ch-frame .yr{position:absolute;top:10px;right:10px;background:rgba(232,201,122,.12);border:1px solid rgba(232,201,122,.28);padding:3px 8px;font-size:.44rem;letter-spacing:.18em;text-transform:uppercase;color:var(--amber)}
+    .ch-frame .cap{position:absolute;bottom:0;left:0;right:0;height:42px;display:flex;align-items:center;justify-content:center;font-family:'Crimson Pro',serif;font-style:italic;font-size:.78rem;color:rgba(232,201,122,.65)}
+    .ch-frame::before{content:'';position:absolute;top:-1px;left:-1px;width:14px;height:14px;border-top:2px solid var(--amber);border-left:2px solid var(--amber)}
+    .ch-frame::after {content:'';position:absolute;bottom:-1px;right:-1px;width:14px;height:14px;border-bottom:2px solid var(--amber-dim);border-right:2px solid var(--amber-dim)}
+
+    /* SAREE SECTION */
+    .ch-saree-sec{padding:0 20px;margin-top:36px;position:relative;z-index:5}
+    .saree-photo{width:100%;margin-bottom:24px}
+    .saree-frame{width:100%;background:rgba(8,6,15,.92);border:1px solid rgba(232,165,152,.22);padding:10px;position:relative}
+    .saree-frame img{width:100%;height:360px;object-fit:cover;object-position:top center;filter:brightness(.86) saturate(1.05);display:block;transition:transform .5s var(--ease-expo)}
+    .saree-photo:hover .saree-frame img{transform:scale(1.03)}
+    .saree-frame .sbadge{position:absolute;top:14px;left:10px;background:rgba(232,165,152,.14);border:1px solid rgba(232,165,152,.3);padding:4px 12px;font-size:.46rem;letter-spacing:.16em;text-transform:uppercase;color:var(--rose)}
+    .saree-frame::before{content:'';position:absolute;top:-1px;left:-1px;width:18px;height:18px;border-top:2px solid var(--rose);border-left:2px solid var(--rose)}
+    .saree-frame::after {content:'';position:absolute;bottom:-1px;right:-1px;width:18px;height:18px;border-bottom:2px solid var(--gold);border-right:2px solid var(--gold)}
+    .saree-txt{width:100%}
+    .saree-tag{display:inline-block;border:1px solid rgba(232,165,152,.3);padding:5px 14px;font-size:.56rem;letter-spacing:.26em;text-transform:uppercase;color:var(--rose);margin-bottom:16px}
+    .saree-txt h2{font-family:'Bodoni Moda',serif;font-style:italic;font-size:clamp(1.5rem,6.5vw,2.4rem);color:var(--text-1);line-height:1.25;margin-bottom:16px}
+    .saree-txt h2 em{font-style:normal;color:var(--rose)}
+    .saree-txt p{font-family:'Crimson Pro',serif;font-style:italic;font-weight:300;font-size:clamp(.92rem,3.8vw,1.08rem);color:var(--text-2);line-height:1.95;margin-bottom:16px}
+    .saree-txt p:last-of-type{margin-bottom:24px}
+
+    /* DESKTOP */
+    @media(min-width:769px){
+      .ch-hero{padding:110px 24px 56px}
+      .ch-ttl{font-size:clamp(3rem,8vw,6rem);line-height:.92}
+      .ch-sub{font-size:1.2rem;max-width:480px}
+      .sec-lbl{max-width:1050px;margin:0 auto 20px;padding:0 24px}
+      .ch-story{max-width:1050px;margin:0 auto 24px;padding:24px 28px}
+      .ch-story p{font-size:1.12rem}
+      .ch-photos{flex-direction:row!important;max-width:1050px;margin:0 auto;padding:0 24px}
+      .ch-photo{flex:1}
+      .ch-frame img{height:340px}
+      .ch-frame{padding:10px 10px 44px}
+      .ch-frame::before,.ch-frame::after{width:20px;height:20px}
+      .ch-frame .cap{font-size:.82rem;height:44px}
+      .ch-saree-sec{max-width:1050px;margin:48px auto 0;padding:0 24px 40px}
+      .ch-saree-sec .sec-lbl{padding:0;margin-bottom:20px}
+      .saree-layout{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+      .saree-photo{margin-bottom:0}
+      .saree-photo.rev{transform:translateX(-40px)}
+      .saree-photo.rev.show{transform:translateX(0)}
+      .saree-frame img{height:480px}
+      .saree-frame{padding:14px}
+      .saree-frame::before,.saree-frame::after{width:26px;height:26px}
+      .saree-txt.rev{transform:translateX(40px);transition-delay:.1s}
+      .saree-txt.rev.show{transform:translateX(0)}
+      .saree-txt h2{font-size:clamp(1.6rem,3.5vw,2.4rem)}
+      .saree-txt p{font-size:1.1rem}
+    }
+  </style>
+</head>
+<body>
+  <div class="aurora"><div class="a-orb a1"></div><div class="a-orb a2"></div><div class="a-orb a3"></div></div>
+  <canvas class="particles-canvas" id="particleCanvas"></canvas>
+  <div class="star-field"></div>
+  <p class="page-num">05 · 08</p>
+  <div class="page-wrap ch-page" id="pageWrap">
+
+    <div class="ch-hero">
+      <span class="ch-eye">✦ &nbsp; A little girl, a big heart</span>
+      <span class="ch-ttl">Where It All <em>Began</em></span>
+      <span class="ch-sub">Before the world knew how incredible she'd become — she was already extraordinary.</span>
+    </div>
+
+    <div class="sec-lbl sec-amber"><span>✦ &nbsp; Early Years</span></div>
+
+    <div class="ch-story rev" id="elStory">
+      <p>Every great story has a beginning. Yours started with those bright eyes, that curious smile, and a spirit so rare the world could already tell you were extraordinary.</p>
+      <p>That little girl grew into someone who lights up every room she enters — and today, the world celebrates the day she arrived. Happy Birthday, Rachita 🌸</p>
+    </div>
+
+    <div class="ch-photos">
+      <div class="ch-photo rev" id="elP1">
+        <div class="ch-frame">
+          <img src="images/photo46.jpg" alt="Little Rachita"/>
+          <span class="yr">✦ Childhood</span>
+          <div class="cap">Little Rachita 🌟</div>
+        </div>
+      </div>
+      <div class="ch-photo rev" id="elP2" style="transition-delay:.1s">
+        <div class="ch-frame">
+          <img src="images/photo42.jpg" alt="Pure joy"/>
+          <span class="yr">✦ Early Years</span>
+          <div class="cap">Pure joy 💛</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ch-saree-sec">
+      <div class="sec-lbl sec-rose" style="padding:0;margin-bottom:18px"><span>✦ &nbsp; The Saree Moment</span></div>
+      <div class="saree-layout" id="sareeLayout" style="display:block">
+        <div class="saree-photo rev" id="elSaree">
+          <div class="saree-frame">
+            <span class="sbadge">✦ She &amp; Her Grace</span>
+            <img src="images/photo45.jpg" alt="Rachita in saree"/>
+          </div>
+        </div>
+        <div class="saree-txt rev" id="elSareeT" style="transition-delay:.12s">
+          <div class="saree-tag">The Saree Diaries</div>
+          <h2>Dressed in <em>Tradition</em>,<br>Radiating Grace</h2>
+          <p>There is something magical about the way she carries herself in traditional attire — a timeless elegance no one else could quite match. Every drape, every fold, every step: unmistakably, beautifully Rachita.</p>
+          <p>She doesn't just wear a saree. She makes it look like it was made exclusively for her.</p>
+          <button class="btn" onclick="goTo('quotes.html')" style="border-color:var(--border-r);color:var(--rose)"><span>Words For You</span><span class="arr">→</span></button>
+        </div>
+      </div>
+    </div>
+
+    <nav class="p-nav">
+      <div class="p-dot done"></div><div class="p-dot done"></div><div class="p-dot done"></div><div class="p-dot done"></div>
+      <div class="p-dot active"></div><div class="p-dot"></div><div class="p-dot"></div><div class="p-dot"></div>
+    </nav>
+  </div>
+  <div id="devBackBtn" onclick="location.href='index.html'">← Dev Panel</div>
+  <script>
+    function goTo(u){var p=document.getElementById("pageWrap");if(p){p.classList.add("fade-out");setTimeout(function(){location.href=u;},650);}else{location.href=u;}}
+    if(sessionStorage.getItem("rb_dev_preview")==="dev_ok_2026"){var db=document.getElementById("devBackBtn");if(db)db.style.display="flex";}
+    if(window.innerWidth>=769){var sl=document.getElementById("sareeLayout");if(sl){sl.style.display="grid";sl.style.gridTemplateColumns="1fr 1fr";sl.style.gap="48px";sl.style.alignItems="center";}var cp=document.querySelector(".ch-photos");if(cp)cp.style.flexDirection="row";}
+    (function(){var sf=document.querySelector(".star-field");if(!sf)return;for(var i=0;i<130;i++){var s=document.createElement("div");s.className="star";var z=0.8+Math.random()*1.8;s.style.cssText="width:"+z+"px;height:"+z+"px;top:"+Math.random()*100+"%;left:"+Math.random()*100+"%;animation-duration:"+(2+Math.random()*5)+"s;animation-delay:"+Math.random()*6+"s";sf.appendChild(s);}})();
+    (function(){var c=document.getElementById("particleCanvas");if(!c)return;var ctx=c.getContext("2d"),W,H,pts=[];function resize(){W=c.width=innerWidth;H=c.height=innerHeight;}resize();addEventListener("resize",resize);var cols=["rgba(232,201,122,","rgba(232,165,152,","rgba(191,95,160,"];for(var i=0;i<50;i++){pts.push({x:Math.random()*1000,y:Math.random()*1000,vx:(Math.random()-.5)*.3,vy:-.15-Math.random()*.2,r:.8+Math.random()*1.5,op:.08+Math.random()*.2,color:cols[Math.floor(Math.random()*cols.length)]});}(function draw(){ctx.clearRect(0,0,W,H);pts.forEach(function(p){p.x+=p.vx;p.y+=p.vy;if(p.y<-10){p.y=H+10;p.x=Math.random()*W;}if(p.x<-10)p.x=W+10;if(p.x>W+10)p.x=-10;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=p.color+p.op+")";ctx.fill();});requestAnimationFrame(draw);})();})();
+    if(window.matchMedia("(hover:hover) and (pointer:fine)").matches){(function(){var d=document.createElement("div");d.className="cursor-dot";var r=document.createElement("div");r.className="cursor-ring";document.body.append(d,r);var mx=-100,my=-100,rx=-100,ry=-100;document.addEventListener("mousemove",function(e){mx=e.clientX;my=e.clientY;});(function loop(){rx+=(mx-rx)*.14;ry+=(my-ry)*.14;d.style.left=mx+"px";d.style.top=my+"px";r.style.left=rx+"px";r.style.top=ry+"px";requestAnimationFrame(loop);})();})();}
+    var io=new IntersectionObserver(function(en){en.forEach(function(e){if(e.isIntersecting){e.target.classList.add("show");io.unobserve(e.target);}});},{threshold:.06});
+    ["elStory","elP1","elP2","elSaree","elSareeT"].forEach(function(id){var el=document.getElementById(id);if(el)io.observe(el);});
+  </script>
+</body>
+</html>
